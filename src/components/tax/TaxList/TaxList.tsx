@@ -74,7 +74,7 @@ const TaxList: React.FC<TaxListProps> = ({ items }) => {
         </div>
       ))}
       
-      <style jsx>{`
+      <style>{`
         .tax-list-container {
           display: flex;
           flex-direction: column;
