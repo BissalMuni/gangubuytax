@@ -30,6 +30,15 @@ export const useAcquisitionBasePrice = () => {
   });
 };
 
+export const useMarketRecognitionPrice = () => {
+  return useQuery({
+    queryKey: ['marketRecognitionPrice'],
+    queryFn: () => TaxService.getMarketRecognitionPrice(),
+    staleTime: 1000 * 60 * 30,
+    gcTime: 1000 * 60 * 60,
+  });
+};
+
 export const useAllTaxData = () => {
   return useQuery({
     queryKey: ['allTaxData'],

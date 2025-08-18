@@ -91,6 +91,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, onToggle }) => {
         { label: '건물', path: '/tax-info/building', category: 'standard', type: '건물' },
         { label: '토지', path: '/tax-info/land', category: 'standard', type: '토지' },
         { label: '농지', path: '/tax-info/farmland', category: 'standard', type: '농지' },
+        { label: '시가인정액', path: '/tax-info/market-recognition-price', category: 'standard', type: '시가인정액' },
       ],
     },
     {

@@ -48,24 +48,40 @@ export class TaxService {
   }
 
   /**
+   * 시가인정액 데이터 로드
+   */
+  static async getMarketRecognitionPrice(): Promise<any> {
+    try {
+      const response = await api.get('/data/tax/acquisitiontax/market_recognition_price.json');
+      return response.data;
+    } catch (error) {
+      console.error('시가인정액 데이터 로드 실패:', error);
+      throw new Error('시가인정액 데이터를 불러올 수 없습니다.');
+    }
+  }
+
+  /**
    * 모든 세금 데이터 로드
    */
   static async getAllTaxData(): Promise<{
     rates: TaxData;
     basicRates: any;
     basePrice: any;
+    marketRecognitionPrice: any;
   }> {
     try {
-      const [rates, basicRates, basePrice] = await Promise.all([
+      const [rates, basicRates, basePrice, marketRecognitionPrice] = await Promise.all([
         this.getAcquisitionTaxRates(),
         this.getBasicAcquisitionRates(),
         this.getAcquisitionBasePrice(),
+        this.getMarketRecognitionPrice(),
       ]);
 
       return {
         rates,
         basicRates,
         basePrice,
+        marketRecognitionPrice,
       };
     } catch (error) {
       console.error('전체 세금 데이터 로드 실패:', error);

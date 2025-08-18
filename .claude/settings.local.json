@@ -7,7 +7,8 @@
       "Bash(curl:*)",
       "Bash(taskkill:*)",
       "Bash(npx kill-port:*)",
-      "Bash(npm run type-check:*)"
+      "Bash(npm run type-check:*)",
+      "Bash(dir:*)"
     ],
     "deny": [],
     "ask": [],
