@@ -13,7 +13,7 @@ export class TaxService {
    */
   static async getAcquisitionTaxRates(): Promise<TaxData> {
     try {
-      const response = await api.get('/data/tax/acq_rate2.json');
+      const response = await api.get('/data/tax/acquisitiontax/rate2.json');
       return response.data;
     } catch (error) {
       console.error('취득세율 데이터 로드 실패:', error);
@@ -26,7 +26,7 @@ export class TaxService {
    */
   static async getBasicAcquisitionRates(): Promise<any> {
     try {
-      const response = await api.get('/data/tax/acq_rate.json');
+      const response = await api.get('/data/tax/acquisitiontax/rate.json');
       return response.data;
     } catch (error) {
       console.error('기본 취득세율 데이터 로드 실패:', error);
@@ -39,7 +39,7 @@ export class TaxService {
    */
   static async getAcquisitionBasePrice(): Promise<any> {
     try {
-      const response = await api.get('/data/tax/acq_baseprice.json');
+      const response = await api.get('/data/tax/acquisitiontax/standard_price.json');
       return response.data;
     } catch (error) {
       console.error('취득 기준가격 데이터 로드 실패:', error);
