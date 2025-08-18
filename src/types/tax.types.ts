@@ -10,6 +10,7 @@ export interface TaxData {
   유상취득?: PaidAcquisition;
   무상취득?: FreeAcquisition;
   원시취득?: OriginalAcquisition;
+  [key: string]: any; // 인덱스 시그니처 추가
 }
 
 export interface PaidAcquisition {
@@ -114,7 +115,7 @@ export interface LandTax extends TaxRateInfo {}
 
 // UI 관련 타입
 export type TaxCategory = 'acquisition' | 'rate' | 'standard' | 'taxpayer';
-export type TaxType = 'all' | '유상취득' | '무상취득' | '원시취득' | '취득세' | '지방교육세' | '농특세' | '주택' | '건물' | '토지' | '농지';
+export type TaxType = 'all' | '유상취득' | '무상취득' | '원시취득' | '취득세' | '지방교육세' | '농특세' | '주택' | '건물' | '토지' | '농지' | '시가인정액';
 export type ViewMode = 'list' | 'card' | 'table';
 
 export interface TaxItem {

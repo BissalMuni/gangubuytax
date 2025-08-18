@@ -2,7 +2,7 @@ import React, { useEffect, useMemo, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { useTaxData, useMarketRecognitionPrice } from '@/hooks/useTaxData';
 import { useTaxStore } from '@/store/useTaxStore';
-import { TaxItem, FilterOptions, ViewMode } from '@/types/tax.types';
+import { TaxItem, FilterOptions, ViewMode, TaxType } from '@/types/tax.types';
 import LoadingSpinner from '@/components/common/LoadingSpinner';
 import TaxList from '@/components/tax/TaxList';
 import TaxCard from '@/components/tax/TaxCard';
@@ -102,7 +102,7 @@ const TaxInfo: React.FC = () => {
         } else {
           // 더 깊은 레벨이 있을 수 있음
           const deepestData = Object.values(subSubTypeData).find(val => 
-            typeof val === 'object' && val['취득세']
+            typeof val === 'object' && val !== null && (val as any)['취득세']
           );
           if (deepestData) {
             setAvailableTaxTypes(deepestData as Record<string, string>);
@@ -149,7 +149,7 @@ const TaxInfo: React.FC = () => {
           newFilters = { category: 'standard', type: '농지' };
           break;
         case 'market-recognition-price':
-          newFilters = { category: 'standard', type: '시가인정액' };
+          newFilters = { category: 'standard', type: '시가인정액' as TaxType };
           break;
         default:
           newFilters = { category: 'acquisition', type: 'all' };
@@ -353,7 +353,7 @@ const TaxInfo: React.FC = () => {
                   key={type}
                   onClick={() => {
                     setSelectedAcquisitionType(type);
-                    setFilters({ category: 'acquisition', type });
+                    setFilters({ category: 'acquisition', type: type as TaxType });
                   }}
                   className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
                     selectedAcquisitionType === type
@@ -375,7 +375,7 @@ const TaxInfo: React.FC = () => {
                 <button
                   onClick={() => {
                     setSelectedSubType('');
-                    setFilters({ category: 'acquisition', type: selectedAcquisitionType });
+                    setFilters({ category: 'acquisition', type: selectedAcquisitionType as TaxType });
                   }}
                   className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
                     !selectedSubType
@@ -392,7 +392,7 @@ const TaxInfo: React.FC = () => {
                       setSelectedSubType(subType);
                       setFilters({ 
                         category: 'standard', 
-                        type: subType 
+                        type: subType as TaxType 
                       });
                     }}
                     className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
