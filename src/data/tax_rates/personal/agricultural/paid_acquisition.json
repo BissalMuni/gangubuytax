@@ -1,0 +1,134 @@
+{
+  "topic": "개인 농지 유상취득 세율",
+  "topic_code": "personal_agricultural_paid",
+  "effective_date": "2024-01-01",
+  "legal_basis": [
+    "지방세법 제11조 (취득세의 세율)"
+  ],
+  "sections": [
+    {
+      "id": 1,
+      "title": "농업인 직접 농업 목적",
+      "description": "농업인이 직접 농업에 사용할 목적으로 농지 취득",
+      "legal_basis": "지방세법 제11조",
+      "subsections": [
+        {
+          "id": 1,
+          "title": "일반 농지",
+          "content": "농업인이 직접 농업에 사용할 농지",
+          "legal_basis": "",
+          "details": [
+            {
+              "id": 1,
+              "title": "취득세",
+              "content": "취득세율",
+              "legal_basis": "",
+              "details": "3.0%"
+            },
+            {
+              "id": 2,
+              "title": "지방교육세",
+              "content": "지방교육세율",
+              "legal_basis": "",
+              "details": "0.3%"
+            },
+            {
+              "id": 3,
+              "title": "농특세",
+              "content": "농특세율",
+              "legal_basis": "",
+              "details": "0.6%"
+            },
+            {
+              "id": 4,
+              "title": "합계",
+              "content": "전체 세금 합계",
+              "legal_basis": "",
+              "details": "3.9%"
+            }
+          ]
+        },
+        {
+          "id": 2,
+          "title": "농업진흥지역 내 농지",
+          "content": "농업진흥지역 내 농지 취득 (감면 적용)",
+          "legal_basis": "",
+          "details": [
+            {
+              "id": 1,
+              "title": "취득세",
+              "content": "취득세율 (감면 후)",
+              "legal_basis": "",
+              "details": "1.5%"
+            },
+            {
+              "id": 2,
+              "title": "지방교육세",
+              "content": "지방교육세율",
+              "legal_basis": "",
+              "details": "0.15%"
+            },
+            {
+              "id": 3,
+              "title": "농특세",
+              "content": "농특세율",
+              "legal_basis": "",
+              "details": "0.3%"
+            },
+            {
+              "id": 4,
+              "title": "합계",
+              "content": "전체 세금 합계",
+              "legal_basis": "",
+              "details": "1.95%"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "title": "비농업인 농지 취득",
+      "description": "농업인이 아닌 자의 농지 취득",
+      "legal_basis": "지방세법 제11조",
+      "subsections": [
+        {
+          "id": 1,
+          "title": "일반 비농업인",
+          "content": "농업인 자격이 없는 자의 농지 취득",
+          "legal_basis": "",
+          "details": [
+            {
+              "id": 1,
+              "title": "취득세",
+              "content": "취득세율",
+              "legal_basis": "",
+              "details": "4.0%"
+            },
+            {
+              "id": 2,
+              "title": "지방교육세",
+              "content": "지방교육세율",
+              "legal_basis": "",
+              "details": "0.4%"
+            },
+            {
+              "id": 3,
+              "title": "농특세",
+              "content": "농특세율",
+              "legal_basis": "",
+              "details": "0.8%"
+            },
+            {
+              "id": 4,
+              "title": "합계",
+              "content": "전체 세금 합계",
+              "legal_basis": "",
+              "details": "5.2%"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

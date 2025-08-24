@@ -1,0 +1,124 @@
+{
+  "id": "calculation_formulas",
+  "title": "세금 계산 공식",
+  "description": "취득세 관련 모든 세금의 계산 공식과 알고리즘",
+  "last_updated": "2024-08-24",
+  "basic_formulas": {
+    "acquisition_tax": {
+      "title": "취득세 계산",
+      "formula": "과세표준 × 취득세율",
+      "components": {
+        "tax_base": {
+          "principle": "MAX(실지거래가액, 시가표준액)",
+          "exceptions": {
+            "inheritance": "상속개시일 현재 시가",
+            "gift": "증여일 현재 시가", 
+            "original_acquisition": "신축비용 등 실지가액"
+          }
+        },
+        "tax_rate": {
+          "determination_factors": [
+            "취득 원인 (유상/무상/원시)",
+            "재산 종류 (주택/건물/토지/농지)",
+            "취득자 신분 (개인/법인)",
+            "주택 수 및 지역 조건"
+          ]
+        }
+      }
+    },
+    "local_education_tax": {
+      "title": "지방교육세 계산",
+      "formula": "취득세액 × 지방교육세율",
+      "standard_rate": "10%",
+      "special_rates": {
+        "housing_heavy_tax": "취득세 중과세 시 별도 계산",
+        "luxury_properties": "사치성 재산의 경우 특별세율"
+      }
+    },
+    "agricultural_tax": {
+      "title": "농특세 계산", 
+      "formula": "취득세액 × 농특세율",
+      "standard_rate": "20%",
+      "exemption_cases": [
+        "85㎡ 이하 소형주택",
+        "1세대 1주택 상속",
+        "농지 취득 특례"
+      ]
+    }
+  },
+  "complex_calculations": {
+    "multi_house_penalty": {
+      "title": "다주택 중과세 계산",
+      "conditions": {
+        "adjustment_area": "조정대상지역 내",
+        "house_count": "2주택 이상 보유"
+      },
+      "calculation_method": {
+        "2_houses": "기본세율 × 8배",
+        "3_houses": "기본세율 × 12배",
+        "4_houses_plus": "기본세율 × 12배"
+      }
+    },
+    "area_based_calculation": {
+      "title": "면적별 차등 계산",
+      "housing_categories": {
+        "under_85sqm": {
+          "agricultural_tax": "비과세",
+          "condition": "전용면적 85㎡ 이하"
+        },
+        "over_85sqm": {
+          "agricultural_tax": "표준세율 적용"
+        }
+      }
+    },
+    "price_based_calculation": {
+      "title": "가격대별 차등 계산",
+      "housing_price_bands": {
+        "under_600m": "6억원 이하",
+        "600m_to_900m": "6억원 초과 9억원 이하", 
+        "over_900m": "9억원 초과"
+      },
+      "rate_application": "각 구간별 세율 적용"
+    }
+  },
+  "calculation_sequence": {
+    "step_1": {
+      "title": "과세표준 결정",
+      "process": [
+        "실지거래가액 확인",
+        "시가표준액 확인", 
+        "높은 금액을 과세표준으로 결정"
+      ]
+    },
+    "step_2": {
+      "title": "세율 결정",
+      "process": [
+        "취득 원인 분류",
+        "재산 종류 분류",
+        "취득자 조건 확인",
+        "해당 세율 적용"
+      ]
+    },
+    "step_3": {
+      "title": "세액 계산",
+      "process": [
+        "취득세 = 과세표준 × 취득세율",
+        "지방교육세 = 취득세액 × 지방교육세율",
+        "농특세 = 취득세액 × 농특세율"
+      ]
+    },
+    "step_4": {
+      "title": "감면 적용",
+      "process": [
+        "감면 사유 확인",
+        "감면율 적용",
+        "최종 납부세액 계산"
+      ]
+    }
+  },
+  "rounding_rules": {
+    "general_rule": "원 단위 이하 절사",
+    "calculation_precision": "소수점 둘째 자리까지 계산 후 절사",
+    "minimum_tax": "최저 과세금액 없음"
+  }
+}

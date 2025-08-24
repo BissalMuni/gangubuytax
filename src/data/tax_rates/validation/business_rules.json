@@ -1,0 +1,154 @@
+{
+  "id": "business_rules_validation",
+  "title": "비즈니스 규칙 검증",
+  "description": "세법 및 정책에 기반한 비즈니스 로직 검증 규칙",
+  "last_updated": "2024-08-24",
+  "business_rules": {
+    "acquisition_rules": {
+      "title": "취득 규칙 검증",
+      "rules": [
+        {
+          "rule_id": "ACQ_001",
+          "title": "유상취득 세율 기본 규칙",
+          "description": "유상취득의 경우 반드시 3개 세금이 적용되어야 함",
+          "condition": "acquisition_type == 'paid_acquisition'",
+          "requirement": "acquisition_tax AND local_education_tax AND agricultural_tax MUST_EXIST",
+          "validation_logic": "IF paid_acquisition THEN all_three_taxes_present",
+          "severity": "error"
+        },
+        {
+          "rule_id": "ACQ_002",
+          "title": "무상취득 농특세 면제 규칙",
+          "description": "상속·증여 등 무상취득시 농특세 면제 여부 확인",
+          "condition": "acquisition_type IN ['inheritance', 'gift']",
+          "requirement": "agricultural_tax CAN_BE_ZERO OR exemption_reason_provided",
+          "validation_logic": "IF free_acquisition THEN agricultural_tax_exemption_valid",
+          "severity": "warning"
+        },
+        {
+          "rule_id": "ACQ_003",
+          "title": "원시취득 세율 적용",
+          "description": "원시취득의 경우 특별 세율 체계 적용",
+          "condition": "acquisition_type == 'original_acquisition'",
+          "requirement": "special_rate_structure_applied",
+          "validation_logic": "IF original_acquisition THEN special_rates_used",
+          "severity": "error"
+        }
+      ]
+    },
+    "housing_rules": {
+      "title": "주택 관련 규칙 검증",
+      "rules": [
+        {
+          "rule_id": "HSG_001",
+          "title": "1세대 1주택 감면 조건",
+          "description": "1세대 1주택 감면 시 조건 충족 여부 검증",
+          "condition": "exemption_type == 'one_household_one_house'",
+          "requirement": "house_count == 1 AND actual_residence == true",
+          "validation_logic": "IF one_house_exemption THEN validate_residence_status",
+          "severity": "error"
+        },
+        {
+          "rule_id": "HSG_002",
+          "title": "다주택 중과세 적용",
+          "description": "다주택 중과세 적용 시 주택 수 및 지역 조건 검증",
+          "condition": "heavy_taxation == true",
+          "requirement": "house_count >= 2 AND adjustment_area == true",
+          "validation_logic": "IF heavy_tax_applied THEN validate_multi_house_conditions",
+          "severity": "error"
+        },
+        {
+          "rule_id": "HSG_003",
+          "title": "주택 가격대별 세율 적용",
+          "description": "주택 가격에 따른 차등 세율 적용 검증",
+          "condition": "property_type == 'housing'",
+          "requirement": "price_band_determined AND appropriate_rate_applied",
+          "validation_logic": "housing_price_band_rate_consistency",
+          "severity": "warning"
+        }
+      ]
+    },
+    "corporate_rules": {
+      "title": "법인 관련 규칙 검증",
+      "rules": [
+        {
+          "rule_id": "CORP_001",
+          "title": "법인 주택 취득 중과세",
+          "description": "법인이 주택을 취득할 경우 중과세 의무 적용",
+          "condition": "acquirer_type == 'corporation' AND property_type == 'housing'",
+          "requirement": "heavy_taxation == true AND additional_rate == 4.0%",
+          "validation_logic": "IF corporate_housing_acquisition THEN heavy_tax_mandatory",
+          "severity": "error"
+        },
+        {
+          "rule_id": "CORP_002",
+          "title": "법인 비사업용 다른 건물 취득",
+          "description": "법인의 사업용 이외 건물 취득 시 세율 적용",
+          "condition": "acquirer_type == 'corporation' AND business_use == false",
+          "requirement": "standard_building_rate_applied",
+          "validation_logic": "corporate_non_business_building_rates",
+          "severity": "warning"
+        }
+      ]
+    },
+    "exemption_rules": {
+      "title": "감면 관련 규칙 검증",
+      "rules": [
+        {
+          "rule_id": "EXP_001",
+          "title": "감면율 최대치 검증",
+          "description": "감면율은 100%를 초과할 수 없음",
+          "condition": "exemption_rate_provided == true",
+          "requirement": "exemption_rate <= 100.0%",
+          "validation_logic": "exemption_rate_within_bounds",
+          "severity": "error"
+        },
+        {
+          "rule_id": "EXP_002",
+          "title": "중복 감면 적용 방지",
+          "description": "동일 사안에 여러 감면을 중복 적용할 수 없음",
+          "condition": "multiple_exemptions_claimed == true",
+          "requirement": "exemption_combination_valid",
+          "validation_logic": "check_exemption_conflicts",
+          "severity": "error"
+        }
+      ]
+    }
+  },
+  "cross_validation_rules": {
+    "inter_file_consistency": [
+      {
+        "rule_id": "CROSS_001",
+        "description": "개인과 법인 동일 재산 세율 일관성",
+        "validation_logic": "personal_rates_base_for_corporate_rates",
+        "severity": "warning"
+      },
+      {
+        "rule_id": "CROSS_002", 
+        "description": "감면 조건과 세율 일치성",
+        "validation_logic": "exemption_conditions_match_rate_categories",
+        "severity": "warning"
+      }
+    ]
+  },
+  "validation_workflow": {
+    "pre_validation": {
+      "description": "기본 데이터 타입 및 형식 검사",
+      "automated": true
+    },
+    "business_logic_validation": {
+      "description": "비즈니스 규칙 적용 검사",
+      "automated": true,
+      "manual_review_required": ["warning", "complex_cases"]
+    },
+    "cross_reference_validation": {
+      "description": "파일 간 참조 및 일관성 검사",
+      "automated": true
+    },
+    "final_approval": {
+      "description": "최종 승인 전 수동 검토",
+      "manual_review_required": true,
+      "approver_role": "tax_policy_expert"
+    }
+  }
+}

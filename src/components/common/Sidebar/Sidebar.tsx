@@ -27,90 +27,76 @@ interface SidebarProps {
 
 const Sidebar: React.FC<SidebarProps> = ({ isOpen, onToggle }) => {
   const location = useLocation();
-  const [expandedMenus, setExpandedMenus] = useState<string[]>(['acquisition']);
+  const [expandedMenus, setExpandedMenus] = useState<string[]>(['취득세 정보', '재산세 정보']);
 
   const menuItems: MenuItem[] = [
     {
       label: '취득세 정보',
-      icon: FiBookOpen,
+      icon: FiDollarSign,
       children: [
-        { label: '전체보기', path: '/tax-info', category: 'acquisition', type: 'all' },
         { 
-          label: '유상취득', 
-          icon: FiDollarSign, 
-          path: '/tax-info/paid', 
-          category: 'acquisition', 
-          type: '유상취득',
-          children: [
-            { label: '일반과세', path: '/tax-info/paid/general', category: 'acquisition', type: '유상취득' },
-            { label: '다주택자', path: '/tax-info/paid/multi-home', category: 'acquisition', type: '유상취득' },
-            { label: '법인', path: '/tax-info/paid/corporation', category: 'acquisition', type: '유상취득' },
-            { label: '조정대상지역', path: '/tax-info/paid/adjustment-area', category: 'acquisition', type: '유상취득' },
-          ]
+          label: '세율', 
+          icon: FiPercent, 
+          path: '/tax-info/acquisition/rates',
+          category: 'acquisition',
+          type: 'rates'
         },
         { 
-          label: '무상취득', 
-          icon: FiGift, 
-          path: '/tax-info/free', 
+          label: '과세표준', 
+          icon: FiLayers, 
+          path: '/tax-info/acquisition/standard',
           category: 'acquisition', 
-          type: '무상취득',
-          children: [
-            { label: '상속', path: '/tax-info/free/inheritance', category: 'acquisition', type: '무상취득' },
-            { label: '증여', path: '/tax-info/free/gift', category: 'acquisition', type: '무상취득' },
-            { label: '유증', path: '/tax-info/free/bequest', category: 'acquisition', type: '무상취득' },
-          ]
+          type: 'standard'
         },
         { 
-          label: '원시취득', 
-          icon: FiTool, 
-          path: '/tax-info/original', 
+          label: '특례', 
+          icon: FiBookOpen, 
+          path: '/tax-info/acquisition/special',
           category: 'acquisition', 
-          type: '원시취득',
-          children: [
-            { label: '시효취득', path: '/tax-info/original/prescription', category: 'acquisition', type: '원시취득' },
-            { label: '공용징수', path: '/tax-info/original/expropriation', category: 'acquisition', type: '원시취득' },
-            { label: '법원경매', path: '/tax-info/original/auction', category: 'acquisition', type: '원시취득' },
-          ]
-        },
+          type: 'special'
+        }
       ],
     },
     {
-      label: '세율 구분',
-      icon: FiPercent,
+      label: '재산세 정보',
+      icon: FiHome,
       children: [
-        { label: '취득세', path: '/tax-info/acquisition-tax', category: 'rate', type: '취득세' },
-        { label: '지방교육세', path: '/tax-info/education-tax', category: 'rate', type: '지방교육세' },
-        { label: '농어촌특별세', path: '/tax-info/agricultural-tax', category: 'rate', type: '농특세' },
-      ],
-    },
-    {
-      label: '과세표준',
-      icon: FiLayers,
-      children: [
-        { label: '주택', icon: FiHome, path: '/tax-info/housing', category: 'standard', type: '주택' },
-        { label: '건물', path: '/tax-info/building', category: 'standard', type: '건물' },
-        { label: '토지', path: '/tax-info/land', category: 'standard', type: '토지' },
-        { label: '농지', path: '/tax-info/farmland', category: 'standard', type: '농지' },
-        { label: '시가인정액', path: '/tax-info/market-recognition-price', category: 'standard', type: '시가인정액' },
-      ],
-    },
-    {
-      label: '납세의무자',
-      icon: FiUsers,
-      children: [
-        { label: '개인', path: '/tax-info/individual', category: 'taxpayer', type: '개인' },
-        { label: '법인', path: '/tax-info/corporation', category: 'taxpayer', type: '법인' },
-        { label: '비영리단체', path: '/tax-info/nonprofit', category: 'taxpayer', type: '비영리' },
+        { 
+          label: '세율', 
+          icon: FiPercent, 
+          path: '/tax-info/property/rates',
+          category: 'property',
+          type: 'rates'
+        },
+        { 
+          label: '과세표준', 
+          icon: FiLayers, 
+          path: '/tax-info/property/standard',
+          category: 'property', 
+          type: 'standard'
+        },
+        { 
+          label: '특례', 
+          icon: FiBookOpen, 
+          path: '/tax-info/property/special',
+          category: 'property', 
+          type: 'special'
+        }
       ],
     },
   ];
 
   const toggleMenu = (label: string) => {
-    setExpandedMenus(prev =>
-      prev.includes(label)
-        ? prev.filter(item => item !== label)
-        : [...prev, label]
-    );
+    setExpandedMenus(prev => {
+      const isExpanded = prev.includes(label);
+      if (isExpanded) {
+        // 현재 확장된 메뉴를 축소
+        return prev.filter(item => item !== label);
+      } else {
+        // 새로운 메뉴를 확장
+        return [...prev, label];
+      }
+    });
   };
 
   const isActive = (path?: string) => {
@@ -218,7 +204,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, onToggle }) => {
       {/* 정보 박스 */}
       <div className="p-4 bg-blue-50 border-b border-gray-200">
         <h3 className="font-bold text-blue-900 mb-2">세금 정보 시스템</h3>
-        <div className="text-sm text-blue-700">최종 업데이트: 2024.08.15</div>
+        <div className="text-sm text-blue-700">최종 업데이트: 2025.08.15</div>
         <div className="text-sm text-blue-700 mt-1">
           📊 총 항목: <strong>157</strong>개
         </div>

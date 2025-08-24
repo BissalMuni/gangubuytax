@@ -33,12 +33,7 @@ const Home: React.FC = () => {
     { title: '농어촌특별세 감면 조건 완화', date: '2024.07.15', category: '세제혜택' },
   ];
 
-  const statistics = [
-    { label: '전체 세율 정보', value: '157개', color: 'text-blue-600' },
-    { label: '지역별 세율', value: '17개', color: 'text-green-600' },
-    { label: '세법 조항', value: '89개', color: 'text-purple-600' },
-    { label: '계산 사례', value: '245개', color: 'text-orange-600' },
-  ];
+
 
   return (
     <div className="space-y-8">
@@ -92,20 +87,7 @@ const Home: React.FC = () => {
         })}
       </div>
 
-      {/* Statistics */}
-      <div className="bg-white rounded-lg p-6 shadow-sm border border-gray-200">
-        <h2 className="text-xl font-semibold mb-4">시스템 현황</h2>
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-          {statistics.map((stat) => (
-            <div key={stat.label} className="text-center">
-              <div className={`text-2xl font-bold ${stat.color}`}>
-                {stat.value}
-              </div>
-              <div className="text-sm text-gray-600">{stat.label}</div>
-            </div>
-          ))}
-        </div>
-      </div>
+
 
       {/* Recent Updates */}
       <div className="grid md:grid-cols-2 gap-6">

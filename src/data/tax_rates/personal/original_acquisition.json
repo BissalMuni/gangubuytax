@@ -1,0 +1,223 @@
+{
+  "topic": "원시취득 세율",
+  "topic_code": "original_acquisition",
+  "effective_date": "2024-01-01",
+  "legal_basis": [
+    "지방세법 제11조 (취득세의 세율)",
+    "건축법"
+  ],
+  "sections": [
+    {
+      "id": 1,
+      "title": "신축",
+      "description": "신축으로 인한 원시취득",
+      "legal_basis": "지방세법 제11조",
+      "subsections": [
+        {
+          "id": 1,
+          "title": "주택",
+          "content": "신축으로 인한 주택 취득",
+          "legal_basis": "",
+          "details": [
+            {
+              "id": 1,
+              "title": "85㎡ 이하",
+              "content": "전용면적 85㎡ 이하 주택",
+              "legal_basis": "",
+              "details": [
+                {
+                  "id": 1,
+                  "title": "취득세",
+                  "content": "취득세율",
+                  "legal_basis": "",
+                  "details": "0.8%"
+                },
+                {
+                  "id": 2,
+                  "title": "지방교육세",
+                  "content": "지방교육세율",
+                  "legal_basis": "",
+                  "details": "0.08%"
+                },
+                {
+                  "id": 3,
+                  "title": "농특세",
+                  "content": "농특세율 (비과세)",
+                  "legal_basis": "",
+                  "details": "0.0%"
+                },
+                {
+                  "id": 4,
+                  "title": "합계",
+                  "content": "전체 세금 합계",
+                  "legal_basis": "",
+                  "details": "0.88%"
+                }
+              ]
+            },
+            {
+              "id": 2,
+              "title": "85㎡ 초과",
+              "content": "전용면적 85㎡ 초과 주택",
+              "legal_basis": "",
+              "details": [
+                {
+                  "id": 1,
+                  "title": "취득세",
+                  "content": "취득세율",
+                  "legal_basis": "",
+                  "details": "0.8%"
+                },
+                {
+                  "id": 2,
+                  "title": "지방교육세",
+                  "content": "지방교육세율",
+                  "legal_basis": "",
+                  "details": "0.08%"
+                },
+                {
+                  "id": 3,
+                  "title": "농특세",
+                  "content": "농특세율",
+                  "legal_basis": "",
+                  "details": "0.16%"
+                },
+                {
+                  "id": 4,
+                  "title": "합계",
+                  "content": "전체 세금 합계",
+                  "legal_basis": "",
+                  "details": "1.04%"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": 2,
+          "title": "건물",
+          "content": "신축으로 인한 건물 취득",
+          "legal_basis": "",
+          "details": [
+            {
+              "id": 1,
+              "title": "취득세",
+              "content": "취득세율",
+              "legal_basis": "",
+              "details": "2.8%"
+            },
+            {
+              "id": 2,
+              "title": "지방교육세",
+              "content": "지방교육세율",
+              "legal_basis": "",
+              "details": "0.28%"
+            },
+            {
+              "id": 3,
+              "title": "농특세",
+              "content": "농특세율",
+              "legal_basis": "",
+              "details": "0.56%"
+            },
+            {
+              "id": 4,
+              "title": "합계",
+              "content": "전체 세금 합계",
+              "legal_basis": "",
+              "details": "3.64%"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "title": "공유수면 매립",
+      "description": "공유수면 매립으로 인한 원시취득",
+      "legal_basis": "공유수면 관리 및 매립에 관한 법률",
+      "subsections": [
+        {
+          "id": 1,
+          "title": "매립지",
+          "content": "공유수면 매립으로 인한 토지 취득",
+          "legal_basis": "",
+          "details": [
+            {
+              "id": 1,
+              "title": "취득세",
+              "content": "취득세율",
+              "legal_basis": "",
+              "details": "2.8%"
+            },
+            {
+              "id": 2,
+              "title": "지방교육세",
+              "content": "지방교육세율",
+              "legal_basis": "",
+              "details": "0.28%"
+            },
+            {
+              "id": 3,
+              "title": "농특세",
+              "content": "농특세율",
+              "legal_basis": "",
+              "details": "0.56%"
+            },
+            {
+              "id": 4,
+              "title": "합계",
+              "content": "전체 세금 합계",
+              "legal_basis": "",
+              "details": "3.64%"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "title": "간척",
+      "description": "간척으로 인한 원시취득",
+      "legal_basis": "공유수면 관리 및 매립에 관한 법률",
+      "subsections": [
+        {
+          "id": 1,
+          "title": "간척지",
+          "content": "간척으로 인한 토지 취득",
+          "legal_basis": "",
+          "details": [
+            {
+              "id": 1,
+              "title": "취득세",
+              "content": "취득세율",
+              "legal_basis": "",
+              "details": "2.8%"
+            },
+            {
+              "id": 2,
+              "title": "지방교육세",
+              "content": "지방교육세율",
+              "legal_basis": "",
+              "details": "0.28%"
+            },
+            {
+              "id": 3,
+              "title": "농특세",
+              "content": "농특세율",
+              "legal_basis": "",
+              "details": "0.56%"
+            },
+            {
+              "id": 4,
+              "title": "합계",
+              "content": "전체 세금 합계",
+              "legal_basis": "",
+              "details": "3.64%"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -39,6 +39,7 @@ const TaxInfo: React.FC = () => {
   // 데이터가 로드되면 스토어에 저장
   useEffect(() => {
     if (taxData) {
+      console.log('Loaded taxData:', taxData); // 디버깅용
       setTaxData(taxData);
     }
   }, [taxData, setTaxData]);
@@ -269,7 +270,7 @@ const TaxInfo: React.FC = () => {
         <div className="flex justify-between items-center mb-4">
           <div>
             <h1 className="text-2xl font-bold text-gray-900">
-              {filters.type === 'all' ? '전체 세금 정보' : filters.type}
+              {taxData?.topic || (filters.type === 'all' ? '전체 세금 정보' : filters.type)}
             </h1>
             <p className="text-gray-600 mt-1">
               총 {filteredItems.length}개의 항목

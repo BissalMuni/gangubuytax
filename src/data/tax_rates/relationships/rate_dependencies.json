@@ -1,0 +1,212 @@
+{
+  "id": "rate_dependencies",
+  "title": "세율 상호 의존 관계",
+  "description": "세율 간의 수학적 의존성과 계산 규칙 정의",
+  "last_updated": "2024-08-24",
+  "primary_dependencies": {
+    "local_education_tax": {
+      "title": "지방교육세 의존성",
+      "depends_on": "acquisition_tax",
+      "relationship_type": "percentage_based",
+      "calculation_formula": "acquisition_tax_amount × education_tax_rate",
+      "standard_rate": "10%",
+      "variations": [
+        {
+          "condition": "heavy_taxation_applied",
+          "rate": "10%",
+          "note": "중과세 적용 시도 동일 비율"
+        }
+      ]
+    },
+    "agricultural_tax": {
+      "title": "농특세 의존성",
+      "depends_on": "acquisition_tax", 
+      "relationship_type": "percentage_based",
+      "calculation_formula": "acquisition_tax_amount × agricultural_tax_rate",
+      "standard_rate": "20%",
+      "exemption_conditions": [
+        {
+          "condition": "housing_area_under_85sqm",
+          "rate": "0%",
+          "description": "전용면적 85㎡ 이하 주택"
+        },
+        {
+          "condition": "inheritance_one_house",
+          "rate": "0%",
+          "description": "1세대 1주택 상속"
+        }
+      ]
+    }
+  },
+  "complex_dependencies": {
+    "multi_house_penalty": {
+      "title": "다주택 중과세 의존성",
+      "base_rate_dependency": "standard_acquisition_rate",
+      "multiplier_logic": {
+        "2_houses": {
+          "multiplier": 2.0,
+          "calculation": "base_rate × 2.0",
+          "total_rate": "base_rate + (base_rate × 1.0)"
+        },
+        "3_houses": {
+          "multiplier": 3.0,
+          "calculation": "base_rate × 3.0", 
+          "total_rate": "base_rate + (base_rate × 2.0)"
+        },
+        "4_houses_plus": {
+          "multiplier": 3.0,
+          "calculation": "base_rate × 3.0",
+          "total_rate": "base_rate + (base_rate × 2.0)"
+        }
+      },
+      "dependency_chain": [
+        "base_acquisition_rate → multiplied_rate",
+        "multiplied_rate → education_tax",
+        "multiplied_rate → agricultural_tax"
+      ]
+    },
+    "corporate_housing_penalty": {
+      "title": "법인 주택 취득 중과세",
+      "base_dependency": "personal_housing_rate",
+      "additional_penalty": "+4.0%",
+      "calculation_method": "additive",
+      "formula": "personal_rate + corporate_penalty",
+      "impact_on_secondary_taxes": {
+        "local_education_tax": "applies_to_total_acquisition_tax",
+        "agricultural_tax": "applies_to_total_acquisition_tax"
+      }
+    }
+  },
+  "exemption_dependencies": {
+    "one_household_exemption": {
+      "title": "1세대 1주택 감면 의존성",
+      "affects": ["acquisition_tax", "local_education_tax", "agricultural_tax"],
+      "exemption_rate": "25%",
+      "application_method": "proportional_reduction",
+      "calculation_sequence": [
+        "1. 기본 세율 계산",
+        "2. 감면율 25% 적용",
+        "3. 지방교육세 = (감면 후 취득세) × 10%",
+        "4. 농특세 = (감면 후 취득세) × 20%"
+      ]
+    },
+    "first_time_buyer_exemption": {
+      "title": "생애최초 구입자 감면 의존성",
+      "base_dependency": "standard_housing_rates",
+      "exemption_tiers": [
+        {
+          "price_range": "under_300m",
+          "exemption_rate": "50%",
+          "applies_to": "all_three_taxes"
+        },
+        {
+          "price_range": "300m_to_600m",
+          "exemption_rate": "30%",
+          "applies_to": "all_three_taxes"
+        }
+      ]
+    }
+  },
+  "calculation_flow": {
+    "standard_flow": {
+      "description": "일반적인 세금 계산 흐름",
+      "steps": [
+        {
+          "step": 1,
+          "action": "determine_base_rate",
+          "inputs": ["property_type", "acquisition_type", "acquirer_status"],
+          "output": "base_acquisition_rate"
+        },
+        {
+          "step": 2,
+          "action": "apply_penalties_or_benefits",
+          "inputs": ["base_rate", "special_conditions"],
+          "output": "adjusted_acquisition_rate"
+        },
+        {
+          "step": 3,
+          "action": "calculate_acquisition_tax",
+          "formula": "tax_base × adjusted_rate",
+          "output": "acquisition_tax_amount"
+        },
+        {
+          "step": 4,
+          "action": "apply_exemptions",
+          "inputs": ["acquisition_tax_amount", "exemption_conditions"],
+          "output": "final_acquisition_tax"
+        },
+        {
+          "step": 5,
+          "action": "calculate_secondary_taxes",
+          "formulas": {
+            "education_tax": "final_acquisition_tax × 0.1",
+            "agricultural_tax": "final_acquisition_tax × 0.2 (if_applicable)"
+          },
+          "output": "all_tax_amounts"
+        }
+      ]
+    },
+    "complex_flow": {
+      "description": "복잡한 경우(다주택, 법인 등)의 계산 흐름",
+      "additional_steps": [
+        {
+          "step": "2a",
+          "action": "evaluate_multi_house_conditions",
+          "conditions": ["house_count", "adjustment_area", "residence_status"]
+        },
+        {
+          "step": "2b", 
+          "action": "apply_heavy_taxation_multiplier",
+          "formula": "base_rate × multiplier"
+        },
+        {
+          "step": "4a",
+          "action": "check_exemption_eligibility",
+          "note": "다주택 중과세 시 일부 감면 제한"
+        }
+      ]
+    }
+  },
+  "validation_dependencies": {
+    "rate_consistency_checks": [
+      {
+        "check_id": "DEP_001",
+        "description": "지방교육세가 취득세의 10%인지 확인",
+        "formula": "education_tax_amount == acquisition_tax_amount * 0.1",
+        "tolerance": "±0.01%"
+      },
+      {
+        "check_id": "DEP_002",
+        "description": "농특세가 취득세의 20%인지 확인(면제 제외)",
+        "formula": "agricultural_tax_amount == acquisition_tax_amount * 0.2",
+        "exceptions": ["under_85sqm", "inheritance_cases"],
+        "tolerance": "±0.01%"
+      },
+      {
+        "check_id": "DEP_003",
+        "description": "다주택 중과세 배수 정확성 확인", 
+        "validation_logic": "heavy_tax_rate == base_rate * expected_multiplier"
+      }
+    ]
+  },
+  "update_propagation": {
+    "cascade_rules": {
+      "description": "기본 세율 변경 시 연관 세율의 자동 업데이트 규칙",
+      "propagation_chain": [
+        {
+          "trigger": "base_acquisition_rate_change",
+          "affected_rates": [
+            "multi_house_penalty_rates",
+            "corporate_housing_rates"
+          ],
+          "update_method": "automatic_recalculation"
+        },
+        {
+          "trigger": "education_tax_rate_change",
+          "affected_calculations": "all_education_tax_amounts",
+          "update_method": "global_rate_update"
+        }
+      ]
+    }
+  }
+}

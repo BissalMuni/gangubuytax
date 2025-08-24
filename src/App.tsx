@@ -12,6 +12,14 @@ import Calculator from '@/pages/Calculator';
 import Guide from '@/pages/Guide';
 import NotFound from '@/pages/NotFound';
 
+// Tax Info Specific Pages
+import AcquisitionRates from '@/pages/TaxInfo/AcquisitionRates';
+import AcquisitionStandard from '@/pages/TaxInfo/AcquisitionStandard';
+import AcquisitionSpecial from '@/pages/TaxInfo/AcquisitionSpecial';
+import PropertyRates from '@/pages/TaxInfo/PropertyRates';
+import PropertyStandard from '@/pages/TaxInfo/PropertyStandard';
+import PropertySpecial from '@/pages/TaxInfo/PropertySpecial';
+
 // Styles
 import '@/styles/globals.css';
 
@@ -33,8 +41,19 @@ function App() {
           <Routes>
             <Route path="/" element={<MainLayout />}>
               <Route index element={<Home />} />
+              
+              {/* 기존 TaxInfo 라우트 (호환성 유지) */}
               <Route path="tax-info" element={<TaxInfo />} />
               <Route path="tax-info/:category" element={<TaxInfo />} />
+              
+              {/* 새로운 구체적인 라우트들 */}
+              <Route path="tax-info/acquisition/rates" element={<AcquisitionRates />} />
+              <Route path="tax-info/acquisition/standard" element={<AcquisitionStandard />} />
+              <Route path="tax-info/acquisition/special" element={<AcquisitionSpecial />} />
+              <Route path="tax-info/property/rates" element={<PropertyRates />} />
+              <Route path="tax-info/property/standard" element={<PropertyStandard />} />
+              <Route path="tax-info/property/special" element={<PropertySpecial />} />
+              
               <Route path="calculator" element={<Calculator />} />
               <Route path="guide" element={<Guide />} />
               <Route path="*" element={<NotFound />} />

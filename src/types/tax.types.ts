@@ -6,7 +6,39 @@ export interface TaxRate {
   agriculturalTax: string;
 }
 
+// 새로운 JSON 구조를 위한 타입 정의
+export interface TaxDetail {
+  id: number;
+  title: string;
+  content: string;
+  legal_basis: string | string[];
+  details: string | TaxDetail[];
+}
+
+export interface TaxSection {
+  id: number;
+  title: string;
+  content?: string;
+  legal_basis?: string | string[];
+  subsections?: TaxSubsection[];
+  details?: TaxDetail[];
+  items?: string[];
+}
+
+export interface TaxSubsection {
+  id: number;
+  title: string;
+  content: string;
+  legal_basis: string | string[];
+  details?: TaxDetail[];
+  items?: string[];
+}
+
 export interface TaxData {
+  topic: string;
+  topic_code: string;
+  sections: TaxSection[];
+  legal_references: string[];
   유상취득?: PaidAcquisition;
   무상취득?: FreeAcquisition;
   원시취득?: OriginalAcquisition;

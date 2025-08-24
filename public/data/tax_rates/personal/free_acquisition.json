@@ -1,0 +1,251 @@
+{
+  "topic": "무상취득 세율",
+  "topic_code": "free_acquisition",
+  "effective_date": "2024-01-01",
+  "legal_basis": [
+    "지방세법 제11조 (취득세의 세율)",
+    "상속세 및 증여세법"
+  ],
+  "sections": [
+    {
+      "id": 1,
+      "title": "상속",
+      "description": "상속으로 인한 재산 취득",
+      "legal_basis": "지방세법 제11조",
+      "subsections": [
+        {
+          "id": 1,
+          "title": "주택",
+          "content": "상속으로 인한 주택 취득",
+          "legal_basis": "",
+          "details": [
+            {
+              "id": 1,
+              "title": "1세대 1주택",
+              "content": "1세대 1주택 상속",
+              "legal_basis": "",
+              "details": [
+                {
+                  "id": 1,
+                  "title": "취득세",
+                  "content": "취득세율",
+                  "legal_basis": "",
+                  "details": "0.8%"
+                },
+                {
+                  "id": 2,
+                  "title": "지방교육세",
+                  "content": "지방교육세율",
+                  "legal_basis": "",
+                  "details": "0.08%"
+                },
+                {
+                  "id": 3,
+                  "title": "농특세",
+                  "content": "농특세율 (비과세)",
+                  "legal_basis": "",
+                  "details": "0.0%"
+                },
+                {
+                  "id": 4,
+                  "title": "합계",
+                  "content": "전체 세금 합계",
+                  "legal_basis": "",
+                  "details": "0.88%"
+                }
+              ]
+            },
+            {
+              "id": 2,
+              "title": "다주택",
+              "content": "다주택 상속",
+              "legal_basis": "",
+              "details": [
+                {
+                  "id": 1,
+                  "title": "취득세",
+                  "content": "취득세율",
+                  "legal_basis": "",
+                  "details": "2.8%"
+                },
+                {
+                  "id": 2,
+                  "title": "지방교육세",
+                  "content": "지방교육세율",
+                  "legal_basis": "",
+                  "details": "0.28%"
+                },
+                {
+                  "id": 3,
+                  "title": "농특세",
+                  "content": "농특세율 (비과세)",
+                  "legal_basis": "",
+                  "details": "0.0%"
+                },
+                {
+                  "id": 4,
+                  "title": "합계",
+                  "content": "전체 세금 합계",
+                  "legal_basis": "",
+                  "details": "3.08%"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": 2,
+          "title": "건물",
+          "content": "상속으로 인한 건물 취득",
+          "legal_basis": "",
+          "details": [
+            {
+              "id": 1,
+              "title": "취득세",
+              "content": "취득세율",
+              "legal_basis": "",
+              "details": "2.8%"
+            },
+            {
+              "id": 2,
+              "title": "지방교육세",
+              "content": "지방교육세율",
+              "legal_basis": "",
+              "details": "0.28%"
+            },
+            {
+              "id": 3,
+              "title": "농특세",
+              "content": "농특세율",
+              "legal_basis": "",
+              "details": "0.56%"
+            },
+            {
+              "id": 4,
+              "title": "합계",
+              "content": "전체 세금 합계",
+              "legal_basis": "",
+              "details": "3.64%"
+            }
+          ]
+        },
+        {
+          "id": 3,
+          "title": "농지",
+          "content": "상속으로 인한 농지 취득",
+          "legal_basis": "",
+          "details": [
+            {
+              "id": 1,
+              "title": "취득세",
+              "content": "취득세율",
+              "legal_basis": "",
+              "details": "2.8%"
+            },
+            {
+              "id": 2,
+              "title": "지방교육세",
+              "content": "지방교육세율",
+              "legal_basis": "",
+              "details": "0.28%"
+            },
+            {
+              "id": 3,
+              "title": "농특세",
+              "content": "농특세율",
+              "legal_basis": "",
+              "details": "0.56%"
+            },
+            {
+              "id": 4,
+              "title": "합계",
+              "content": "전체 세금 합계",
+              "legal_basis": "",
+              "details": "3.64%"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "title": "증여",
+      "description": "증여로 인한 재산 취득",
+      "legal_basis": "지방세법 제11조",
+      "subsections": [
+        {
+          "id": 1,
+          "title": "주택",
+          "content": "증여로 인한 주택 취득",
+          "legal_basis": "",
+          "details": [
+            {
+              "id": 1,
+              "title": "취득세",
+              "content": "취득세율",
+              "legal_basis": "",
+              "details": "2.8%"
+            },
+            {
+              "id": 2,
+              "title": "지방교육세",
+              "content": "지방교육세율",
+              "legal_basis": "",
+              "details": "0.28%"
+            },
+            {
+              "id": 3,
+              "title": "농특세",
+              "content": "농특세율 (비과세)",
+              "legal_basis": "",
+              "details": "0.0%"
+            },
+            {
+              "id": 4,
+              "title": "합계",
+              "content": "전체 세금 합계",
+              "legal_basis": "",
+              "details": "3.08%"
+            }
+          ]
+        },
+        {
+          "id": 2,
+          "title": "건물",
+          "content": "증여로 인한 건물 취득",
+          "legal_basis": "",
+          "details": [
+            {
+              "id": 1,
+              "title": "취득세",
+              "content": "취득세율",
+              "legal_basis": "",
+              "details": "2.8%"
+            },
+            {
+              "id": 2,
+              "title": "지방교육세",
+              "content": "지방교육세율",
+              "legal_basis": "",
+              "details": "0.28%"
+            },
+            {
+              "id": 3,
+              "title": "농특세",
+              "content": "농특세율",
+              "legal_basis": "",
+              "details": "0.56%"
+            },
+            {
+              "id": 4,
+              "title": "합계",
+              "content": "전체 세금 합계",
+              "legal_basis": "",
+              "details": "3.64%"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

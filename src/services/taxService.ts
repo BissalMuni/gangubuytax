@@ -7,14 +7,169 @@ const api = axios.create({
   timeout: 10000,
 });
 
+// 새로운 tax_rates 시스템 타입 정의
+interface TaxRatesMain {
+  version: string;
+  description: string;
+  last_updated: string;
+  structure_version: string;
+  system_info: {
+    name: string;
+    description: string;
+    total_files: number;
+    total_directories: number;
+  };
+  file_references: {
+    personal: {
+      housing: string[];
+      non_agricultural: string[];
+      agricultural: string[];
+    };
+    corporate: string[];
+    conditions: string[];
+    relationships: string[];
+    common: string[];
+    validation: string[];
+    references: string[];
+    versions: string[];
+  };
+  dependencies: {
+    all_files_reference: string[];
+    calculation_system_reference: string[];
+    version_management: string[];
+  };
+}
+
+interface TaxRateFile {
+  topic: string;
+  topic_code: string;
+  effective_date: string;
+  legal_basis: string[];
+  sections: any[];
+}
+
 export class TaxService {
   /**
-   * 취득세율 데이터 로드
+   * 메인 설정 파일 로드
+   */
+  static async getTaxRatesMain(): Promise<TaxRatesMain> {
+    try {
+      const response = await api.get('/data/tax_rates/main.json');
+      return response.data;
+    } catch (error) {
+      console.error('main.json 로드 실패:', error);
+      throw new Error('세율 시스템 설정을 불러올 수 없습니다.');
+    }
+  }
+
+  /**
+   * 개인 주택 유상취득 세율 로드
+   */
+  static async getPersonalHousingPaidRates(): Promise<TaxRateFile> {
+    try {
+      const response = await api.get('/data/tax_rates/personal/housing/paid_acquisition.json');
+      return response.data;
+    } catch (error) {
+      console.error('개인 주택 유상취득 세율 로드 실패:', error);
+      throw new Error('개인 주택 세율 데이터를 불러올 수 없습니다.');
+    }
+  }
+
+  /**
+   * 개인 건물 세율 로드
+   */
+  static async getPersonalBuildingRates(): Promise<TaxRateFile> {
+    try {
+      const response = await api.get('/data/tax_rates/personal/non_agricultural/buildings/general.json');
+      return response.data;
+    } catch (error) {
+      console.error('개인 건물 세율 로드 실패:', error);
+      throw new Error('개인 건물 세율 데이터를 불러올 수 없습니다.');
+    }
+  }
+
+  /**
+   * 개인 농지 세율 로드
+   */
+  static async getPersonalAgriculturalRates(): Promise<TaxRateFile> {
+    try {
+      const response = await api.get('/data/tax_rates/personal/agricultural/paid_acquisition.json');
+      return response.data;
+    } catch (error) {
+      console.error('개인 농지 세율 로드 실패:', error);
+      throw new Error('개인 농지 세율 데이터를 불러올 수 없습니다.');
+    }
+  }
+
+  /**
+   * 특수 유상취득 세율 로드
+   */
+  static async getSpecialPaidRates(): Promise<TaxRateFile> {
+    try {
+      const response = await api.get('/data/tax_rates/personal/special_paid_acquisition.json');
+      return response.data;
+    } catch (error) {
+      console.error('특수 유상취득 세율 로드 실패:', error);
+      throw new Error('특수 취득 세율 데이터를 불러올 수 없습니다.');
+    }
+  }
+
+  /**
+   * 무상취득 세율 로드
+   */
+  static async getFreeAcquisitionRates(): Promise<TaxRateFile> {
+    try {
+      const response = await api.get('/data/tax_rates/personal/free_acquisition.json');
+      return response.data;
+    } catch (error) {
+      console.error('무상취득 세율 로드 실패:', error);
+      throw new Error('무상취득 세율 데이터를 불러올 수 없습니다.');
+    }
+  }
+
+  /**
+   * 원시취득 세율 로드
+   */
+  static async getOriginalAcquisitionRates(): Promise<TaxRateFile> {
+    try {
+      const response = await api.get('/data/tax_rates/personal/original_acquisition.json');
+      return response.data;
+    } catch (error) {
+      console.error('원시취득 세율 로드 실패:', error);
+      throw new Error('원시취득 세율 데이터를 불러올 수 없습니다.');
+    }
+  }
+
+  /**
+   * 법인 주택 세율 로드
+   */
+  static async getCorporateHousingRates(): Promise<TaxRateFile> {
+    try {
+      const response = await api.get('/data/tax_rates/corporate/housing.json');
+      return response.data;
+    } catch (error) {
+      console.error('법인 주택 세율 로드 실패:', error);
+      throw new Error('법인 주택 세율 데이터를 불러올 수 없습니다.');
+    }
+  }
+
+  /**
+   * 레거시: 기존 rate2.json 호환성을 위한 메서드
    */
   static async getAcquisitionTaxRates(): Promise<TaxData> {
     try {
-      const response = await api.get('/data/tax/acquisitiontax/rate2.json');
-      return response.data;
+      // 새로운 구조의 개인 주택 세율을 기존 형식으로 변환
+      const personalHousingRates = await this.getPersonalHousingPaidRates();
+      
+      // 기존 TaxData 형식에 맞게 변환
+      const legacyFormat: TaxData = {
+        topic: personalHousingRates.topic,
+        topic_code: personalHousingRates.topic_code,
+        sections: personalHousingRates.sections,
+        legal_references: personalHousingRates.legal_basis || []
+      };
+      
+      return legacyFormat;
     } catch (error) {
       console.error('취득세율 데이터 로드 실패:', error);
       throw new Error('세금 데이터를 불러올 수 없습니다.');
@@ -22,7 +177,45 @@ export class TaxService {
   }
 
   /**
-   * 기본 취득세율 데이터 로드
+   * 모든 개인 세율 데이터 로드
+   */
+  static async getAllPersonalTaxRates(): Promise<{
+    main: TaxRatesMain;
+    housing: TaxRateFile;
+    buildings: TaxRateFile;
+    agricultural: TaxRateFile;
+    specialPaid: TaxRateFile;
+    freeAcquisition: TaxRateFile;
+    originalAcquisition: TaxRateFile;
+  }> {
+    try {
+      const [main, housing, buildings, agricultural, specialPaid, freeAcquisition, originalAcquisition] = await Promise.all([
+        this.getTaxRatesMain(),
+        this.getPersonalHousingPaidRates(),
+        this.getPersonalBuildingRates(),
+        this.getPersonalAgriculturalRates(),
+        this.getSpecialPaidRates(),
+        this.getFreeAcquisitionRates(),
+        this.getOriginalAcquisitionRates(),
+      ]);
+
+      return {
+        main,
+        housing,
+        buildings,
+        agricultural,
+        specialPaid,
+        freeAcquisition,
+        originalAcquisition,
+      };
+    } catch (error) {
+      console.error('전체 개인 세율 데이터 로드 실패:', error);
+      throw new Error('세율 데이터를 불러올 수 없습니다.');
+    }
+  }
+
+  /**
+   * 레거시: 기존 호환성을 위한 메서드들
    */
   static async getBasicAcquisitionRates(): Promise<any> {
     try {
@@ -34,9 +227,6 @@ export class TaxService {
     }
   }
 
-  /**
-   * 취득 기준가격 데이터 로드
-   */
   static async getAcquisitionBasePrice(): Promise<any> {
     try {
       const response = await api.get('/data/tax/acquisitiontax/standard_price.json');
@@ -47,9 +237,6 @@ export class TaxService {
     }
   }
 
-  /**
-   * 시가인정액 데이터 로드
-   */
   static async getMarketRecognitionPrice(): Promise<any> {
     try {
       const response = await api.get('/data/tax/acquisitiontax/market_recognition_price.json');
@@ -60,9 +247,6 @@ export class TaxService {
     }
   }
 
-  /**
-   * 모든 세금 데이터 로드
-   */
   static async getAllTaxData(): Promise<{
     rates: TaxData;
     basicRates: any;
