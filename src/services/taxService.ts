@@ -141,6 +141,32 @@ export class TaxService {
   }
 
   /**
+   * 개인 주택 증여 세율 로드
+   */
+  static async getPersonalHousingGiftRates(): Promise<TaxRateFile> {
+    try {
+      const response = await api.get('/data/tax_rates/personal/housing/free_acquisition/gift/general.json');
+      return response.data;
+    } catch (error) {
+      console.error('개인 주택 증여 세율 로드 실패:', error);
+      throw new Error('개인 주택 증여 세율 데이터를 불러올 수 없습니다.');
+    }
+  }
+
+  /**
+   * 개인 주택 상속 세율 로드
+   */
+  static async getPersonalHousingInheritanceRates(): Promise<TaxRateFile> {
+    try {
+      const response = await api.get('/data/tax_rates/personal/housing/free_acquisition/inheritance.json');
+      return response.data;
+    } catch (error) {
+      console.error('개인 주택 상속 세율 로드 실패:', error);
+      throw new Error('개인 주택 상속 세율 데이터를 불러올 수 없습니다.');
+    }
+  }
+
+  /**
    * 법인 주택 세율 로드
    */
   static async getCorporateHousingRates(): Promise<TaxRateFile> {
@@ -154,19 +180,64 @@ export class TaxService {
   }
 
   /**
-   * 레거시: 기존 rate2.json 호환성을 위한 메서드
+   * 레거시: 기존 rate2.json 호환성을 위한 메서드 - 모든 개인 세율 데이터 통합
    */
   static async getAcquisitionTaxRates(): Promise<TaxData> {
     try {
-      // 새로운 구조의 개인 주택 세율을 기존 형식으로 변환
-      const personalHousingRates = await this.getPersonalHousingPaidRates();
+      // 모든 개인 세율 데이터 로드
+      const allPersonalRates = await this.getAllPersonalTaxRates();
       
+      // 각 데이터 파일의 sections에 원래 topic 정보를 추가
+      const sectionsWithTopic = [
+        ...allPersonalRates.housing.sections.map(section => ({
+          ...section,
+          originalTopic: allPersonalRates.housing.topic
+        })),
+        ...allPersonalRates.buildings.sections.map(section => ({
+          ...section,
+          originalTopic: allPersonalRates.buildings.topic
+        })),
+        ...allPersonalRates.agricultural.sections.map(section => ({
+          ...section,
+          originalTopic: allPersonalRates.agricultural.topic
+        })),
+        ...allPersonalRates.specialPaid.sections.map(section => ({
+          ...section,
+          originalTopic: allPersonalRates.specialPaid.topic
+        })),
+        ...allPersonalRates.freeAcquisition.sections.map(section => ({
+          ...section,
+          originalTopic: allPersonalRates.freeAcquisition.topic
+        })),
+        ...allPersonalRates.originalAcquisition.sections.map(section => ({
+          ...section,
+          originalTopic: allPersonalRates.originalAcquisition.topic
+        })),
+        ...allPersonalRates.housingGift.sections.map(section => ({
+          ...section,
+          originalTopic: allPersonalRates.housingGift.topic
+        })),
+        ...allPersonalRates.housingInheritance.sections.map(section => ({
+          ...section,
+          originalTopic: allPersonalRates.housingInheritance.topic
+        }))
+      ];
+
       // 기존 TaxData 형식에 맞게 변환
       const legacyFormat: TaxData = {
-        topic: personalHousingRates.topic,
-        topic_code: personalHousingRates.topic_code,
-        sections: personalHousingRates.sections,
-        legal_references: personalHousingRates.legal_basis || []
+        topic: "개인 취득세 세율",
+        topic_code: "personal_all_acquisition",
+        sections: sectionsWithTopic,
+        legal_references: [
+          ...allPersonalRates.housing.legal_basis,
+          ...allPersonalRates.buildings.legal_basis,
+          ...allPersonalRates.agricultural.legal_basis,
+          ...allPersonalRates.specialPaid.legal_basis,
+          ...allPersonalRates.freeAcquisition.legal_basis,
+          ...allPersonalRates.originalAcquisition.legal_basis,
+          ...allPersonalRates.housingGift.legal_basis,
+          ...allPersonalRates.housingInheritance.legal_basis
+        ]
       };
       
       return legacyFormat;
@@ -187,9 +258,11 @@ export class TaxService {
     specialPaid: TaxRateFile;
     freeAcquisition: TaxRateFile;
     originalAcquisition: TaxRateFile;
+    housingGift: TaxRateFile;
+    housingInheritance: TaxRateFile;
   }> {
     try {
-      const [main, housing, buildings, agricultural, specialPaid, freeAcquisition, originalAcquisition] = await Promise.all([
+      const [main, housing, buildings, agricultural, specialPaid, freeAcquisition, originalAcquisition, housingGift, housingInheritance] = await Promise.all([
         this.getTaxRatesMain(),
         this.getPersonalHousingPaidRates(),
         this.getPersonalBuildingRates(),
@@ -197,6 +270,8 @@ export class TaxService {
         this.getSpecialPaidRates(),
         this.getFreeAcquisitionRates(),
         this.getOriginalAcquisitionRates(),
+        this.getPersonalHousingGiftRates(),
+        this.getPersonalHousingInheritanceRates(),
       ]);
 
       return {
@@ -207,6 +282,8 @@ export class TaxService {
         specialPaid,
         freeAcquisition,
         originalAcquisition,
+        housingGift,
+        housingInheritance,
       };
     } catch (error) {
       console.error('전체 개인 세율 데이터 로드 실패:', error);

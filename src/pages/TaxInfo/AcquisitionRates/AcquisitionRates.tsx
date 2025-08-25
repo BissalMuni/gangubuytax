@@ -25,7 +25,7 @@ interface FilterState {
 
 const AcquisitionRates: React.FC = () => {
   const { data: taxData, isLoading, error } = useTaxData();
-  
+
   // 필터 상태 관리
   const [filters, setFilters] = useState<FilterState>({
     납세자구분: '',
@@ -70,7 +70,7 @@ const AcquisitionRates: React.FC = () => {
         농특세: '',
         합계: ''
       };
-      
+
       details.forEach((detail: any) => {
         if (detail.title === '취득세') {
           rates.취득세 = detail.details;
@@ -82,7 +82,7 @@ const AcquisitionRates: React.FC = () => {
           rates.합계 = detail.details;
         }
       });
-      
+
       return rates;
     };
 
@@ -95,13 +95,13 @@ const AcquisitionRates: React.FC = () => {
       } else if (data.title && data.title.includes('㎡')) {
         currentContext.면적 = data.title;
       }
-      
+
       // 세율 데이터가 있는지 확인 (취득세, 지방교육세, 농특세, 합계가 모두 있는 배열)
       if (Array.isArray(data.details) && data.details.some((d: any) => d.title === '취득세')) {
         const rates = extractTaxRates(data.details);
         console.log('✓ 세율 발견:', data.title, '→', currentContext, rates);
         rows.push({
-          구분: '개인 주택 유상취득',
+          구분: currentContext.구분 || '개인 취득세',
           지역: currentContext.지역 || '',
           주택수: currentContext.주택수 || '',
           가격대: currentContext.가격대 || '',
@@ -123,23 +123,40 @@ const AcquisitionRates: React.FC = () => {
       }
     };
 
+    // topic별로 데이터 파싱 (여러 개인 세율 파일의 데이터 처리)
+    const topicMap: { [key: string]: string } = {
+      '개인 주택 유상취득 세율': '개인 주택 유상취득',
+      '개인 일반 건물 취득 세율': '개인 건물 취득',
+      '개인 농지 유상취득 세율': '개인 농지 취득',
+      '특수 유상취득 세율': '개인 특수 유상취득',
+      '무상취득 세율': '개인 무상취득',
+      '원시취득 세율': '개인 원시취득',
+      '개인 주택 증여 세율': '개인 주택 증여',
+      '개인 주택 상속 세율': '개인 주택 상속'
+    };
+
     taxData.sections.forEach((section: any) => {
       console.log(`📂 ${section.title} 섹션 처리 중...`);
-      
+
+      // 현재 section이 어떤 구분인지 결정 (originalTopic 기반)
+      const originalTopic = section.originalTopic || taxData.topic;
+      const 구분 = topicMap[originalTopic] || originalTopic || '개인 취득세';
+
       if (section.subsections) {
         section.subsections.forEach((subsection: any) => {
           const subsectionContext = {
-            지역: section.title, // 조정대상지역 또는 조정대상지역 외
+            구분: 구분,
+            지역: section.title, // 조정대상지역 또는 조정대상지역 외 (주택의 경우)
             주택수: subsection.title // 1주택, 2주택, 3주택 등
           };
-          
+
           // subsection에 바로 세율 데이터가 있는지 확인 (2주택, 3주택 등의 경우)
           if (Array.isArray(subsection.details) && subsection.details.some((d: any) => d.title === '취득세')) {
             const rates = extractTaxRates(subsection.details);
             console.log(`✓ 직접 세율: ${subsection.title} →`, rates);
             rows.push({
-              구분: '개인 주택 유상취득',
-              지역: section.title,
+              구분: 구분,
+              지역: section.title.includes('조정') ? section.title : '',
               주택수: subsection.title,
               가격대: '',
               면적: '',
@@ -159,13 +176,13 @@ const AcquisitionRates: React.FC = () => {
     });
 
     console.log(`🎉 파싱 완료: 총 ${rows.length}개의 주택 세율 발견`);
-    
+
     // 면적별 그룹핑을 위한 데이터 구조 변환
     const groupedRows = rows.reduce((acc: any[], row) => {
       // 같은 조건(지역, 주택수, 가격대)으로 그룹 찾기
       const groupKey = `${row.지역}_${row.주택수}_${row.가격대}`;
       let existingGroup = acc.find(group => group.groupKey === groupKey);
-      
+
       if (!existingGroup) {
         // 새 그룹 생성
         existingGroup = {
@@ -179,7 +196,7 @@ const AcquisitionRates: React.FC = () => {
         };
         acc.push(existingGroup);
       }
-      
+
       // 서브행에 면적별 세율 정보 추가
       existingGroup.subRows.push({
         면적: row.면적,
@@ -188,10 +205,10 @@ const AcquisitionRates: React.FC = () => {
         농특세: row.농특세,
         합계: row.합계
       });
-      
+
       return acc;
     }, []);
-    
+
     console.log('그룹핑된 데이터:', groupedRows);
     return groupedRows;
   }, [taxData]);
@@ -221,8 +238,8 @@ const AcquisitionRates: React.FC = () => {
 
       // 거래 유형 필터링
       if (filters.거래유형) {
-        if (filters.거래유형 === '유상취득' && !group.구분.includes('유상취득')) matches = false;
-        if (filters.거래유형 === '무상취득' && !group.구분.includes('무상취득')) matches = false;
+        if (filters.거래유형 === '유상' && !group.구분.includes('유상')) matches = false;
+        if (filters.거래유형 === '무상' && !group.구분.includes('무상')) matches = false;
         if (filters.거래유형 === '상속' && !group.구분.includes('상속')) matches = false;
         if (filters.거래유형 === '증여' && !group.구분.includes('증여')) matches = false;
       }
@@ -265,12 +282,23 @@ const AcquisitionRates: React.FC = () => {
               취득세 세율 정보
             </h1>
           </div>
-        </div>        
+        </div>
       </div>
 
       {/* 쿼리 필터 섹션 */}
       <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
-        <h2 className="text-lg font-semibold text-gray-900 mb-4">조건 필터</h2>        
+        <div className="flex items-center gap-4 mb-4">
+
+          <button
+            onClick={resetFilters}
+            className="flex items-center gap-2 px-4 py-2 bg-gray-600 text-white rounded-md hover:bg-gray-700 transition-colors"
+          >
+            <FiRefreshCw className="w-4 h-4" />
+            필터 초기화
+          </button>
+        </div>
+
+
         <div className="space-y-4">
           {/* 납세자 구분 */}
           <div>
@@ -280,11 +308,10 @@ const AcquisitionRates: React.FC = () => {
                 <button
                   key={option}
                   onClick={() => updateFilter('납세자구분', option)}
-                  className={`px-4 py-2 rounded-md text-sm font-medium transition-colors ${
-                    filters.납세자구분 === option
+                  className={`px-4 py-2 rounded-md text-sm font-medium transition-colors ${filters.납세자구분 === option
                       ? 'bg-blue-600 text-white shadow-md'
                       : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-                  }`}
+                    }`}
                 >
                   {option}
                 </button>
@@ -299,11 +326,10 @@ const AcquisitionRates: React.FC = () => {
                 <button
                   key={option}
                   onClick={() => updateFilter('부동산종류', option)}
-                  className={`px-4 py-2 rounded-md text-sm font-medium transition-colors ${
-                    filters.부동산종류 === option
+                  className={`px-4 py-2 rounded-md text-sm font-medium transition-colors ${filters.부동산종류 === option
                       ? 'bg-green-600 text-white shadow-md'
                       : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-                  }`}
+                    }`}
                 >
                   {option}
                 </button>
@@ -314,15 +340,14 @@ const AcquisitionRates: React.FC = () => {
           {/* 거래 유형 */}
           <div>
             <div className="flex flex-wrap gap-2">
-              {['유상취득', '무상취득', '상속', '증여'].map((option) => (
+              {['유상', '무상', '상속', '증여'].map((option) => (
                 <button
                   key={option}
                   onClick={() => updateFilter('거래유형', option)}
-                  className={`px-4 py-2 rounded-md text-sm font-medium transition-colors ${
-                    filters.거래유형 === option
+                  className={`px-4 py-2 rounded-md text-sm font-medium transition-colors ${filters.거래유형 === option
                       ? 'bg-purple-600 text-white shadow-md'
                       : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-                  }`}
+                    }`}
                 >
                   {option}
                 </button>
@@ -330,21 +355,12 @@ const AcquisitionRates: React.FC = () => {
             </div>
           </div>
 
-          {/* Reset 버튼 */}
-          <div className="flex justify-end pt-2">
-            <button
-              onClick={resetFilters}
-              className="flex items-center gap-2 px-4 py-2 bg-gray-600 text-white rounded-md hover:bg-gray-700 transition-colors"
-            >
-              <FiRefreshCw className="w-4 h-4" />
-              필터 초기화
-            </button>
-          </div>
+
 
           {/* 활성 필터 표시 */}
           {(filters.납세자구분 || filters.부동산종류 || filters.거래유형) && (
             <div className="mt-4 p-3 bg-blue-50 rounded-md">
-              <h4 className="text-sm font-medium text-blue-900 mb-2">활성 필터:</h4>
+
               <div className="flex flex-wrap gap-2">
                 {filters.납세자구분 && (
                   <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
@@ -372,7 +388,7 @@ const AcquisitionRates: React.FC = () => {
         <div className="px-6 py-4 border-b border-gray-200">
           <h2 className="text-lg font-semibold text-gray-900">취득세율 상세 정보</h2>
         </div>
-        
+
         <div className="overflow-x-auto">
           <table className="min-w-full divide-y divide-gray-200">
             <thead className="bg-gray-50">
@@ -395,7 +411,7 @@ const AcquisitionRates: React.FC = () => {
                 const isEven = groupIndex % 2 === 0;
                 const groupBgColor = isEven ? 'bg-white' : 'bg-gray-50';
                 const groupCellBgColor = isEven ? 'bg-gray-100' : 'bg-gray-200';
-                
+
                 return group.subRows.map((subRow, subIndex) => (
                   <tr key={`${groupIndex}-${subIndex}`} className={groupBgColor}>
                     {/* 첫 번째 서브행에만 그룹 정보 표시 (rowspan 적용) */}
@@ -404,11 +420,10 @@ const AcquisitionRates: React.FC = () => {
                         <td rowSpan={group.subRows.length} className={`px-4 py-4 whitespace-nowrap text-sm font-medium text-gray-900 border-r border-gray-200 ${groupCellBgColor}`}>{group.구분}</td>
                         <td rowSpan={group.subRows.length} className={`px-4 py-4 whitespace-nowrap text-sm text-gray-900 border-r border-gray-200 ${groupCellBgColor}`}>
                           {group.지역 && (
-                            <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
-                              group.지역 === '조정대상지역' 
-                                ? 'bg-red-200 text-red-900' 
+                            <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${group.지역 === '조정대상지역'
+                                ? 'bg-red-200 text-red-900'
                                 : 'bg-green-200 text-green-900'
-                            }`}>
+                              }`}>
                               {group.지역}
                             </span>
                           )}
@@ -482,7 +497,7 @@ const AcquisitionRates: React.FC = () => {
         </div>
         <div className="mt-4 p-4 bg-yellow-50 rounded-lg">
           <p className="text-sm text-yellow-800">
-            <strong>주의:</strong> 실제 세율 적용 시에는 관련 법령과 지역별 조례를 반드시 확인하시기 바랍니다. 
+            <strong>주의:</strong> 실제 세율 적용 시에는 관련 법령과 지역별 조례를 반드시 확인하시기 바랍니다.
             특례나 감면 적용 여부에 따라 실제 부담세액이 달라질 수 있습니다.
           </p>
         </div>

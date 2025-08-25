@@ -1,45 +1,171 @@
 {
-  "id": "personal_housing_inheritance",
-  "title": "개인 주택 상속 세율",
-  "description": "개인이 주택을 상속으로 취득할 때 적용되는 세율",
+  "topic": "개인 주택 상속 세율",
+  "topic_code": "personal_housing_inheritance",
+  "effective_date": "2024-01-01",
   "legal_basis": [
     "지방세법 제11조 (취득세의 세율)",
     "지방세법 제13조의2 (주택 취득에 대한 취득세의 세율 특례)"
   ],
-  "effective_date": "2024-01-01",
-  "rates": {
-    "one_house_one_household": {
-      "title": "1가구 1주택",
-      "description": "상속으로 1가구 1주택을 취득하는 경우",
-      "acquisition_tax": "0.8%",
-      "local_education_tax": "0.16%", 
-      "agricultural_tax": "0.0%",
-      "note": "농특세 비과세"
+  "sections": [
+    {
+      "id": 1,
+      "title": "조정대상지역",
+      "description": "조정대상지역 내 주택 상속에 대한 세율",
+      "legal_basis": "지방세법 제11조",
+      "subsections": [
+        {
+          "id": 1,
+          "title": "1세대 1주택",
+          "content": "1세대 1주택 상속 (우대세율)",
+          "legal_basis": "",
+          "details": [
+            {
+              "id": 1,
+              "title": "취득세",
+              "content": "취득세율",
+              "legal_basis": "",
+              "details": "0.8%"
+            },
+            {
+              "id": 2,
+              "title": "지방교육세",
+              "content": "지방교육세율",
+              "legal_basis": "",
+              "details": "0.08%"
+            },
+            {
+              "id": 3,
+              "title": "농특세",
+              "content": "농특세율 (비과세)",
+              "legal_basis": "",
+              "details": "0.0%"
+            },
+            {
+              "id": 4,
+              "title": "합계",
+              "content": "전체 세금 합계",
+              "legal_basis": "",
+              "details": "0.88%"
+            }
+          ]
+        },
+        {
+          "id": 2,
+          "title": "일반 상속",
+          "content": "조정대상지역 내 일반 주택 상속",
+          "legal_basis": "",
+          "details": [
+            {
+              "id": 1,
+              "title": "취득세",
+              "content": "취득세율",
+              "legal_basis": "",
+              "details": "2.8%"
+            },
+            {
+              "id": 2,
+              "title": "지방교육세",
+              "content": "지방교육세율",
+              "legal_basis": "",
+              "details": "0.28%"
+            },
+            {
+              "id": 3,
+              "title": "농특세",
+              "content": "농특세율",
+              "legal_basis": "",
+              "details": "0.56%"
+            },
+            {
+              "id": 4,
+              "title": "합계",
+              "content": "전체 세금 합계",
+              "legal_basis": "",
+              "details": "3.64%"
+            }
+          ]
+        }
+      ]
     },
-    "general_inheritance": {
-      "title": "일반 상속",
-      "description": "일반적인 주택 상속의 경우",
-      "acquisition_tax": "2.8%",
-      "local_education_tax": "0.16%",
-      "agricultural_tax": "0.56%"
-    }
-  },
-  "conditions": {
-    "one_house_one_household": {
-      "requirements": [
-        "상속인이 1세대 1주택 요건을 충족해야 함",
-        "실제 거주 요건을 충족해야 함"
-      ],
-      "reference_files": [
-        "../../../conditions/taxpayer_status.json",
-        "../../../conditions/residence_conditions.json"
+    {
+      "id": 2,
+      "title": "조정대상지역 외",
+      "description": "조정대상지역이 아닌 지역의 주택 상속",
+      "legal_basis": "지방세법 제11조",
+      "subsections": [
+        {
+          "id": 1,
+          "title": "1세대 1주택",
+          "content": "1세대 1주택 상속 (우대세율)",
+          "legal_basis": "",
+          "details": [
+            {
+              "id": 1,
+              "title": "취득세",
+              "content": "취득세율",
+              "legal_basis": "",
+              "details": "0.8%"
+            },
+            {
+              "id": 2,
+              "title": "지방교육세",
+              "content": "지방교육세율",
+              "legal_basis": "",
+              "details": "0.08%"
+            },
+            {
+              "id": 3,
+              "title": "농특세",
+              "content": "농특세율 (비과세)",
+              "legal_basis": "",
+              "details": "0.0%"
+            },
+            {
+              "id": 4,
+              "title": "합계",
+              "content": "전체 세금 합계",
+              "legal_basis": "",
+              "details": "0.88%"
+            }
+          ]
+        },
+        {
+          "id": 2,
+          "title": "일반 상속",
+          "content": "비조정대상지역 내 일반 주택 상속",
+          "legal_basis": "",
+          "details": [
+            {
+              "id": 1,
+              "title": "취득세",
+              "content": "취득세율",
+              "legal_basis": "",
+              "details": "2.8%"
+            },
+            {
+              "id": 2,
+              "title": "지방교육세",
+              "content": "지방교육세율",
+              "legal_basis": "",
+              "details": "0.28%"
+            },
+            {
+              "id": 3,
+              "title": "농특세",
+              "content": "농특세율",
+              "legal_basis": "",
+              "details": "0.56%"
+            },
+            {
+              "id": 4,
+              "title": "합계",
+              "content": "전체 세금 합계",
+              "legal_basis": "",
+              "details": "3.64%"
+            }
+          ]
+        }
       ]
     }
-  },
-  "exemptions": {
-    "reference_files": [
-      "../../../common/exemption_criteria.json",
-      "../../../relationships/inheritance_special.json"
-    ]
-  }
+  ]
 }
