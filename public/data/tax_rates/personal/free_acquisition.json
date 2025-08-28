@@ -199,13 +199,6 @@
               "content": "농특세율 (비과세)",
               "legal_basis": "",
               "details": "0.0%"
-            },
-            {
-              "id": 4,
-              "title": "합계",
-              "content": "전체 세금 합계",
-              "legal_basis": "",
-              "details": "3.08%"
             }
           ]
         },

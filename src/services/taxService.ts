@@ -186,37 +186,37 @@ export class TaxService {
       
       // 각 데이터 파일의 sections에 원래 topic 정보를 추가
       const sectionsWithTopic = [
-        ...allPersonalRates.housing.sections.map(section => ({
+        ...(allPersonalRates.housing?.sections || []).map(section => ({
           ...section,
-          originalTopic: allPersonalRates.housing.topic
+          originalTopic: allPersonalRates.housing?.topic
         })),
-        ...allPersonalRates.buildings.sections.map(section => ({
+        ...(allPersonalRates.buildings?.sections || []).map(section => ({
           ...section,
-          originalTopic: allPersonalRates.buildings.topic
+          originalTopic: allPersonalRates.buildings?.topic
         })),
-        ...allPersonalRates.agricultural.sections.map(section => ({
+        ...(allPersonalRates.agricultural?.sections || []).map(section => ({
           ...section,
-          originalTopic: allPersonalRates.agricultural.topic
+          originalTopic: allPersonalRates.agricultural?.topic
         })),
-        ...allPersonalRates.specialPaid.sections.map(section => ({
+        ...(allPersonalRates.specialPaid?.sections || []).map(section => ({
           ...section,
-          originalTopic: allPersonalRates.specialPaid.topic
+          originalTopic: allPersonalRates.specialPaid?.topic
         })),
-        ...allPersonalRates.freeAcquisition.sections.map(section => ({
+        ...(allPersonalRates.freeAcquisition?.sections || []).map(section => ({
           ...section,
-          originalTopic: allPersonalRates.freeAcquisition.topic
+          originalTopic: allPersonalRates.freeAcquisition?.topic
         })),
-        ...allPersonalRates.originalAcquisition.sections.map(section => ({
+        ...(allPersonalRates.originalAcquisition?.sections || []).map(section => ({
           ...section,
-          originalTopic: allPersonalRates.originalAcquisition.topic
+          originalTopic: allPersonalRates.originalAcquisition?.topic
         })),
-        ...allPersonalRates.housingGift.sections.map(section => ({
+        ...(allPersonalRates.housingGift?.sections || []).map(section => ({
           ...section,
-          originalTopic: allPersonalRates.housingGift.topic
+          originalTopic: allPersonalRates.housingGift?.topic
         })),
-        ...allPersonalRates.housingInheritance.sections.map(section => ({
+        ...(allPersonalRates.housingInheritance?.sections || []).map(section => ({
           ...section,
-          originalTopic: allPersonalRates.housingInheritance.topic
+          originalTopic: allPersonalRates.housingInheritance?.topic
         }))
       ];
 
@@ -226,14 +226,14 @@ export class TaxService {
         topic_code: "personal_all_acquisition",
         sections: sectionsWithTopic,
         legal_references: [
-          ...allPersonalRates.housing.legal_basis,
-          ...allPersonalRates.buildings.legal_basis,
-          ...allPersonalRates.agricultural.legal_basis,
-          ...allPersonalRates.specialPaid.legal_basis,
-          ...allPersonalRates.freeAcquisition.legal_basis,
-          ...allPersonalRates.originalAcquisition.legal_basis,
-          ...allPersonalRates.housingGift.legal_basis,
-          ...allPersonalRates.housingInheritance.legal_basis
+          ...(allPersonalRates.housing?.legal_basis || []),
+          ...(allPersonalRates.buildings?.legal_basis || []),
+          ...(allPersonalRates.agricultural?.legal_basis || []),
+          ...(allPersonalRates.specialPaid?.legal_basis || []),
+          ...(allPersonalRates.freeAcquisition?.legal_basis || []),
+          ...(allPersonalRates.originalAcquisition?.legal_basis || []),
+          ...(allPersonalRates.housingGift?.legal_basis || []),
+          ...(allPersonalRates.housingInheritance?.legal_basis || [])
         ]
       };
       

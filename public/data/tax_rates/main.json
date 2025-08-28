@@ -13,8 +13,8 @@
     "personal": {
       "housing": [
         "paid_acquisition.json",
-        "free_acquisition/inheritance.json",
-        "free_acquisition/gift/general.json",
+        "free_inheritance.json",
+        "free_general.json",
         "free_acquisition/gift/spouse_lineal.json",
         "free_acquisition/gift/special_cases.json",
         "special_free/co_ownership_division.json",
