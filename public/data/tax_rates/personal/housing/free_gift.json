@@ -1,60 +1,55 @@
 {
-  "id": "personal_housing_gift_general",
-  "title": "개인 주택 일반 증여 세율",
-  "description": "개인이 주택을 일반 증여로 취득할 때 적용되는 세율",
-  "legal_basis": [
-    "지방세법 제11조 (취득세의 세율)"
-  ],
+  "topic": "개인 주택 증여 세율",
+  "topic_code": "personal_housing_gift",
   "effective_date": "2024-01-01",
-  "rates": {
-    "general_gift": {
+  "legal_basis": [
+    "지방세법 제11조 (취득세의 세율)",
+    "지방세법 제13조의2 (주택 취득에 대한 취득세의 세율 특례)"
+  ],
+  "sections": [
+    {
+      "id": 1,
       "title": "일반 증여",
-      "description": "기본적인 주택 증여 세율",
-      "acquisition_tax": "3.5%",
-      "local_education_tax": "0.3%",
-      "agricultural_tax": "0.7%"
-    },
-    "adjustment_area_heavy": {
-      "title": "조정대상지역 3억원 이상 주택 증여",
-      "description": "조정대상지역 내 3억원 이상 주택 증여 시 중과세율",
-      "rates": {
-        "principle": {
-          "title": "원칙",
-          "acquisition_tax": "12.0%",
-          "local_education_tax": "2.0%",
-          "agricultural_tax": "2.4%"
-        },
-        "exception": {
-          "title": "예외 (1세대1주택 배우자·직계존비속)",
-          "description": "1세대1주택자가 배우자·직계존비속에게 증여하는 경우",
-          "acquisition_tax": "3.5%",
-          "local_education_tax": "0.3%",
-          "agricultural_tax": "0.7%"
+      "description": "개인이 주택을 일반 증여로 취득할 때 적용되는 세율",
+      "legal_basis": "지방세법 제11조",
+      "subsections": [
+        {
+          "id": 1,
+          "title": "일반 주택",
+          "content": "일반 주택 증여 취득",
+          "legal_basis": "지방세법 제11조",
+          "details": [
+            {
+              "id": 1,
+              "title": "취득세",
+              "content": "취득세율",
+              "legal_basis": "",
+              "details": "2.8%"
+            },
+            {
+              "id": 2,
+              "title": "지방교육세",
+              "content": "지방교육세율",
+              "legal_basis": "",
+              "details": "0.28%"
+            },
+            {
+              "id": 3,
+              "title": "농특세",
+              "content": "농특세율",
+              "legal_basis": "",
+              "details": "0.56%"
+            },
+            {
+              "id": 4,
+              "title": "합계",
+              "content": "전체 세금 합계",
+              "legal_basis": "",
+              "details": "3.64%"
+            }
+          ]
         }
-      }
-    }
-  },
-  "conditions": {
-    "adjustment_area_conditions": {
-      "area_requirement": "조정대상지역 내 위치",
-      "price_requirement": "공시가격 3억원 이상",
-      "reference_files": [
-        "../../../../conditions/property_specifications.json"
-      ]
-    },
-    "exception_conditions": {
-      "giver_status": "1세대 1주택자",
-      "relationship": "배우자 또는 직계존비속",
-      "reference_files": [
-        "../../../../conditions/taxpayer_status.json",
-        "../../../../relationships/family_relations.json",
-        "../../../../relationships/gift_exemptions.json"
       ]
     }
-  },
-  "exemptions": {
-    "reference_files": [
-      "../../../../common/exemption_criteria.json"
-    ]
-  }
+  ]
 }

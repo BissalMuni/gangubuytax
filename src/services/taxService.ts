@@ -145,7 +145,7 @@ export class TaxService {
    */
   static async getPersonalHousingGiftRates(): Promise<TaxRateFile> {
     try {
-      const response = await api.get('/data/tax_rates/personal/housing/free_acquisition/gift/general.json');
+      const response = await api.get('/data/tax_rates/personal/housing/free_gift.json');
       return response.data;
     } catch (error) {
       console.error('개인 주택 증여 세율 로드 실패:', error);
@@ -158,7 +158,7 @@ export class TaxService {
    */
   static async getPersonalHousingInheritanceRates(): Promise<TaxRateFile> {
     try {
-      const response = await api.get('/data/tax_rates/personal/housing/free_acquisition/inheritance.json');
+      const response = await api.get('/data/tax_rates/personal/housing/free_inheritance.json');
       return response.data;
     } catch (error) {
       console.error('개인 주택 상속 세율 로드 실패:', error);
