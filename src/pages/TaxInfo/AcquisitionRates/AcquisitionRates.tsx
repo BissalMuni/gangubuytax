@@ -1,7 +1,7 @@
 import React, { useMemo, useState } from 'react';
 import { useTaxData } from '@/hooks/useTaxData';
 import LoadingSpinner from '@/components/common/LoadingSpinner';
-import { FiPercent, FiRefreshCw, FiInfo } from 'react-icons/fi';
+import { FiPercent, FiRefreshCw } from 'react-icons/fi';
 import toast from 'react-hot-toast';
 
 interface TaxRateRow {

@@ -314,21 +314,7 @@ const TaxInfo: React.FC = () => {
           </div>
         </div>
 
-        {/* 검색 및 필터 */}
-        <div className="flex space-x-4">
-          <input
-            type="text"
-            placeholder="세금 정보 검색..."
-            className="input flex-1"
-            // value={searchTerm}
-            // onChange={(e) => setSearchTerm(e.target.value)}
-          />
-          <select className="input w-48">
-            <option value="">전체 기간</option>
-            <option value="2024">2024년</option>
-            <option value="2023">2023년</option>
-          </select>
-        </div>
+
 
         {/* 계층적 필터 버튼 네비게이션 */}
         <div className="mt-6 space-y-4">
