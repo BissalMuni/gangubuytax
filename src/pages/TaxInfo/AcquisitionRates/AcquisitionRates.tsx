@@ -112,8 +112,8 @@ const AcquisitionRates: React.FC = () => {
           농특세: rates.농특세,
           합계: rates.합계,
           조건: data.content || '',
-          legal_basis: Array.isArray(data.legal_basis) ? data.legal_basis : 
-                      Array.isArray(currentContext.legal_basis) ? currentContext.legal_basis : []
+          legal_basis: Array.isArray(data.legal_basis) ? data.legal_basis :
+            Array.isArray(currentContext.legal_basis) ? currentContext.legal_basis : []
         });
         return;
       }
@@ -144,7 +144,7 @@ const AcquisitionRates: React.FC = () => {
       // 현재 section이 어떤 구분인지 결정 (originalTopic 기반)
       const originalTopic = section.originalTopic || taxData.topic;
       const 구분 = topicMap[originalTopic] || originalTopic || '개인 취득세';
-      
+
       // 해당 원본 파일의 legal_basis 찾기
       const originalFileLegalBasis = taxData.legal_references || [];
       console.log('원본 파일 legal_basis:', originalFileLegalBasis);
@@ -157,8 +157,8 @@ const AcquisitionRates: React.FC = () => {
             지역: section.title, // 조정대상지역 또는 조정대상지역 외 (주택의 경우)
             주택수: subsection.title, // 1주택, 2주택, 3주택 등
             legal_basis: Array.isArray(subsection.legal_basis) ? subsection.legal_basis :
-                        Array.isArray(section.legal_basis) ? section.legal_basis : 
-                        originalFileLegalBasis
+              Array.isArray(section.legal_basis) ? section.legal_basis :
+                originalFileLegalBasis
           };
 
           // subsection에 바로 세율 데이터가 있는지 확인 (2주택, 3주택 등의 경우)
@@ -177,8 +177,8 @@ const AcquisitionRates: React.FC = () => {
               합계: rates.합계,
               조건: subsection.content || '',
               legal_basis: Array.isArray(subsection.legal_basis) ? subsection.legal_basis :
-                          Array.isArray(section.legal_basis) ? section.legal_basis : 
-                          originalFileLegalBasis
+                Array.isArray(section.legal_basis) ? section.legal_basis :
+                  originalFileLegalBasis
             });
           } else {
             // 복잡한 구조인 경우 재귀 파싱 (1주택의 경우)
@@ -206,8 +206,8 @@ const AcquisitionRates: React.FC = () => {
           주택수: row.주택수,
           가격대: row.가격대,
           조건: row.조건,
-          legal_basis: Array.isArray(row.legal_basis) && row.legal_basis.length > 0 ? row.legal_basis : 
-                      ['지방세법 제11조 (취득세의 세율)', '지방세법 제15조 (세율의 특례)'],
+          legal_basis: Array.isArray(row.legal_basis) && row.legal_basis.length > 0 ? row.legal_basis :
+            ['지방세법 제11조 (취득세의 세율)', '지방세법 제15조 (세율의 특례)'],
           subRows: []
         };
         acc.push(existingGroup);
@@ -326,8 +326,8 @@ const AcquisitionRates: React.FC = () => {
                   key={option}
                   onClick={() => updateFilter('납세자구분', option)}
                   className={`px-4 py-2 rounded-md text-sm font-medium transition-colors ${filters.납세자구분 === option
-                      ? 'bg-blue-600 text-white shadow-md'
-                      : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                    ? 'bg-blue-600 text-white shadow-md'
+                    : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
                     }`}
                 >
                   {option}
@@ -344,8 +344,8 @@ const AcquisitionRates: React.FC = () => {
                   key={option}
                   onClick={() => updateFilter('부동산종류', option)}
                   className={`px-4 py-2 rounded-md text-sm font-medium transition-colors ${filters.부동산종류 === option
-                      ? 'bg-green-600 text-white shadow-md'
-                      : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                    ? 'bg-green-600 text-white shadow-md'
+                    : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
                     }`}
                 >
                   {option}
@@ -362,8 +362,8 @@ const AcquisitionRates: React.FC = () => {
                   key={option}
                   onClick={() => updateFilter('거래유형', option)}
                   className={`px-4 py-2 rounded-md text-sm font-medium transition-colors ${filters.거래유형 === option
-                      ? 'bg-purple-600 text-white shadow-md'
-                      : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                    ? 'bg-purple-600 text-white shadow-md'
+                    : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
                     }`}
                 >
                   {option}
@@ -408,7 +408,7 @@ const AcquisitionRates: React.FC = () => {
 
         <div className="overflow-x-auto">
           <table className="min-w-full divide-y divide-gray-200">
-            <thead className="bg-gray-50">
+            <thead className="bg-blue-200">
               <tr>
                 <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">구분</th>
                 <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">지역</th>
@@ -438,8 +438,8 @@ const AcquisitionRates: React.FC = () => {
                         <td rowSpan={group.subRows.length} className={`px-4 py-4 whitespace-nowrap text-sm text-gray-900 border-r border-gray-200 ${groupCellBgColor}`}>
                           {group.지역 && (
                             <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${group.지역 === '조정대상지역'
-                                ? 'bg-red-200 text-red-900'
-                                : 'bg-green-200 text-green-900'
+                              ? 'bg-red-200 text-red-900'
+                              : 'bg-green-200 text-green-900'
                               }`}>
                               {group.지역}
                             </span>
@@ -459,20 +459,6 @@ const AcquisitionRates: React.FC = () => {
                     <td className={`px-4 py-4 whitespace-nowrap text-sm font-bold text-purple-600 border border-purple-200 ${groupCellBgColor} relative`}>
                       <div className="flex items-center justify-between">
                         <span>{subRow.합계}</span>
-                        {Array.isArray(group.legal_basis) && group.legal_basis.length > 0 && (
-                          <div className="group relative ml-2">
-                            <FiInfo className="w-4 h-4 text-gray-400 hover:text-gray-600 cursor-help" />
-                            <div className="absolute right-0 top-6 hidden group-hover:block z-50 w-64 p-3 bg-gray-900 text-white text-xs rounded-lg shadow-xl">
-                              <div className="font-semibold mb-2">법적 근거:</div>
-                              <ul className="space-y-1">
-                                {group.legal_basis.map((basis: string, index: number) => (
-                                  <li key={index} className="text-gray-200">• {basis}</li>
-                                ))}
-                              </ul>
-                              <div className="absolute -top-1 right-4 w-2 h-2 bg-gray-900 rotate-45"></div>
-                            </div>
-                          </div>
-                        )}
                       </div>
                     </td>
                     {/* 조건은 첫 번째 서브행에만 표시 */}
