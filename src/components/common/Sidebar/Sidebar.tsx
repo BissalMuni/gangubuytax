@@ -2,13 +2,10 @@ import React, { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { 
   FiDollarSign,
-  FiGift,
-  FiTool,
   FiPercent,
   FiBookOpen,
   FiHome,
-  FiLayers,
-  FiUsers
+  FiLayers
 } from 'react-icons/fi';
 
 interface MenuItem {

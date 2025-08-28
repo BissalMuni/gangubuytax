@@ -5,7 +5,7 @@ import { FiLayers } from 'react-icons/fi';
 import toast from 'react-hot-toast';
 
 const AcquisitionStandard: React.FC = () => {
-  const { data: taxData, isLoading, error } = useTaxData();
+  const { isLoading, error } = useTaxData();
 
   if (isLoading) return <LoadingSpinner />;
 

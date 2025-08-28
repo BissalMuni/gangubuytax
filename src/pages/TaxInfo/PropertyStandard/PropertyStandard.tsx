@@ -1,5 +1,4 @@
 import React from 'react';
-import LoadingSpinner from '@/components/common/LoadingSpinner';
 import { FiLayers } from 'react-icons/fi';
 
 const PropertyStandard: React.FC = () => {

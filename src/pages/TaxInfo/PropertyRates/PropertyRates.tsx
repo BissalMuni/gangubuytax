@@ -1,5 +1,4 @@
 import React from 'react';
-import LoadingSpinner from '@/components/common/LoadingSpinner';
 import { FiPercent } from 'react-icons/fi';
 
 const PropertyRates: React.FC = () => {

@@ -1,5 +1,4 @@
 import React from 'react';
-import LoadingSpinner from '@/components/common/LoadingSpinner';
 import { FiBookOpen, FiCheckCircle, FiAlertTriangle } from 'react-icons/fi';
 
 const PropertySpecial: React.FC = () => {

@@ -5,7 +5,7 @@ import { FiBookOpen, FiCheckCircle, FiAlertTriangle } from 'react-icons/fi';
 import toast from 'react-hot-toast';
 
 const AcquisitionSpecial: React.FC = () => {
-  const { data: taxData, isLoading, error } = useTaxData();
+  const { isLoading, error } = useTaxData();
 
   if (isLoading) return <LoadingSpinner />;
 

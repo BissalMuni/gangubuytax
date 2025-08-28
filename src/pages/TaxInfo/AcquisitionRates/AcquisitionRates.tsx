@@ -429,7 +429,7 @@ const AcquisitionRates: React.FC = () => {
                 const groupBgColor = isEven ? 'bg-white' : 'bg-gray-50';
                 const groupCellBgColor = isEven ? 'bg-gray-100' : 'bg-gray-200';
 
-                return group.subRows.map((subRow, subIndex) => (
+                return group.subRows.map((subRow: any, subIndex: number) => (
                   <tr key={`${groupIndex}-${subIndex}`} className={groupBgColor}>
                     {/* 첫 번째 서브행에만 그룹 정보 표시 (rowspan 적용) */}
                     {subIndex === 0 && (
