@@ -12,14 +12,6 @@ export const useTaxData = () => {
   });
 };
 
-export const useBasicTaxRates = () => {
-  return useQuery({
-    queryKey: ['basicTaxRates'],
-    queryFn: () => TaxService.getBasicAcquisitionRates(),
-    staleTime: 1000 * 60 * 30,
-    gcTime: 1000 * 60 * 60,
-  });
-};
 
 export const useAcquisitionBasePrice = () => {
   return useQuery({
@@ -36,15 +28,5 @@ export const useMarketRecognitionPrice = () => {
     queryFn: () => TaxService.getMarketRecognitionPrice(),
     staleTime: 1000 * 60 * 30,
     gcTime: 1000 * 60 * 60,
-  });
-};
-
-export const useAllTaxData = () => {
-  return useQuery({
-    queryKey: ['allTaxData'],
-    queryFn: () => TaxService.getAllTaxData(),
-    staleTime: 1000 * 60 * 30,
-    gcTime: 1000 * 60 * 60,
-    retry: 2,
   });
 };

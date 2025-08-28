@@ -7,7 +7,7 @@ const api = axios.create({
   timeout: 10000,
 });
 
-// 새로운 tax_rates 시스템 타입 정의
+// tax_rates 시스템 타입 정의
 interface TaxRatesMain {
   version: string;
   description: string;
@@ -179,9 +179,6 @@ export class TaxService {
     }
   }
 
-  /**
-   * 레거시: 기존 rate2.json 호환성을 위한 메서드 - 모든 개인 세율 데이터 통합
-   */
   static async getAcquisitionTaxRates(): Promise<TaxData> {
     try {
       // 모든 개인 세율 데이터 로드
@@ -291,22 +288,9 @@ export class TaxService {
     }
   }
 
-  /**
-   * 레거시: 기존 호환성을 위한 메서드들
-   */
-  static async getBasicAcquisitionRates(): Promise<any> {
-    try {
-      const response = await api.get('/data/tax/acquisitiontax/rate.json');
-      return response.data;
-    } catch (error) {
-      console.error('기본 취득세율 데이터 로드 실패:', error);
-      throw new Error('기본 세율 데이터를 불러올 수 없습니다.');
-    }
-  }
-
   static async getAcquisitionBasePrice(): Promise<any> {
     try {
-      const response = await api.get('/data/tax/acquisitiontax/standard_price.json');
+      const response = await api.get('/data/tax_price/standard_price.json');
       return response.data;
     } catch (error) {
       console.error('취득 기준가격 데이터 로드 실패:', error);
@@ -316,37 +300,11 @@ export class TaxService {
 
   static async getMarketRecognitionPrice(): Promise<any> {
     try {
-      const response = await api.get('/data/tax/acquisitiontax/market_recognition_price.json');
+      const response = await api.get('/data/tax_price/market_recognition_price.json');
       return response.data;
     } catch (error) {
       console.error('시가인정액 데이터 로드 실패:', error);
       throw new Error('시가인정액 데이터를 불러올 수 없습니다.');
-    }
-  }
-
-  static async getAllTaxData(): Promise<{
-    rates: TaxData;
-    basicRates: any;
-    basePrice: any;
-    marketRecognitionPrice: any;
-  }> {
-    try {
-      const [rates, basicRates, basePrice, marketRecognitionPrice] = await Promise.all([
-        this.getAcquisitionTaxRates(),
-        this.getBasicAcquisitionRates(),
-        this.getAcquisitionBasePrice(),
-        this.getMarketRecognitionPrice(),
-      ]);
-
-      return {
-        rates,
-        basicRates,
-        basePrice,
-        marketRecognitionPrice,
-      };
-    } catch (error) {
-      console.error('전체 세금 데이터 로드 실패:', error);
-      throw new Error('세금 데이터를 불러올 수 없습니다.');
     }
   }
 
