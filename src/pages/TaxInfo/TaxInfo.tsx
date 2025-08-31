@@ -160,7 +160,7 @@ const TaxInfo: React.FC = () => {
       } else if (filters.category === 'standard') {
         shouldInclude = item.category.includes(filters.type) || 
                       item.name.includes(filters.type) ||
-                      item.subcategory.includes(filters.type);
+                      (item.subcategory && item.subcategory.includes(filters.type));
       }
 
       // 검색어 필터
