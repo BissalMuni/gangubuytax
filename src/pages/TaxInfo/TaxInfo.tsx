@@ -1,8 +1,8 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useMemo } from 'react';
 import { useParams } from 'react-router-dom';
 import { useTaxData, useMarketRecognitionPrice } from '@/hooks/useTaxData';
 import { useTaxStore } from '@/store/useTaxStore';
-import { TaxItem, FilterOptions, ViewMode, TaxType } from '@/types/tax.types';
+import { TaxItem, FilterOptions, ViewMode, TaxType, ProcessedTaxSection } from '@/types/tax.types';
 import LoadingSpinner from '@/components/common/LoadingSpinner';
 import TaxList from '@/components/tax/TaxList';
 import TaxCard from '@/components/tax/TaxCard';
@@ -28,90 +28,12 @@ const TaxInfo: React.FC = () => {
     setViewMode,
   } = useTaxStore();
 
-  // 계층적 필터 상태 관리
-  const [selectedAcquisitionType, setSelectedAcquisitionType] = useState<string>('');
-  const [selectedSubType, setSelectedSubType] = useState<string>('');
-  const [selectedSubSubType, setSelectedSubSubType] = useState<string>('');
-  const [availableSubTypes, setAvailableSubTypes] = useState<string[]>([]);
-  const [availableSubSubTypes, setAvailableSubSubTypes] = useState<string[]>([]);
-  const [availableTaxTypes, setAvailableTaxTypes] = useState<Record<string, string>>({});
-
   // 데이터가 로드되면 스토어에 저장
   useEffect(() => {
     if (taxData) {
-      console.log('Loaded taxData:', taxData); // 디버깅용
       setTaxData(taxData);
     }
   }, [taxData, setTaxData]);
-
-  // 취득 유형 선택 시 하위 유형 업데이트
-  useEffect(() => {
-    if (selectedAcquisitionType && taxData) {
-      const acquisitionData = taxData[selectedAcquisitionType];
-      if (acquisitionData && typeof acquisitionData === 'object') {
-        const subTypes = Object.keys(acquisitionData).filter(key => 
-          typeof acquisitionData[key] === 'object'
-        );
-        setAvailableSubTypes(subTypes);
-        setSelectedSubType('');
-        setSelectedSubSubType('');
-        setAvailableSubSubTypes([]);
-        setAvailableTaxTypes({});
-      }
-    } else {
-      setAvailableSubTypes([]);
-      setSelectedSubType('');
-      setSelectedSubSubType('');
-      setAvailableSubSubTypes([]);
-      setAvailableTaxTypes({});
-    }
-  }, [selectedAcquisitionType, taxData]);
-
-  // 하위 유형 선택 시 하위하위 유형 또는 세금 정보 업데이트
-  useEffect(() => {
-    if (selectedAcquisitionType && selectedSubType && taxData) {
-      const subTypeData = taxData[selectedAcquisitionType]?.[selectedSubType];
-      if (subTypeData && typeof subTypeData === 'object') {
-        // 세금 정보가 직접 있는지 확인
-        if (subTypeData['취득세']) {
-          setAvailableTaxTypes(subTypeData as Record<string, string>);
-          setAvailableSubSubTypes([]);
-        } else {
-          // 하위하위 유형이 있는 경우
-          const subSubTypes = Object.keys(subTypeData).filter(key => 
-            typeof subTypeData[key] === 'object'
-          );
-          setAvailableSubSubTypes(subSubTypes);
-          setAvailableTaxTypes({});
-        }
-        setSelectedSubSubType('');
-      }
-    } else {
-      setAvailableSubSubTypes([]);
-      setAvailableTaxTypes({});
-      setSelectedSubSubType('');
-    }
-  }, [selectedSubType, selectedAcquisitionType, taxData]);
-
-  // 하위하위 유형 선택 시 세금 정보 업데이트
-  useEffect(() => {
-    if (selectedAcquisitionType && selectedSubType && selectedSubSubType && taxData) {
-      const subSubTypeData = taxData[selectedAcquisitionType]?.[selectedSubType]?.[selectedSubSubType];
-      if (subSubTypeData && typeof subSubTypeData === 'object') {
-        if (subSubTypeData['취득세']) {
-          setAvailableTaxTypes(subSubTypeData as Record<string, string>);
-        } else {
-          // 더 깊은 레벨이 있을 수 있음
-          const deepestData = Object.values(subSubTypeData).find(val => 
-            typeof val === 'object' && val !== null && (val as any)['취득세']
-          );
-          if (deepestData) {
-            setAvailableTaxTypes(deepestData as Record<string, string>);
-          }
-        }
-      }
-    }
-  }, [selectedSubSubType, selectedSubType, selectedAcquisitionType, taxData]);
 
   // URL 파라미터에 따른 필터 설정
   useEffect(() => {
@@ -170,71 +92,92 @@ const TaxInfo: React.FC = () => {
     }
   }, [error, marketError]);
 
-  // 데이터 필터링 및 변환
-  const filteredItems = useMemo(() => {
-    if (!taxData) return [];
-
+  // ProcessedTaxSection[]에서 TaxItem[] 추출
+  const extractTaxItemsFromSections = (sections: ProcessedTaxSection[]): TaxItem[] => {
     const items: TaxItem[] = [];
-    
-    function extractItems(obj: any, path: string[] = []): void {
-      for (const key in obj) {
-        if (typeof obj[key] === 'object' && obj[key] !== null) {
-          if (obj[key]['취득세'] !== undefined) {
-            // 세율 정보가 있는 항목
-            const item: TaxItem = {
-              id: [...path, key].join('-'),
-              path: [...path, key],
-              name: key,
-              data: {
-                취득세: obj[key]['취득세'],
-                지방교육세: obj[key]['지방교육세'],
-                농특세: obj[key]['농특세'],
-              },
-              category: path[0] || '',
-              subcategory: path[1] || '',
+
+    const extractTaxRatesFromContent = (content: any[]): any => {
+      const rates: any = {};
+      
+      content.forEach((item: any) => {
+        if (item.title === '취득세') rates.취득세 = item.content;
+        else if (item.title === '지방교육세') rates.지방교육세 = item.content;
+        else if (item.title === '농특세') rates.농특세 = item.content;
+      });
+
+      return rates;
+    };
+
+    const processContent = (content: any[], path: string[], originalCase: string) => {
+      content.forEach((item: any) => {
+        if (Array.isArray(item.content)) {
+          // 세율 데이터인지 확인 (취득세, 지방교육세, 농특세가 모두 있는 배열)
+          const hasTaxRates = item.content.some((subItem: any) => 
+            ['취득세', '지방교육세', '농특세'].includes(subItem.title)
+          );
+
+          if (hasTaxRates) {
+            const rates = extractTaxRatesFromContent(item.content);
+            const taxItem: TaxItem = {
+              id: [...path, item.title || item.description || 'unnamed'].join('-'),
+              path: [...path, item.title || item.description || 'unnamed'],
+              name: item.title || item.description || 'unnamed',
+              data: rates,
+              category: originalCase,
+              subcategory: path.join(' > '),
             };
-
-            // 필터링 조건 확인
-            let shouldInclude = true;
-
-            if (filters.category === 'acquisition' && filters.type !== 'all') {
-              shouldInclude = item.category === filters.type;
-            } else if (filters.category === 'rate') {
-              shouldInclude = item.data[filters.type as keyof typeof item.data] !== undefined;
-            } else if (filters.category === 'standard') {
-              shouldInclude = item.subcategory === filters.type || item.name === filters.type;
-            }
-
-            // 검색어 필터
-            if (searchTerm && shouldInclude) {
-              const searchString = JSON.stringify(item).toLowerCase();
-              shouldInclude = searchString.includes(searchTerm.toLowerCase());
-            }
-
-            if (shouldInclude) {
-              items.push(item);
-            }
+            items.push(taxItem);
           } else {
-            // 중첩 객체 탐색
-            extractItems(obj[key], [...path, key]);
+            // 더 깊은 레벨 탐색
+            processContent(item.content, [...path, item.title || item.description || 'unnamed'], originalCase);
           }
         }
-      }
-    }
+      });
+    };
 
-    extractItems(taxData);
+    sections.forEach((section: ProcessedTaxSection) => {
+      processContent(section.content, [section.title || section.description], section.originalCase);
+    });
+
     return items;
-  }, [taxData, filters, searchTerm]);
+  };
 
-  // 페이지네이션 제거 - 모든 아이템 표시
-  const displayItems = filteredItems;
+  // 데이터 필터링 및 변환
+  const filteredItems = useMemo(() => {
+    if (!taxData || !Array.isArray(taxData)) return [];
+
+    const items = extractTaxItemsFromSections(taxData);
+
+    return items.filter((item: TaxItem) => {
+      let shouldInclude = true;
+
+      // 카테고리별 필터링
+      if (filters.category === 'acquisition' && filters.type !== 'all') {
+        shouldInclude = item.category.includes(filters.type.replace('취득', '')) || 
+                      item.category.includes(filters.type);
+      } else if (filters.category === 'rate') {
+        shouldInclude = item.data[filters.type as keyof typeof item.data] !== undefined;
+      } else if (filters.category === 'standard') {
+        shouldInclude = item.category.includes(filters.type) || 
+                      item.name.includes(filters.type) ||
+                      item.subcategory.includes(filters.type);
+      }
+
+      // 검색어 필터
+      if (searchTerm && shouldInclude) {
+        const searchString = JSON.stringify(item).toLowerCase();
+        shouldInclude = searchString.includes(searchTerm.toLowerCase());
+      }
+
+      return shouldInclude;
+    });
+  }, [taxData, filters, searchTerm]);
 
   const handleViewModeChange = (mode: ViewMode) => {
     setViewMode(mode);
   };
 
-
-  // 로딩 상태 - 시가인정액 페이지인 경우 해당 데이터의 로딩 상태 확인
+  // 로딩 상태
   if (isMarketRecognitionPage ? isMarketLoading : isLoading) {
     return (
       <div className="flex justify-center items-center h-64">
@@ -243,7 +186,7 @@ const TaxInfo: React.FC = () => {
     );
   }
 
-  // 에러 상태 - 시가인정액 페이지인 경우 해당 데이터의 에러 상태 확인
+  // 에러 상태
   if (isMarketRecognitionPage ? marketError : error) {
     return (
       <div className="text-center py-12">
@@ -263,6 +206,18 @@ const TaxInfo: React.FC = () => {
     return <MarketRecognitionPrice data={marketRecognitionData} />;
   }
 
+  // 사용 가능한 카테고리 추출
+  const availableCategories = useMemo(() => {
+    if (!taxData || !Array.isArray(taxData)) return [];
+    
+    const categories = new Set<string>();
+    taxData.forEach((section: ProcessedTaxSection) => {
+      categories.add(section.originalCase);
+    });
+    
+    return Array.from(categories);
+  }, [taxData]);
+
   return (
     <div className="space-y-6">
       {/* 헤더 */}
@@ -270,7 +225,7 @@ const TaxInfo: React.FC = () => {
         <div className="flex justify-between items-center mb-4">
           <div>
             <h1 className="text-2xl font-bold text-gray-900">
-              {taxData?.topic || (filters.type === 'all' ? '전체 세금 정보' : filters.type)}
+              {(filters.type === 'all' ? '전체 세금 정보' : filters.type)}
             </h1>
             <p className="text-gray-600 mt-1">
               총 {filteredItems.length}개의 항목
@@ -314,154 +269,52 @@ const TaxInfo: React.FC = () => {
           </div>
         </div>
 
-
-
-        {/* 계층적 필터 버튼 네비게이션 */}
-        <div className="mt-6 space-y-4">
-          {/* 취득 유형 선택 (1단계) */}
+        {/* 카테고리 필터 버튼 */}
+        <div className="mt-6">
           <div className="flex items-start space-x-3">
-            <span className="text-sm font-medium text-gray-700 min-w-[80px] mt-2">취득유형</span>
+            <span className="text-sm font-medium text-gray-700 min-w-[80px] mt-2">카테고리</span>
             <div className="flex flex-wrap gap-2">
               <button
-                onClick={() => {
-                  setSelectedAcquisitionType('');
-                  setFilters({ category: 'acquisition', type: 'all' });
-                }}
+                onClick={() => setFilters({ category: 'acquisition', type: 'all' })}
                 className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
-                  !selectedAcquisitionType
+                  filters.type === 'all'
                     ? 'bg-blue-600 text-white'
                     : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
                 }`}
               >
                 전체
               </button>
-              {taxData && Object.keys(taxData).map(type => (
+              {availableCategories.map(category => (
                 <button
-                  key={type}
+                  key={category}
                   onClick={() => {
-                    setSelectedAcquisitionType(type);
-                    setFilters({ category: 'acquisition', type: type as TaxType });
+                    setFilters({ category: 'acquisition', type: category as TaxType });
                   }}
                   className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
-                    selectedAcquisitionType === type
+                    filters.type === category
                       ? 'bg-blue-600 text-white'
                       : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
                   }`}
                 >
-                  {type}
+                  {category}
                 </button>
               ))}
             </div>
           </div>
-
-          {/* 하위 유형 선택 (2단계 - 취득유형 선택 시 표시) */}
-          {availableSubTypes.length > 0 && (
-            <div className="flex items-start space-x-3 pl-4 border-l-2 border-blue-200">
-              <span className="text-sm font-medium text-gray-700 min-w-[80px] mt-2">하위유형</span>
-              <div className="flex flex-wrap gap-2">
-                <button
-                  onClick={() => {
-                    setSelectedSubType('');
-                    setFilters({ category: 'acquisition', type: selectedAcquisitionType as TaxType });
-                  }}
-                  className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
-                    !selectedSubType
-                      ? 'bg-green-600 text-white'
-                      : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-                  }`}
-                >
-                  전체
-                </button>
-                {availableSubTypes.map(subType => (
-                  <button
-                    key={subType}
-                    onClick={() => {
-                      setSelectedSubType(subType);
-                      setFilters({ 
-                        category: 'standard', 
-                        type: subType as TaxType 
-                      });
-                    }}
-                    className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
-                      selectedSubType === subType
-                        ? 'bg-green-600 text-white'
-                        : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-                    }`}
-                  >
-                    {subType}
-                  </button>
-                ))}
-              </div>
-            </div>
-          )}
-
-          {/* 하위하위 유형 선택 (3단계 - 하위유형 선택 시 표시) */}
-          {availableSubSubTypes.length > 0 && (
-            <div className="flex items-start space-x-3 pl-8 border-l-2 border-green-200">
-              <span className="text-sm font-medium text-gray-700 min-w-[80px] mt-2">세부유형</span>
-              <div className="flex flex-wrap gap-2">
-                <button
-                  onClick={() => {
-                    setSelectedSubSubType('');
-                  }}
-                  className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
-                    !selectedSubSubType
-                      ? 'bg-purple-600 text-white'
-                      : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-                  }`}
-                >
-                  전체
-                </button>
-                {availableSubSubTypes.map(subSubType => (
-                  <button
-                    key={subSubType}
-                    onClick={() => {
-                      setSelectedSubSubType(subSubType);
-                    }}
-                    className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
-                      selectedSubSubType === subSubType
-                        ? 'bg-purple-600 text-white'
-                        : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-                    }`}
-                  >
-                    {subSubType.replace(/_/g, ' ')}
-                  </button>
-                ))}
-              </div>
-            </div>
-          )}
-
-          {/* 세금 정보 표시 (선택된 항목의 세금 정보) */}
-          {Object.keys(availableTaxTypes).length > 0 && (
-            <div className="flex items-start space-x-3 pl-8 border-l-2 border-orange-200">
-              <span className="text-sm font-medium text-gray-700 min-w-[80px] mt-2">세금정보</span>
-              <div className="flex flex-wrap gap-3">
-                {Object.entries(availableTaxTypes).map(([taxType, rate]) => (
-                  <div 
-                    key={taxType}
-                    className="px-4 py-2 bg-gradient-to-r from-orange-50 to-orange-100 rounded-lg border border-orange-300"
-                  >
-                    <span className="text-sm font-medium text-gray-700">{taxType}: </span>
-                    <span className="text-sm font-bold text-orange-600">{rate}</span>
-                  </div>
-                ))}
-              </div>
-            </div>
-          )}
         </div>
       </div>
 
       {/* 컨텐츠 */}
       <div className="bg-white rounded-lg shadow-sm border border-gray-200">
-        {displayItems.length === 0 ? (
+        {filteredItems.length === 0 ? (
           <div className="text-center py-12 text-gray-500">
             표시할 데이터가 없습니다.
           </div>
         ) : (
           <>
-            {viewMode === 'list' && <TaxList items={displayItems} />}
-            {viewMode === 'card' && <TaxCard items={displayItems} />}
-            {viewMode === 'table' && <TaxTable items={displayItems} />}
+            {viewMode === 'list' && <TaxList items={filteredItems} />}
+            {viewMode === 'card' && <TaxCard items={filteredItems} />}
+            {viewMode === 'table' && <TaxTable items={filteredItems} />}
           </>
         )}
       </div>
