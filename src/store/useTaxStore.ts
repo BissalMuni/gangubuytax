@@ -1,10 +1,10 @@
 import { create } from 'zustand';
 import { devtools } from 'zustand/middleware';
-import { TaxData, TaxItem, FilterOptions, ViewMode } from '@/types/tax.types';
+import { TaxItem, FilterOptions, ViewMode } from '@/types/tax.types';
 
 interface TaxStore {
   // 데이터 상태
-  taxData: TaxData | null;
+  taxData: any | null;
   basicRates: any;
   basePrice: any;
   filteredItems: TaxItem[];
@@ -22,7 +22,7 @@ interface TaxStore {
   selectedItems: string[];
   
   // Actions
-  setTaxData: (data: TaxData) => void;
+  setTaxData: (data: any) => void;
   setBasicRates: (data: any) => void;
   setBasePrice: (data: any) => void;
   setFilteredItems: (items: TaxItem[]) => void;

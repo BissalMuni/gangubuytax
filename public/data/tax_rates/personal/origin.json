@@ -1,0 +1,65 @@
+[
+  {
+    "case": "원시 취득",
+    "case_code": "original_acquisition",
+    "effective_date": "2024-01-01",
+    "section": [
+      {
+        "id": 1,
+        "title": "",
+        "description": "지역 구분 없음",
+        "content": [
+          {
+            "id": 1,
+            "title": "",
+            "description": "주택수 구분 없음",
+            "content": [
+              {
+                "id": 1,
+                "title": "",
+                "description": "가격 구분 없음",
+                "content": [
+                  {
+                    "id": 1,
+                    "title": "",
+                    "description": "면적 구분 없음",
+                    "content": [
+                      {
+                        "id": 1,
+                        "title": "취득세",
+                        "description": "취득세율",
+                        "legal_basis": "",
+                        "content": "%"
+                      },
+                      {
+                        "id": 2,
+                        "title": "지방교육세",
+                        "description": "지방교육세율",
+                        "legal_basis": "지방교육세-3",
+                        "content": "%"
+                      },
+                      {
+                        "id": 3,
+                        "title": "농특세",
+                        "description": "농특세율",
+                        "legal_basis": "농특세-2",
+                        "content": "%"
+                      },
+                      {
+                        "id": 4,
+                        "title": "합계",
+                        "description": "전체 세금 합계",
+                        "legal_basis": "",
+                        "content": "6%"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+]

@@ -6,13 +6,38 @@ export interface TaxRate {
   agriculturalTax: string;
 }
 
-// 새로운 JSON 구조를 위한 타입 정의
-export interface TaxDetail {
+// 새 JSON 구조 타입 정의
+export interface TaxRateContent {
   id: number;
   title: string;
-  content: string;
-  legal_basis: string | string[];
-  details: string | TaxDetail[];
+  description: string;
+  legal_basis?: string;
+  content: string | TaxRateContent[];
+}
+
+export interface TaxRateSection {
+  id: number;
+  title: string;
+  description: string;
+  content: TaxRateContent[];
+}
+
+export interface TaxRateFile {
+  case: string;
+  case_code: string;
+  effective_date: string;
+  section: TaxRateSection[];
+}
+
+// TaxService에서 반환하는 처리된 섹션 타입
+export interface ProcessedTaxSection {
+  id: number;
+  title: string;
+  description: string;
+  content: TaxRateContent[];
+  originalCase: string;
+  originalLegalBasis: any[];
+  centralLegalBasis: any;
 }
 
 export interface TaxSection {
@@ -21,7 +46,7 @@ export interface TaxSection {
   content?: string;
   legal_basis?: string | string[];
   subsections?: TaxSubsection[];
-  details?: TaxDetail[];
+  details?: TaxRateContent[];
   items?: string[];
 }
 
@@ -30,20 +55,21 @@ export interface TaxSubsection {
   title: string;
   content: string;
   legal_basis: string | string[];
-  details?: TaxDetail[];
+  details?: TaxRateContent[];
   items?: string[];
 }
 
-export interface TaxData {
-  topic: string;
-  topic_code: string;
-  sections: TaxSection[];
-  legal_references: string[];
-  유상취득?: PaidAcquisition;
-  무상취득?: FreeAcquisition;
-  원시취득?: OriginalAcquisition;
-  [key: string]: any; // 인덱스 시그니처 추가
-}
+// 더 이상 사용하지 않음 - 새 JSON 구조를 직접 사용
+// export interface TaxData {
+//   topic: string;
+//   topic_code: string;
+//   sections: TaxSection[];
+//   legal_references: string[];
+//   유상취득?: PaidAcquisition;
+//   무상취득?: FreeAcquisition;
+//   원시취득?: OriginalAcquisition;
+//   [key: string]: any; // 인덱스 시그니처 추가
+// }
 
 export interface PaidAcquisition {
   주택?: HousingTax;

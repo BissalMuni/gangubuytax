@@ -1,0 +1,163 @@
+[
+  {
+    "case": "개인 사치성 재산 취득 세율",
+    "case_code": "personal_buildings_luxury",
+    "effective_date": "2024-01-01",
+    "section": [
+      {
+        "id": 1,
+        "title": "",
+        "description": "지역 구분 없음",
+        "content": [
+          {
+            "id": 1,
+            "title": "고급주택",
+            "description": "",
+            "content": [
+              {
+                "id": 1,
+                "title": "시가표준액 9억원 초과",
+                "description": "",
+                "content": [
+                  {
+                    "id": 1,
+                    "title": "",
+                    "description": "면적",
+                    "content": [
+                      {
+                        "id": 1,
+                        "title": "취득세",
+                        "description": "취득세율",
+                        "legal_basis": "",
+                        "content": "?%"
+                      },
+                      {
+                        "id": 2,
+                        "title": "지방교육세",
+                        "description": "지방교육세율",
+                        "legal_basis": "",
+                        "content": "?%"
+                      },
+                      {
+                        "id": 3,
+                        "title": "농특세",
+                        "description": "농특세율",
+                        "legal_basis": "",
+                        "content": "?%"
+                      },
+                      {
+                        "id": 4,
+                        "title": "합계",
+                        "description": "전체 세금 합계",
+                        "legal_basis": "",
+                        "content": "?%"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "id": 2,
+            "title": "골프장",
+            "description": "골프장 및 골프연습장",
+            "content": [
+              {
+                "id": 1,
+                "title": "",
+                "description": "가격 구분 없음",
+                "content": [
+                  {
+                    "id": 1,
+                    "title": "",
+                    "description": "면적",
+                    "content": [
+                      {
+                        "id": 1,
+                        "title": "취득세",
+                        "description": "취득세율",
+                        "legal_basis": "",
+                        "content": "12.0%"
+                      },
+                      {
+                        "id": 2,
+                        "title": "지방교육세",
+                        "description": "지방교육세율",
+                        "legal_basis": "",
+                        "content": "2.0%"
+                      },
+                      {
+                        "id": 3,
+                        "title": "농특세",
+                        "description": "농특세율",
+                        "legal_basis": "",
+                        "content": "3.6%"
+                      },
+                      {
+                        "id": 4,
+                        "title": "합계",
+                        "description": "전체 세금 합계",
+                        "legal_basis": "",
+                        "content": "17.6%"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "id": 3,
+            "title": "고급오락장",
+            "description": "고급 오락시설",
+            "content": [
+              {
+                "id": 1,
+                "title": "",
+                "description": "가격 구분 없음",
+                "content": [
+                  {
+                    "id": 1,
+                    "title": "",
+                    "description": "면적",
+                    "content": [
+                      {
+                        "id": 1,
+                        "title": "취득세",
+                        "description": "취득세율",
+                        "legal_basis": "",
+                        "content": "12.0%"
+                      },
+                      {
+                        "id": 2,
+                        "title": "지방교육세",
+                        "description": "지방교육세율",
+                        "legal_basis": "",
+                        "content": "2.0%"
+                      },
+                      {
+                        "id": 3,
+                        "title": "농특세",
+                        "description": "농특세율",
+                        "legal_basis": "",
+                        "content": "3.6%"
+                      },
+                      {
+                        "id": 4,
+                        "title": "합계",
+                        "description": "전체 세금 합계",
+                        "legal_basis": "",
+                        "content": "17.6%"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+]
