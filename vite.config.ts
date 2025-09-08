@@ -22,6 +22,21 @@ export default defineConfig({
   server: {
     port: 3000,
     open: true,
+    proxy: {
+      '/api/law-proxy': {
+        target: 'http://www.law.go.kr',
+        changeOrigin: true,
+        rewrite: (path) => {
+          const url = new URL('http://localhost' + path);
+          const targetUrl = url.searchParams.get('url');
+          if (targetUrl) {
+            const parsedUrl = new URL(targetUrl);
+            return parsedUrl.pathname + parsedUrl.search;
+          }
+          return path;
+        },
+      },
+    },
   },
   build: {
     outDir: 'dist',

@@ -41,26 +41,12 @@ const Home: React.FC = () => {
       <div className="bg-gradient-to-r from-blue-600 to-green-600 text-white rounded-lg p-8">
         <div className="max-w-3xl">
           <h1 className="text-4xl font-bold mb-4">
-            대한민국 세금 정보 포털
+            지방세 정보 포털
           </h1>
           <p className="text-xl mb-6 opacity-90">
-            복잡한 세금 정보를 쉽고 빠르게 확인하세요. 
-            최신 세율부터 계산까지 모든 것을 한 곳에서.
+            지방세 정보를 쉽고 빠르게 확인하세요. <br />
+            과세표준, 세율, 감면, 특례, 세금계산까지 모든 것을 한 곳에서.
           </p>
-          <div className="flex space-x-4">
-            <Link
-              to="/tax-info"
-              className="bg-white text-blue-600 px-6 py-3 rounded-md font-semibold hover:bg-gray-100 transition-colors"
-            >
-              세금 정보 보기
-            </Link>
-            <Link
-              to="/calculator"
-              className="border border-white text-white px-6 py-3 rounded-md font-semibold hover:bg-white hover:text-blue-600 transition-colors"
-            >
-              계산기 사용하기
-            </Link>
-          </div>
         </div>
       </div>
 

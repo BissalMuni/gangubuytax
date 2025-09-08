@@ -1,12 +1,12 @@
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { FiMenu, FiHome, FiBook, FiUser, FiHelpCircle } from 'react-icons/fi';
+import { FiHome, FiBook, FiUser, FiHelpCircle } from 'react-icons/fi';
 
 interface HeaderProps {
   onMenuClick?: () => void;
 }
 
-const Header: React.FC<HeaderProps> = ({ onMenuClick }) => {
+const Header: React.FC<HeaderProps> = ({ onMenuClick: _ }) => {
   const location = useLocation();
 
   const navItems = [
@@ -23,15 +23,18 @@ const Header: React.FC<HeaderProps> = ({ onMenuClick }) => {
   return (
     <div className="header">
       <div className="header-nav">
-        <button
+        {/* <button
           onClick={onMenuClick}
           className="p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-green-500"
-        >
-          <FiMenu className="h-6 w-6" />
-        </button>
+        > */}
+          {/* <FiMenu className="h-6 w-6" /> */}
+          <span className="font-bold text-green-600" >G</span>
+          <span className="font-bold text-blue-600" >B</span>
+          <span className="g-12 font-bold text-red-600 mr-2" >T</span>
+        {/* </button> */}
         
         <Link to="/" className="logo">
-          세금 정보 시스템
+          GanguBuyTax
         </Link>
 
         <nav className="nav-menu">
@@ -62,12 +65,12 @@ const Header: React.FC<HeaderProps> = ({ onMenuClick }) => {
         </div>
       </div>
       
-      <div className="header-title">
+      {/* <div className="header-title">
         <div className="title-container">
           <h1>대한민국 세금 정보 포털</h1>
           <p>복잡한 세금 정보를 쉽고 빠르게 확인하세요. 최신 세율부터 계산까지 모든 것을 한 곳에서.</p>
         </div>
-      </div>
+      </div> */}
     </div>
   );
 };

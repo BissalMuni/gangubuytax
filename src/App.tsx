@@ -15,6 +15,7 @@ import NotFound from '@/pages/NotFound';
 // Tax Info Specific Pages
 import AcquisitionRates from '@/pages/TaxInfo/AcquisitionRates';
 import AcquisitionStandard from '@/pages/TaxInfo/AcquisitionStandard';
+import AcquisitionRequirements from '@/pages/TaxInfo/AcquisitionRequirements';
 import AcquisitionSpecial from '@/pages/TaxInfo/AcquisitionSpecial';
 import PropertyRates from '@/pages/TaxInfo/PropertyRates';
 import PropertyStandard from '@/pages/TaxInfo/PropertyStandard';
@@ -49,6 +50,7 @@ function App() {
               {/* 새로운 구체적인 라우트들 */}
               <Route path="tax-info/acquisition/rates" element={<AcquisitionRates />} />
               <Route path="tax-info/acquisition/standard" element={<AcquisitionStandard />} />
+              <Route path="tax-info/acquisition/requirements" element={<AcquisitionRequirements />} />
               <Route path="tax-info/acquisition/special" element={<AcquisitionSpecial />} />
               <Route path="tax-info/property/rates" element={<PropertyRates />} />
               <Route path="tax-info/property/standard" element={<PropertyStandard />} />

@@ -15,7 +15,9 @@
       "Bash(xcopy:*)",
       "Bash(git add:*)",
       "Bash(git rm:*)",
-      "Bash(cp:*)"
+      "Bash(cp:*)",
+      "Read(//d/**)",
+      "Bash(npm run build:*)"
     ],
     "deny": [],
     "ask": [],

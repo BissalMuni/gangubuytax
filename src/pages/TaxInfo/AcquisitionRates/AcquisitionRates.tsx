@@ -202,8 +202,8 @@ const AcquisitionRates: React.FC = () => {
       } else if (data.title && data.title.includes('㎡')) {
         currentContext.면적 = data.title;
       }
-      
-      
+
+
 
       // 세율 데이터가 있는지 확인 (취득세, 지방교육세, 농특세, 합계가 모두 있는 배열)
       if (Array.isArray(data.content) && data.content.some((d: any) => d.title === '취득세')) {
@@ -225,8 +225,8 @@ const AcquisitionRates: React.FC = () => {
           지방교육세_legal_basis: rates.지방교육세_legal_basis,
           농특세_legal_basis: rates.농특세_legal_basis
         };
-        
-        
+
+
         rows.push(newRow);
         return;
       }
@@ -244,7 +244,7 @@ const AcquisitionRates: React.FC = () => {
       // 현재 section이 어떤 구분인지 결정 (originalCase를 사용)
       const originalCase = section.originalCase;
       const 구분 = originalCase || '개인 취득세';
-      
+
 
       // 해당 원본 파일의 legal_basis 찾기
       const originalFileLegalBasis = section.originalLegalBasis || [];
@@ -255,7 +255,7 @@ const AcquisitionRates: React.FC = () => {
           let 지역 = section.title || '';
           let 주택수 = subsection.title || '';
           let 부동산종류 = '';
-          
+
           // 모든 데이터 타입에 대해 동일한 원칙 적용
           // case 이름에서 부동산 종류 추출
           if (구분.includes('주택')) {
@@ -265,9 +265,9 @@ const AcquisitionRates: React.FC = () => {
           } else if (구분.includes('농지')) {
             부동산종류 = '농지';
           }
-          
 
-          
+
+
           const subsectionContext = {
             구분: 구분,
             지역: 지역,
@@ -387,7 +387,7 @@ const AcquisitionRates: React.FC = () => {
   // 필터링된 데이터
   const filteredData: TaxRateRow[] = useMemo(() => {
     console.log('🔍 현재 필터:', filters);
-    
+
     if (!filters.납세자구분 && !filters.부동산종류 && !filters.거래유형 && !filters.지역구분 && !filters.주택수) {
       console.log('✅ 필터 없음 - 모든 데이터 반환');
       return tableData; // 필터가 없으면 모든 데이터 반환
@@ -443,17 +443,10 @@ const AcquisitionRates: React.FC = () => {
           거래유형필터: filters.거래유형
         });
       }
-      
+
       return matches;
     });
-    
-    console.log('📊 필터링 결과:', {
-      전체: tableData.length,
-      필터링후: filteredData.length,
-      상속전체: tableData.filter(g => g.구분.includes('상속')).length,
-      상속필터링후: filteredData.filter(g => g.구분.includes('상속')).length
-    });
-    
+
     return filteredData;
   }, [tableData, filters]);
 
@@ -488,7 +481,7 @@ const AcquisitionRates: React.FC = () => {
           <FiFileText className="h-8 w-8 text-blue-600   mr-3" />
           <div>
             <h1 className="text-2xl font-bold text-gray-900">
-              취득세 세율 정보
+              취득세 세율
             </h1>
           </div>
 
@@ -668,10 +661,10 @@ const AcquisitionRates: React.FC = () => {
                 <th className="px-2 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">주택수</th>
                 <th className="px-2 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">가격대</th>
                 <th className="px-2 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">면적</th>
+                <th className="px-2 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider font-bold">합계</th>
                 <th className="px-2 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">취득세</th>
                 <th className="px-2 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">지방교육세</th>
                 <th className="px-2 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">농특세</th>
-                <th className="px-2 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider font-bold">합계</th>
                 <th className="px-2 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">비고</th>
               </tr>
             </thead>
@@ -706,6 +699,11 @@ const AcquisitionRates: React.FC = () => {
                     <td className={`px-2 py-4 text-sm text-gray-900 font-medium ${groupCellBgColor} break-words`}>
                       {subRow.면적 || ((group.subRows?.length || 1) === 1 ? '-' : '')}
                     </td>
+                    <td className={`px-2 py-4 text-sm font-bold text-purple-600 border border-purple-200 ${groupCellBgColor} relative break-words`}>
+                      <div className="flex items-center justify-between">
+                        <span>{subRow.합계}</span>
+                      </div>
+                    </td>
                     <td className={`px-2 py-4 text-sm font-semibold text-blue-600 ${groupCellBgColor} break-words`}>
                       <Tooltip content={subRow.취득세_legal_basis || []}>
                         {subRow.취득세}
@@ -721,11 +719,7 @@ const AcquisitionRates: React.FC = () => {
                         {subRow.농특세}
                       </Tooltip>
                     </td>
-                    <td className={`px-2 py-4 text-sm font-bold text-purple-600 border border-purple-200 ${groupCellBgColor} relative break-words`}>
-                      <div className="flex items-center justify-between">
-                        <span>{subRow.합계}</span>
-                      </div>
-                    </td>
+
                     {/* 비고는 첫 번째 서브행에만 표시 */}
                     {subIndex === 0 && (
                       <td rowSpan={group.subRows?.length || 1} className={`px-2 py-4 text-sm text-gray-500 border-l border-gray-200 ${groupCellBgColor} break-words`} title={group.비고}></td>
