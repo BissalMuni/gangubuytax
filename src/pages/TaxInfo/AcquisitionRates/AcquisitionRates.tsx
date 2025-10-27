@@ -1,5 +1,5 @@
 import LoadingSpinner from '@/components/common/LoadingSpinner';
-import { FiRefreshCw, FiFileText, FiChevronDown, FiChevronRight, FiArrowLeft, FiBookOpen } from 'react-icons/fi';
+import { FiRefreshCw, FiFileText, FiArrowLeft, FiBookOpen } from 'react-icons/fi';
 
 import React, { useMemo, useState } from 'react';
 import { useTaxData } from '@/hooks/useTaxData';
@@ -295,7 +295,6 @@ const AcquisitionRates: React.FC = () => {
           let 취득원인 = subsection.title || '';
           let 거래유형 = '';
           let 물건 = '';
-          let 지역 = '';  // 지역 정보는 더 깊은 레벨에서 추출
           let 주택수 = '';  // 주택수 정보도 더 깊은 레벨에서 추출
 
           // 거래유형 추출: subsection의 content에서 거래유형 찾기
@@ -381,7 +380,7 @@ const AcquisitionRates: React.FC = () => {
                     if (물건section.content && Array.isArray(물건section.content)) {
                       // console.log(`${거래유형} → ${물건} 하위 지역 개수:`, 물건section.content.length); // 디버깅 로그
                       // console.log(`${거래유형} → ${물건} 하위 지역 목록:`, 물건section.content.map((item: any) => item.title)); // 추가 디버깅
-                      물건section.content.forEach((지역section: any, index: number) => {
+                      물건section.content.forEach((지역section: any) => {
                         // 각 지역section마다 별도의 지역 변수 생성
                         let 현재지역 = '';
 
