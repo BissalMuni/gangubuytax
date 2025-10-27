@@ -20,7 +20,7 @@ export default defineConfig({
     },
   },
   server: {
-    port: 3000,
+    port: 3060,
     open: true,
     proxy: {
       '/api/law-proxy': {

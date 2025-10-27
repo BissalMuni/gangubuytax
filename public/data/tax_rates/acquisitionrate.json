@@ -1,0 +1,2004 @@
+[
+  {
+    "case": "취득세율",
+    "case_code": "acquisition_standard_matrix",
+    "effective_date": "2025-09-21",
+    "section": [
+      {
+        "id": 1,
+        "title": "개인",
+        "description": "개인 취득세율",
+        "content": [
+          {
+            "id": 1,
+            "title": "유상",
+            "description": "유상취득 거래유형",
+            "content": [
+              {
+                "id": 1,
+                "title": "매매",
+                "description": "",
+                "content": [
+                  {
+                    "id": 1,
+                    "title": "1주택",
+                    "description": "1주택 취득",
+                    "content": [
+                      {
+                        "id": 1,
+                        "title": "조정대상지역",
+                        "description": "조정대상지역(강남구, 서초구, 송파구, 용산구) 내 주택 취득에 대한 세율",
+                        "content": [
+                          {
+                            "id": 1,
+                            "title": "6억원 이하",
+                            "description": "6억원 이하 주택",
+                            "content": [
+                              {
+                                "id": 1,
+                                "title": "85㎡ 이하",
+                                "description": "농특세 비과세",
+                                "content": [
+                                  {
+                                    "id": 1,
+                                    "title": "취득세",
+                                    "description": "취득세율",
+                                    "legal_basis": "",
+                                    "content": "1.0%"
+                                  },
+                                  {
+                                    "id": 2,
+                                    "title": "지방교육세",
+                                    "description": "지방교육세율",
+                                    "legal_basis": "지방교육세-1",
+                                    "content": "0.1%"
+                                  },
+                                  {
+                                    "id": 3,
+                                    "title": "농특세",
+                                    "description": "농특세율",
+                                    "legal_basis": "농특세-1",
+                                    "content": "0.0%"
+                                  },
+                                  {
+                                    "id": 4,
+                                    "title": "합계",
+                                    "description": "전체 세금 합계",
+                                    "legal_basis": "",
+                                    "content": "1.1%"
+                                  }
+                                ]
+                              },
+                              {
+                                "id": 2,
+                                "title": "85㎡ 초과",
+                                "description": "농특세 과세",
+                                "content": [
+                                  {
+                                    "id": 1,
+                                    "title": "취득세",
+                                    "description": "취득세율",
+                                    "legal_basis": "",
+                                    "content": "1.0%"
+                                  },
+                                  {
+                                    "id": 2,
+                                    "title": "지방교육세",
+                                    "description": "지방교육세율",
+                                    "legal_basis": "지방교육세-1",
+                                    "content": "0.1%"
+                                  },
+                                  {
+                                    "id": 3,
+                                    "title": "농특세",
+                                    "description": "농특세율",
+                                    "legal_basis": "농특세-3",
+                                    "content": "0.2%"
+                                  },
+                                  {
+                                    "id": 4,
+                                    "title": "합계",
+                                    "description": "전체 세금 합계",
+                                    "legal_basis": "",
+                                    "content": "1.3%"
+                                  }
+                                ]
+                              }
+                            ]
+                          },
+                          {
+                            "id": 2,
+                            "title": "6억원 초과 9억원 이하",
+                            "description": "6억원 초과 9억원 이하 주택",
+                            "content": [
+                              {
+                                "id": 1,
+                                "title": "85㎡ 이하",
+                                "description": "농특세 비과세",
+                                "content": [
+                                  {
+                                    "id": 1,
+                                    "title": "취득세",
+                                    "description": "취득세율",
+                                    "legal_basis": "",
+                                    "content": "1.0~3.0%"
+                                  },
+                                  {
+                                    "id": 2,
+                                    "title": "지방교육세",
+                                    "description": "지방교육세율",
+                                    "legal_basis": "지방교육세-1",
+                                    "content": "0.1~0.3%"
+                                  },
+                                  {
+                                    "id": 3,
+                                    "title": "농특세",
+                                    "description": "농특세율",
+                                    "legal_basis": "농특세-1",
+                                    "content": "0.0%"
+                                  },
+                                  {
+                                    "id": 4,
+                                    "title": "합계",
+                                    "description": "전체 세금 합계",
+                                    "legal_basis": "",
+                                    "content": "1.1~3.3%"
+                                  }
+                                ]
+                              },
+                              {
+                                "id": 2,
+                                "title": "85㎡ 초과",
+                                "description": "농특세 과세",
+                                "content": [
+                                  {
+                                    "id": 1,
+                                    "title": "취득세",
+                                    "description": "취득세율",
+                                    "legal_basis": "",
+                                    "content": "1.0~3.0%"
+                                  },
+                                  {
+                                    "id": 2,
+                                    "title": "지방교육세",
+                                    "description": "지방교육세율",
+                                    "legal_basis": "지방교육세-1",
+                                    "content": "0.1~0.3%"
+                                  },
+                                  {
+                                    "id": 3,
+                                    "title": "농특세",
+                                    "description": "농특세율",
+                                    "legal_basis": "농특세-3",
+                                    "content": "0.2%"
+                                  },
+                                  {
+                                    "id": 4,
+                                    "title": "합계",
+                                    "description": "전체 세금 합계",
+                                    "legal_basis": "",
+                                    "content": "1.3~3.5%"
+                                  }
+                                ]
+                              }
+                            ]
+                          },
+                          {
+                            "id": 3,
+                            "title": "9억원 초과",
+                            "description": "9억원 초과 주택",
+                            "content": [
+                              {
+                                "id": 1,
+                                "title": "85㎡ 이하",
+                                "description": "농특세 비과세",
+                                "content": [
+                                  {
+                                    "id": 1,
+                                    "title": "취득세",
+                                    "description": "취득세율",
+                                    "legal_basis": "",
+                                    "content": "3.0%"
+                                  },
+                                  {
+                                    "id": 2,
+                                    "title": "지방교육세",
+                                    "description": "지방교육세율",
+                                    "legal_basis": "지방교육세-1",
+                                    "content": "0.3%"
+                                  },
+                                  {
+                                    "id": 3,
+                                    "title": "농특세",
+                                    "description": "농특세율",
+                                    "legal_basis": "농특세-1",
+                                    "content": "0.0%"
+                                  },
+                                  {
+                                    "id": 4,
+                                    "title": "합계",
+                                    "description": "전체 세금 합계",
+                                    "legal_basis": "",
+                                    "content": "3.3%"
+                                  }
+                                ]
+                              },
+                              {
+                                "id": 2,
+                                "title": "85㎡ 초과",
+                                "description": "농특세 과세",
+                                "content": [
+                                  {
+                                    "id": 1,
+                                    "title": "취득세",
+                                    "description": "취득세율",
+                                    "legal_basis": "",
+                                    "content": "3.0%"
+                                  },
+                                  {
+                                    "id": 2,
+                                    "title": "지방교육세",
+                                    "description": "지방교육세율",
+                                    "legal_basis": "지방교육세-1",
+                                    "content": "0.3%"
+                                  },
+                                  {
+                                    "id": 3,
+                                    "title": "농특세",
+                                    "description": "농특세율",
+                                    "legal_basis": "농특세-3",
+                                    "content": "0.2%"
+                                  },
+                                  {
+                                    "id": 4,
+                                    "title": "합계",
+                                    "description": "전체 세금 합계",
+                                    "legal_basis": "",
+                                    "content": "3.5%"
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "id": 2,
+                        "title": "비조정대상지역",
+                        "description": "조정대상지역이 아닌 지역의 주택 취득",
+                        "content": [
+                          {
+                            "id": 1,
+                            "title": "6억원 이하",
+                            "description": "6억원 이하 주택",
+                            "content": [
+                              {
+                                "id": 1,
+                                "title": "85㎡ 이하",
+                                "description": "농특세 비과세",
+                                "content": [
+                                  {
+                                    "id": 1,
+                                    "title": "취득세",
+                                    "description": "취득세율",
+                                    "legal_basis": "",
+                                    "content": "1.0%"
+                                  },
+                                  {
+                                    "id": 2,
+                                    "title": "지방교육세",
+                                    "description": "지방교육세율",
+                                    "legal_basis": "지방교육세-1",
+                                    "content": "0.1%"
+                                  },
+                                  {
+                                    "id": 3,
+                                    "title": "농특세",
+                                    "description": "농특세율",
+                                    "legal_basis": "농특세-1",
+                                    "content": "0.0%"
+                                  },
+                                  {
+                                    "id": 4,
+                                    "title": "합계",
+                                    "description": "전체 세금 합계",
+                                    "legal_basis": "",
+                                    "content": "1.1%"
+                                  }
+                                ]
+                              },
+                              {
+                                "id": 2,
+                                "title": "85㎡ 초과",
+                                "description": "85㎡ 초과 주택",
+                                "content": [
+                                  {
+                                    "id": 1,
+                                    "title": "취득세",
+                                    "description": "취득세율",
+                                    "legal_basis": "",
+                                    "content": "1.0%"
+                                  },
+                                  {
+                                    "id": 2,
+                                    "title": "지방교육세",
+                                    "description": "지방교육세율",
+                                    "legal_basis": "지방교육세-1",
+                                    "content": "0.1%"
+                                  },
+                                  {
+                                    "id": 3,
+                                    "title": "농특세",
+                                    "description": "농특세율",
+                                    "legal_basis": "농특세-3",
+                                    "content": "0.2%"
+                                  },
+                                  {
+                                    "id": 4,
+                                    "title": "합계",
+                                    "description": "전체 세금 합계",
+                                    "legal_basis": "",
+                                    "content": "1.3%"
+                                  }
+                                ]
+                              }
+                            ]
+                          },
+                          {
+                            "id": 2,
+                            "title": "6억원 초과 9억원 이하",
+                            "description": "6억원 초과 9억원 이하 주택",
+                            "content": [
+                              {
+                                "id": 1,
+                                "title": "85㎡ 이하",
+                                "description": "농특세 비과세",
+                                "content": [
+                                  {
+                                    "id": 1,
+                                    "title": "취득세",
+                                    "description": "취득세율",
+                                    "legal_basis": "",
+                                    "content": "1.0~3.0%"
+                                  },
+                                  {
+                                    "id": 2,
+                                    "title": "지방교육세",
+                                    "description": "지방교육세율",
+                                    "legal_basis": "지방교육세-1",
+                                    "content": "0.1~0.3%"
+                                  },
+                                  {
+                                    "id": 3,
+                                    "title": "농특세",
+                                    "description": "농특세율",
+                                    "legal_basis": "농특세-1",
+                                    "content": "0.0%"
+                                  },
+                                  {
+                                    "id": 4,
+                                    "title": "합계",
+                                    "description": "전체 세금 합계",
+                                    "legal_basis": "",
+                                    "content": "1.1~3.3%"
+                                  }
+                                ]
+                              },
+                              {
+                                "id": 2,
+                                "title": "85㎡ 초과",
+                                "description": "85㎡ 초과 주택",
+                                "content": [
+                                  {
+                                    "id": 1,
+                                    "title": "취득세",
+                                    "description": "취득세율",
+                                    "legal_basis": "",
+                                    "content": "1.0~3.0%"
+                                  },
+                                  {
+                                    "id": 2,
+                                    "title": "지방교육세",
+                                    "description": "지방교육세율",
+                                    "legal_basis": "지방교육세-1",
+                                    "content": "0.1~0.3%"
+                                  },
+                                  {
+                                    "id": 3,
+                                    "title": "농특세",
+                                    "description": "농특세율",
+                                    "legal_basis": "농특세-3",
+                                    "content": "0.2%"
+                                  },
+                                  {
+                                    "id": 4,
+                                    "title": "합계",
+                                    "description": "전체 세금 합계",
+                                    "legal_basis": "",
+                                    "content": "1.3~3.5%"
+                                  }
+                                ]
+                              }
+                            ]
+                          },
+                          {
+                            "id": 3,
+                            "title": "9억원 초과",
+                            "description": "9억원 초과 주택",
+                            "content": [
+                              {
+                                "id": 1,
+                                "title": "85㎡ 이하",
+                                "description": "농특세 비과세",
+                                "content": [
+                                  {
+                                    "id": 1,
+                                    "title": "취득세",
+                                    "description": "취득세율",
+                                    "legal_basis": "",
+                                    "content": "3.0%"
+                                  },
+                                  {
+                                    "id": 2,
+                                    "title": "지방교육세",
+                                    "description": "지방교육세율",
+                                    "legal_basis": "지방교육세-1",
+                                    "content": "0.3%"
+                                  },
+                                  {
+                                    "id": 3,
+                                    "title": "농특세",
+                                    "description": "농특세율",
+                                    "legal_basis": "농특세-1",
+                                    "content": "0.0%"
+                                  },
+                                  {
+                                    "id": 4,
+                                    "title": "합계",
+                                    "description": "전체 세금 합계",
+                                    "legal_basis": "",
+                                    "content": "3.3%"
+                                  }
+                                ]
+                              },
+                              {
+                                "id": 2,
+                                "title": "85㎡ 초과",
+                                "description": "85㎡ 초과 주택",
+                                "content": [
+                                  {
+                                    "id": 1,
+                                    "title": "취득세",
+                                    "description": "취득세율",
+                                    "legal_basis": "",
+                                    "content": "3.0%"
+                                  },
+                                  {
+                                    "id": 2,
+                                    "title": "지방교육세",
+                                    "description": "지방교육세율",
+                                    "legal_basis": "지방교육세-1",
+                                    "content": "0.3%"
+                                  },
+                                  {
+                                    "id": 3,
+                                    "title": "농특세",
+                                    "description": "농특세율",
+                                    "legal_basis": "농특세-3",
+                                    "content": "0.2%"
+                                  },
+                                  {
+                                    "id": 4,
+                                    "title": "합계",
+                                    "description": "전체 세금 합계",
+                                    "legal_basis": "",
+                                    "content": "3.5%"
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "id": 2,
+                    "title": "2주택",
+                    "description": "2주택 취득",
+                    "content": [
+                      {
+                        "id": 1,
+                        "title": "조정대상지역",
+                        "description": "조정대상지역(강남구, 서초구, 송파구, 용산구) 내 주택 취득에 대한 세율",
+                        "content": [
+                          {
+                            "id": 1,
+                            "title": "가격 구분 없음",
+                            "description": "",
+                            "content": [
+                              {
+                                "id": 1,
+                                "title": "85㎡ 이하",
+                                "description": "농특세 비과세",
+                                "content": [
+                                  {
+                                    "id": 1,
+                                    "title": "취득세",
+                                    "description": "취득세율",
+                                    "legal_basis": "",
+                                    "content": "8.0%"
+                                  },
+                                  {
+                                    "id": 2,
+                                    "title": "지방교육세",
+                                    "description": "지방교육세율",
+                                    "legal_basis": "지방교육세-2",
+                                    "content": "0.4%"
+                                  },
+                                  {
+                                    "id": 3,
+                                    "title": "농특세",
+                                    "description": "농특세율",
+                                    "legal_basis": "농특세-1",
+                                    "content": "0.0%"
+                                  },
+                                  {
+                                    "id": 4,
+                                    "title": "합계",
+                                    "description": "전체 세금 합계",
+                                    "legal_basis": "",
+                                    "content": "8.4%"
+                                  }
+                                ]
+                              },
+                              {
+                                "id": 2,
+                                "title": "85㎡ 초과",
+                                "description": "농특세 과세",
+                                "content": [
+                                  {
+                                    "id": 1,
+                                    "title": "취득세",
+                                    "description": "취득세율",
+                                    "legal_basis": "",
+                                    "content": "8.0%"
+                                  },
+                                  {
+                                    "id": 2,
+                                    "title": "지방교육세",
+                                    "description": "지방교육세율",
+                                    "legal_basis": "지방교육세-2",
+                                    "content": "0.4%"
+                                  },
+                                  {
+                                    "id": 3,
+                                    "title": "농특세",
+                                    "description": "농특세율",
+                                    "legal_basis": "농특세-3",
+                                    "content": "0.6%"
+                                  },
+                                  {
+                                    "id": 4,
+                                    "title": "합계",
+                                    "description": "전체 세금 합계",
+                                    "legal_basis": "",
+                                    "content": "9.0%"
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "id": 2,
+                        "title": "비조정대상지역",
+                        "description": "",
+                        "content": [
+                          {
+                            "id": 1,
+                            "title": "6억원 이하",
+                            "description": "6억원 이하 주택",
+                            "content": [
+                              {
+                                "id": 1,
+                                "title": "85㎡ 이하",
+                                "description": "농특세 비과세",
+                                "content": [
+                                  {
+                                    "id": 1,
+                                    "title": "취득세",
+                                    "description": "취득세율",
+                                    "legal_basis": "",
+                                    "content": "1.0%"
+                                  },
+                                  {
+                                    "id": 2,
+                                    "title": "지방교육세",
+                                    "description": "지방교육세율",
+                                    "legal_basis": "지방교육세-1",
+                                    "content": "0.1%"
+                                  },
+                                  {
+                                    "id": 3,
+                                    "title": "농특세",
+                                    "description": "농특세율",
+                                    "legal_basis": "농특세-1",
+                                    "content": "0.0%"
+                                  },
+                                  {
+                                    "id": 4,
+                                    "title": "합계",
+                                    "description": "전체 세금 합계",
+                                    "legal_basis": "",
+                                    "content": "1.1%"
+                                  }
+                                ]
+                              },
+                              {
+                                "id": 2,
+                                "title": "85㎡ 초과",
+                                "description": "85㎡ 초과 주택",
+                                "content": [
+                                  {
+                                    "id": 1,
+                                    "title": "취득세",
+                                    "description": "취득세율",
+                                    "legal_basis": "",
+                                    "content": "1.0%"
+                                  },
+                                  {
+                                    "id": 2,
+                                    "title": "지방교육세",
+                                    "description": "지방교육세율",
+                                    "legal_basis": "지방교육세-1",
+                                    "content": "0.1%"
+                                  },
+                                  {
+                                    "id": 3,
+                                    "title": "농특세",
+                                    "description": "농특세율",
+                                    "legal_basis": "농특세-3",
+                                    "content": "0.2%"
+                                  },
+                                  {
+                                    "id": 4,
+                                    "title": "합계",
+                                    "description": "전체 세금 합계",
+                                    "legal_basis": "",
+                                    "content": "1.3%"
+                                  }
+                                ]
+                              }
+                            ]
+                          },
+                          {
+                            "id": 2,
+                            "title": "6억원 초과 9억원 이하",
+                            "description": "6억원 초과 9억원 이하 주택",
+                            "content": [
+                              {
+                                "id": 1,
+                                "title": "85㎡ 이하",
+                                "description": "농특세 비과세",
+                                "content": [
+                                  {
+                                    "id": 1,
+                                    "title": "취득세",
+                                    "description": "취득세율",
+                                    "legal_basis": "",
+                                    "content": "1.0~3.0%"
+                                  },
+                                  {
+                                    "id": 2,
+                                    "title": "지방교육세",
+                                    "description": "지방교육세율",
+                                    "legal_basis": "지방교육세-1",
+                                    "content": "0.1~0.3%"
+                                  },
+                                  {
+                                    "id": 3,
+                                    "title": "농특세",
+                                    "description": "농특세율",
+                                    "legal_basis": "농특세-1",
+                                    "content": "0.0%"
+                                  },
+                                  {
+                                    "id": 4,
+                                    "title": "합계",
+                                    "description": "전체 세금 합계",
+                                    "legal_basis": "",
+                                    "content": "1.1~3.3%"
+                                  }
+                                ]
+                              },
+                              {
+                                "id": 2,
+                                "title": "85㎡ 초과",
+                                "description": "농특세 과세",
+                                "content": [
+                                  {
+                                    "id": 1,
+                                    "title": "취득세",
+                                    "description": "취득세율",
+                                    "legal_basis": "",
+                                    "content": "1.0~3.0%"
+                                  },
+                                  {
+                                    "id": 2,
+                                    "title": "지방교육세",
+                                    "description": "지방교육세율",
+                                    "legal_basis": "지방교육세-1",
+                                    "content": "0.1~0.3%"
+                                  },
+                                  {
+                                    "id": 3,
+                                    "title": "농특세",
+                                    "description": "농특세율",
+                                    "legal_basis": "농특세-3",
+                                    "content": "0.2%"
+                                  },
+                                  {
+                                    "id": 4,
+                                    "title": "합계",
+                                    "description": "전체 세금 합계",
+                                    "legal_basis": "",
+                                    "content": "1.3~3.5%"
+                                  }
+                                ]
+                              }
+                            ]
+                          },
+                          {
+                            "id": 3,
+                            "title": "9억원 초과",
+                            "description": "9억원 초과 주택",
+                            "content": [
+                              {
+                                "id": 1,
+                                "title": "85㎡ 이하",
+                                "description": "농특세 비과세",
+                                "content": [
+                                  {
+                                    "id": 1,
+                                    "title": "취득세",
+                                    "description": "취득세율",
+                                    "legal_basis": "",
+                                    "content": "3.0%"
+                                  },
+                                  {
+                                    "id": 2,
+                                    "title": "지방교육세",
+                                    "description": "지방교육세율",
+                                    "legal_basis": "지방교육세-1",
+                                    "content": "0.3%"
+                                  },
+                                  {
+                                    "id": 3,
+                                    "title": "농특세",
+                                    "description": "농특세율",
+                                    "legal_basis": "농특세-1",
+                                    "content": "0.0%"
+                                  },
+                                  {
+                                    "id": 4,
+                                    "title": "합계",
+                                    "description": "전체 세금 합계",
+                                    "legal_basis": "",
+                                    "content": "3.3%"
+                                  }
+                                ]
+                              },
+                              {
+                                "id": 2,
+                                "title": "85㎡ 초과",
+                                "description": "농특세 과세",
+                                "content": [
+                                  {
+                                    "id": 1,
+                                    "title": "취득세",
+                                    "description": "취득세율",
+                                    "legal_basis": "",
+                                    "content": "3.0%"
+                                  },
+                                  {
+                                    "id": 2,
+                                    "title": "지방교육세",
+                                    "description": "지방교육세율",
+                                    "legal_basis": "지방교육세-1",
+                                    "content": "0.3%"
+                                  },
+                                  {
+                                    "id": 3,
+                                    "title": "농특세",
+                                    "description": "농특세율",
+                                    "legal_basis": "농특세-3",
+                                    "content": "0.2%"
+                                  },
+                                  {
+                                    "id": 4,
+                                    "title": "합계",
+                                    "description": "전체 세금 합계",
+                                    "legal_basis": "",
+                                    "content": "3.5%"
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "id": 3,
+                    "title": "3주택",
+                    "description": "",
+                    "content": [
+                      {
+                        "id": 1,
+                        "title": "조정대상지역",
+                        "description": "조정대상지역(강남구, 서초구, 송파구, 용산구) 내 주택 취득에 대한 세율",
+                        "content": [
+                          {
+                            "id": 1,
+                            "title": "가격 구분 없음",
+                            "description": "",
+                            "content": [
+                              {
+                                "id": 1,
+                                "title": "85㎡ 이하",
+                                "description": "농특세 비과세",
+                                "content": [
+                                  {
+                                    "id": 1,
+                                    "title": "취득세",
+                                    "description": "취득세율",
+                                    "legal_basis": "",
+                                    "content": "12.0%"
+                                  },
+                                  {
+                                    "id": 2,
+                                    "title": "지방교육세",
+                                    "description": "지방교육세율",
+                                    "legal_basis": "지방교육세-2",
+                                    "content": "0.4%"
+                                  },
+                                  {
+                                    "id": 3,
+                                    "title": "농특세",
+                                    "description": "농특세율",
+                                    "legal_basis": "농특세-1",
+                                    "content": "0.0%"
+                                  },
+                                  {
+                                    "id": 4,
+                                    "title": "합계",
+                                    "description": "전체 세금 합계",
+                                    "legal_basis": "",
+                                    "content": "12.4%"
+                                  }
+                                ]
+                              },
+                              {
+                                "id": 2,
+                                "title": "85㎡ 초과",
+                                "description": "농특세 과세",
+                                "content": [
+                                  {
+                                    "id": 1,
+                                    "title": "취득세",
+                                    "description": "취득세율",
+                                    "legal_basis": "",
+                                    "content": "12.0%"
+                                  },
+                                  {
+                                    "id": 2,
+                                    "title": "지방교육세",
+                                    "description": "지방교육세율",
+                                    "legal_basis": "지방교육세-2",
+                                    "content": "0.4%"
+                                  },
+                                  {
+                                    "id": 3,
+                                    "title": "농특세",
+                                    "description": "농특세율",
+                                    "legal_basis": "농특세-3",
+                                    "content": "1.0%"
+                                  },
+                                  {
+                                    "id": 4,
+                                    "title": "합계",
+                                    "description": "전체 세금 합계",
+                                    "legal_basis": "",
+                                    "content": "13.4%"
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "id": 2,
+                        "title": "비조정대상지역",
+                        "description": "비조정대상지역 내 주택 취득에 대한 세율",
+                        "content": [
+                          {
+                            "id": 1,
+                            "title": "가격 구분 없음",
+                            "description": "",
+                            "content": [
+                              {
+                                "id": 1,
+                                "title": "85㎡ 이하",
+                                "description": "농특세 비과세",
+                                "content": [
+                                  {
+                                    "id": 1,
+                                    "title": "취득세",
+                                    "description": "취득세율",
+                                    "legal_basis": "",
+                                    "content": "8.0%"
+                                  },
+                                  {
+                                    "id": 2,
+                                    "title": "지방교육세",
+                                    "description": "지방교육세율",
+                                    "legal_basis": "지방교육세-2",
+                                    "content": "0.4%"
+                                  },
+                                  {
+                                    "id": 3,
+                                    "title": "농특세",
+                                    "description": "농특세율",
+                                    "legal_basis": "농특세-1",
+                                    "content": "0.0%"
+                                  },
+                                  {
+                                    "id": 4,
+                                    "title": "합계",
+                                    "description": "전체 세금 합계",
+                                    "legal_basis": "",
+                                    "content": "8.4%"
+                                  }
+                                ]
+                              },
+                              {
+                                "id": 2,
+                                "title": "85㎡ 초과",
+                                "description": "농특세 과세",
+                                "content": [
+                                  {
+                                    "id": 1,
+                                    "title": "취득세",
+                                    "description": "취득세율",
+                                    "legal_basis": "",
+                                    "content": "8.0%"
+                                  },
+                                  {
+                                    "id": 2,
+                                    "title": "지방교육세",
+                                    "description": "지방교육세율",
+                                    "legal_basis": "지방교육세-2",
+                                    "content": "0.4%"
+                                  },
+                                  {
+                                    "id": 3,
+                                    "title": "농특세",
+                                    "description": "농특세율",
+                                    "legal_basis": "농특세-3",
+                                    "content": "0.6%"
+                                  },
+                                  {
+                                    "id": 4,
+                                    "title": "합계",
+                                    "description": "전체 세금 합계",
+                                    "legal_basis": "",
+                                    "content": "9.0%"
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "id": 4,
+                    "title": "4주택 이상",
+                    "description": "",
+                    "content": [
+                      {
+                        "id": 1,
+                        "title": "지역 구분 없음",
+                        "description": "4주택이상 취득에 대한 세율",
+                        "content": [
+                          {
+                            "id": 1,
+                            "title": "가격 구분 없음",
+                            "description": "",
+                            "content": [
+                              {
+                                "id": 1,
+                                "title": "85㎡ 이하",
+                                "description": "",
+                                "content": [
+                                  {
+                                    "id": 1,
+                                    "title": "취득세",
+                                    "description": "취득세율",
+                                    "legal_basis": "",
+                                    "content": "12.0%"
+                                  },
+                                  {
+                                    "id": 2,
+                                    "title": "지방교육세",
+                                    "description": "지방교육세율",
+                                    "legal_basis": "지방교육세-2",
+                                    "content": "0.4%"
+                                  },
+                                  {
+                                    "id": 3,
+                                    "title": "농특세",
+                                    "description": "농특세율",
+                                    "legal_basis": "농특세-1",
+                                    "content": "0.0%"
+                                  },
+                                  {
+                                    "id": 4,
+                                    "title": "합계",
+                                    "description": "전체 세금 합계",
+                                    "legal_basis": "",
+                                    "content": "12.4%"
+                                  }
+                                ]
+                              },
+                              {
+                                "id": 2,
+                                "title": "85㎡ 초과",
+                                "description": "",
+                                "content": [
+                                  {
+                                    "id": 1,
+                                    "title": "취득세",
+                                    "description": "취득세율",
+                                    "legal_basis": "",
+                                    "content": "12.0%"
+                                  },
+                                  {
+                                    "id": 2,
+                                    "title": "지방교육세",
+                                    "description": "지방교육세율",
+                                    "legal_basis": "지방교육세-2",
+                                    "content": "0.4%"
+                                  },
+                                  {
+                                    "id": 3,
+                                    "title": "농특세",
+                                    "description": "농특세율",
+                                    "legal_basis": "농특세-3",
+                                    "content": "1.0%"
+                                  },
+                                  {
+                                    "id": 4,
+                                    "title": "합계",
+                                    "description": "전체 세금 합계",
+                                    "legal_basis": "",
+                                    "content": "13.4%"
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "id": 5,
+                    "title": "농지",
+                    "description": "농지 취득",
+                    "content": [
+                      {
+                        "id": 1,
+                        "title": "지역 구분 없음",
+                        "description": "",
+                        "content": [
+                          {
+                            "id": 1,
+                            "title": "가격 구분 없음",
+                            "description": "",
+                            "content": [
+                              {
+                                "id": 1,
+                                "title": "면적 구분 없음",
+                                "description": "",
+                                "content": [
+                                  {
+                                    "id": 1,
+                                    "title": "취득세",
+                                    "description": "취득세율",
+                                    "legal_basis": "",
+                                    "content": "3.0%"
+                                  },
+                                  {
+                                    "id": 2,
+                                    "title": "지방교육세",
+                                    "description": "지방교육세율",
+                                    "legal_basis": "지방교육세-3",
+                                    "content": "0.2%"
+                                  },
+                                  {
+                                    "id": 3,
+                                    "title": "농특세",
+                                    "description": "농특세율",
+                                    "legal_basis": "농특세-3",
+                                    "content": "0.2%"
+                                  },
+                                  {
+                                    "id": 4,
+                                    "title": "합계",
+                                    "description": "전체 세금 합계",
+                                    "legal_basis": "",
+                                    "content": "3.4%"
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "id": 6,
+                    "title": "농지외",
+                    "description": "농지외 취득",
+                    "content": [
+                      {
+                        "id": 1,
+                        "title": "지역 구분 없음",
+                        "description": "",
+                        "content": [
+                          {
+                            "id": 1,
+                            "title": "가격 구분 없음",
+                            "description": "",
+                            "content": [
+                              {
+                                "id": 1,
+                                "title": "면적 구분 없음",
+                                "description": "",
+                                "content": [
+                                  {
+                                    "id": 1,
+                                    "title": "취득세",
+                                    "description": "취득세율",
+                                    "legal_basis": "",
+                                    "content": "4.0%"
+                                  },
+                                  {
+                                    "id": 2,
+                                    "title": "지방교육세",
+                                    "description": "지방교육세율",
+                                    "legal_basis": "지방교육세-3",
+                                    "content": "0.4%"
+                                  },
+                                  {
+                                    "id": 3,
+                                    "title": "농특세",
+                                    "description": "농특세율",
+                                    "legal_basis": "농특세-3",
+                                    "content": "0.2%"
+                                  },
+                                  {
+                                    "id": 4,
+                                    "title": "합계",
+                                    "description": "전체 세금 합계",
+                                    "legal_basis": "",
+                                    "content": "4.6%"
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "id": 2,
+            "title": "무상",
+            "description": "무상으로 취득하는 경우의 취득세율",
+            "content": [
+              {
+                "id": 2,
+                "title": "상속",
+                "description": "상속으로 취득하는 경우의 취득세율",
+                "content": [
+                  {
+                    "id": 1,
+                    "title": "농지",
+                    "description": "농지 상속 취득",
+                    "content": [
+                      {
+                        "id": 1,
+                        "title": "지역 구분 없음",
+                        "description": "지역 구분 없이 적용되는 농지 상속 세율",
+                        "content": [
+                          {
+                            "id": 1,
+                            "title": "가격 구분 없음",
+                            "description": "",
+                            "content": [
+                              {
+                                "id": 1,
+                                "title": "면적 구분 없음",
+                                "description": "",
+                                "content": [
+                                  {
+                                    "id": 1,
+                                    "title": "취득세",
+                                    "description": "취득세율",
+                                    "legal_basis": "",
+                                    "content": "2.3%"
+                                  },
+                                  {
+                                    "id": 2,
+                                    "title": "지방교육세",
+                                    "description": "지방교육세율",
+                                    "legal_basis": "지방교육세-3",
+                                    "content": "0.06%"
+                                  },
+                                  {
+                                    "id": 3,
+                                    "title": "농특세",
+                                    "description": "농특세율",
+                                    "legal_basis": "농특세-3",
+                                    "content": "0.2%"
+                                  },
+                                  {
+                                    "id": 4,
+                                    "title": "합계",
+                                    "description": "전체 세금 합계",
+                                    "legal_basis": "",
+                                    "content": "2.56%"
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "id": 2,
+                    "title": "농지외",
+                    "description": "",
+                    "content": [
+                      {
+                        "id": 1,
+                        "title": "지역 구분 없음",
+                        "description": "지역 구분 없이 적용되는 일반 상속 세율",
+                        "content": [
+                          {
+                            "id": 1,
+                            "title": "가격 구분 없음",
+                            "description": "",
+                            "content": [
+                              {
+                                "id": 1,
+                                "title": "면적 구분 없음",
+                                "description": "",
+                                "content": [
+                                  {
+                                    "id": 1,
+                                    "title": "취득세",
+                                    "description": "취득세율",
+                                    "legal_basis": "",
+                                    "content": "2.8%"
+                                  },
+                                  {
+                                    "id": 2,
+                                    "title": "지방교육세",
+                                    "description": "지방교육세율",
+                                    "legal_basis": "지방교육세-3",
+                                    "content": "0.16%"
+                                  },
+                                  {
+                                    "id": 3,
+                                    "title": "농특세",
+                                    "description": "농특세율",
+                                    "legal_basis": "농특세-1",
+                                    "content": "0.2%"
+                                  },
+                                  {
+                                    "id": 4,
+                                    "title": "합계",
+                                    "description": "전체 세금 합계",
+                                    "legal_basis": "",
+                                    "content": "3.16%"
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "id": 1,
+                    "title": "1가구 1주택",
+                    "description": "1가구 1주택 상속 취득",
+                    "content": [
+                      {
+                        "id": 1,
+                        "title": "지역 구분 없음",
+                        "description": "지역 구분 없이 적용되는 1가구 1주택 특례",
+                        "content": [
+                          {
+                            "id": 1,
+                            "title": "가격 구분 없음",
+                            "description": "",
+                            "content": [
+                              {
+                                "id": 1,
+                                "title": "85㎡ 이하",
+                                "description": "농특세 비과세",
+                                "content": [
+                                  {
+                                    "id": 1,
+                                    "title": "취득세",
+                                    "description": "취득세율",
+                                    "legal_basis": "",
+                                    "content": "0.8%"
+                                  },
+                                  {
+                                    "id": 2,
+                                    "title": "지방교육세",
+                                    "description": "지방교육세율",
+                                    "legal_basis": "지방교육세-3",
+                                    "content": "0.16%"
+                                  },
+                                  {
+                                    "id": 3,
+                                    "title": "농특세",
+                                    "description": "농특세율",
+                                    "legal_basis": "농특세-2",
+                                    "content": "0.0%"
+                                  },
+                                  {
+                                    "id": 4,
+                                    "title": "합계",
+                                    "description": "전체 세금 합계",
+                                    "legal_basis": "",
+                                    "content": "0.96%"
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "id": 1,
+                "title": "증여",
+                "description": "증여로 취득하는 경우의 취득세율",
+                "content": [
+                  {
+                    "id": 1,
+                    "title": "시가표준 3억원 이상 주택",
+                    "description": "",
+                    "content": [
+                      {
+                        "id": 1,
+                        "title": "조정대상지역",
+                        "description": "조정대상지역 주택 증여 취득",
+                        "content": [
+                          {
+                            "id": 1,
+                            "title": "가격 구분 없음",
+                            "description": "",
+                            "content": [
+                              {
+                                "id": 1,
+                                "title": "85㎡ 이하",
+                                "description": "",
+                                "content": [
+                                  {
+                                    "id": 1,
+                                    "title": "취득세",
+                                    "description": "취득세율",
+                                    "legal_basis": "",
+                                    "content": "12.0%"
+                                  },
+                                  {
+                                    "id": 2,
+                                    "title": "지방교육세",
+                                    "description": "지방교육세율",
+                                    "legal_basis": "지방교육세-2",
+                                    "content": "0.4%"
+                                  },
+                                  {
+                                    "id": 3,
+                                    "title": "농특세",
+                                    "description": "농특세율",
+                                    "legal_basis": "농특세-1",
+                                    "content": "0.0%"
+                                  },
+                                  {
+                                    "id": 4,
+                                    "title": "합계",
+                                    "description": "전체 세금 합계",
+                                    "legal_basis": "",
+                                    "content": "12.4%"
+                                  }
+                                ]
+                              },
+                              {
+                                "id": 1,
+                                "title": "85㎡ 초과",
+                                "description": "",
+                                "content": [
+                                  {
+                                    "id": 1,
+                                    "title": "취득세",
+                                    "description": "취득세율",
+                                    "legal_basis": "",
+                                    "content": "12.0%"
+                                  },
+                                  {
+                                    "id": 2,
+                                    "title": "지방교육세",
+                                    "description": "지방교육세율",
+                                    "legal_basis": "지방교육세-2",
+                                    "content": "0.4%"
+                                  },
+                                  {
+                                    "id": 3,
+                                    "title": "농특세",
+                                    "description": "농특세율",
+                                    "legal_basis": "농특세-3",
+                                    "content": "1.0%"
+                                  },
+                                  {
+                                    "id": 4,
+                                    "title": "합계",
+                                    "description": "전체 세금 합계",
+                                    "legal_basis": "",
+                                    "content": "13.4%"
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "id": 2,
+                    "title": "1세대 1주택자",
+                    "description": "1세대 1주택자가 소유한 주택을 배우자 또는 직계존비속이 무상취득하는 경우",
+                    "content": [
+                      {
+                        "id": 1,
+                        "title": "조정대상지역",
+                        "description": "조정대상지역(강남구, 서초구, 송파구, 용산구) 내 주택 증여 취득에 대한 세율",
+                        "content": [
+                          {
+                            "id": 1,
+                            "title": "가격 구분 없음",
+                            "description": "",
+                            "content": [
+                              {
+                                "id": 1,
+                                "title": "85㎡ 이하",
+                                "description": "농특세 비과세",
+                                "content": [
+                                  {
+                                    "id": 1,
+                                    "title": "취득세",
+                                    "description": "취득세율",
+                                    "legal_basis": "",
+                                    "content": "3.5%"
+                                  },
+                                  {
+                                    "id": 2,
+                                    "title": "지방교육세",
+                                    "description": "지방교육세율",
+                                    "legal_basis": "지방교육세-3",
+                                    "content": "0.3%"
+                                  },
+                                  {
+                                    "id": 3,
+                                    "title": "농특세",
+                                    "description": "농특세율",
+                                    "legal_basis": "농특세-2",
+                                    "content": "0.0%"
+                                  },
+                                  {
+                                    "id": 4,
+                                    "title": "합계",
+                                    "description": "전체 세금 합계",
+                                    "legal_basis": "",
+                                    "content": "3.8%"
+                                  }
+                                ]
+                              },
+                              {
+                                "id": 2,
+                                "title": "85㎡ 초과",
+                                "description": "농특세 과세",
+                                "content": [
+                                  {
+                                    "id": 1,
+                                    "title": "취득세",
+                                    "description": "취득세율",
+                                    "legal_basis": "",
+                                    "content": "3.5%"
+                                  },
+                                  {
+                                    "id": 2,
+                                    "title": "지방교육세",
+                                    "description": "지방교육세율",
+                                    "legal_basis": "지방교육세-3",
+                                    "content": "0.3%"
+                                  },
+                                  {
+                                    "id": 3,
+                                    "title": "농특세",
+                                    "description": "농특세율",
+                                    "legal_basis": "농특세-1",
+                                    "content": "0.2%"
+                                  },
+                                  {
+                                    "id": 4,
+                                    "title": "합계",
+                                    "description": "전체 세금 합계",
+                                    "legal_basis": "",
+                                    "content": "4.0%"
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "id": 2,
+                    "title": "물건 구분 없음",
+                    "description": "",
+                    "content": [
+                      {
+                        "id": 1,
+                        "title": "지역 구분 없음",
+                        "description": "비조정대상지역 주택 증여 취득",
+                        "content": [
+                          {
+                            "id": 1,
+                            "title": "가격 구분 없음",
+                            "description": "",
+                            "content": [
+                              {
+                                "id": 1,
+                                "title": "85㎡ 이하",
+                                "description": "농특세 비과세",
+                                "content": [
+                                  {
+                                    "id": 1,
+                                    "title": "취득세",
+                                    "description": "취득세율",
+                                    "legal_basis": "",
+                                    "content": "3.5%"
+                                  },
+                                  {
+                                    "id": 2,
+                                    "title": "지방교육세",
+                                    "description": "지방교육세율",
+                                    "legal_basis": "지방교육세-3",
+                                    "content": "0.3%"
+                                  },
+                                  {
+                                    "id": 3,
+                                    "title": "농특세",
+                                    "description": "농특세율",
+                                    "legal_basis": "농특세-2",
+                                    "content": "0.0%"
+                                  },
+                                  {
+                                    "id": 4,
+                                    "title": "합계",
+                                    "description": "전체 세금 합계",
+                                    "legal_basis": "",
+                                    "content": "3.8%"
+                                  }
+                                ]
+                              },
+                              {
+                                "id": 2,
+                                "title": "85㎡ 초과",
+                                "description": "농특세 과세",
+                                "content": [
+                                  {
+                                    "id": 1,
+                                    "title": "취득세",
+                                    "description": "취득세율",
+                                    "legal_basis": "",
+                                    "content": "3.5%"
+                                  },
+                                  {
+                                    "id": 2,
+                                    "title": "지방교육세",
+                                    "description": "지방교육세율",
+                                    "legal_basis": "지방교육세-3",
+                                    "content": "0.3%"
+                                  },
+                                  {
+                                    "id": 3,
+                                    "title": "농특세",
+                                    "description": "농특세율",
+                                    "legal_basis": "농특세-1",
+                                    "content": "0.2%"
+                                  },
+                                  {
+                                    "id": 4,
+                                    "title": "합계",
+                                    "description": "전체 세금 합계",
+                                    "legal_basis": "",
+                                    "content": "4.0%"
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "id": 3,
+                "title": "분할",
+                "description": "분할로 취득하는 경우의 취득세율",
+                "content": [
+                  {
+                    "id": 1,
+                    "title": "공유물분할 또는 구분등기할 목적으로 부동산 공유권 해소를 위한 지분이전",
+                    "description": "",
+                    "content": [
+                      {
+                        "id": 1,
+                        "title": "지역 구분 없음",
+                        "description": "",
+                        "content": [
+                          {
+                            "id": 1,
+                            "title": "가격 구분 없음",
+                            "description": "",
+                            "content": [
+                              {
+                                "id": 1,
+                                "title": "면적 구분 없음",
+                                "description": "",
+                                "content": [
+                                  {
+                                    "id": 1,
+                                    "title": "취득세",
+                                    "description": "취득세율",
+                                    "legal_basis": "",
+                                    "content": "0.3%"
+                                  },
+                                  {
+                                    "id": 2,
+                                    "title": "지방교육세",
+                                    "description": "지방교육세율",
+                                    "legal_basis": "지방교육세-3",
+                                    "content": "0.06%"
+                                  },
+                                  {
+                                    "id": 3,
+                                    "title": "농특세",
+                                    "description": "농특세율",
+                                    "legal_basis": "농특세-3",
+                                    "content": "0.2%"
+                                  },
+                                  {
+                                    "id": 4,
+                                    "title": "합계",
+                                    "description": "전체 세금 합계",
+                                    "legal_basis": "",
+                                    "content": "0.56%"
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "id": 1,
+                    "title": "합유물 및 총유물의 분할",
+                    "description": "",
+                    "content": [
+                      {
+                        "id": 1,
+                        "title": "지역 구분 없음",
+                        "description": "",
+                        "content": [
+                          {
+                            "id": 1,
+                            "title": "가격 구분 없음",
+                            "description": "",
+                            "content": [
+                              {
+                                "id": 1,
+                                "title": "면적 구분 없음",
+                                "description": "",
+                                "content": [
+                                  {
+                                    "id": 1,
+                                    "title": "취득세",
+                                    "description": "취득세율",
+                                    "legal_basis": "",
+                                    "content": "0.3%"
+                                  },
+                                  {
+                                    "id": 2,
+                                    "title": "지방교육세",
+                                    "description": "지방교육세율",
+                                    "legal_basis": "지방교육세-3",
+                                    "content": "0.06%"
+                                  },
+                                  {
+                                    "id": 3,
+                                    "title": "농특세",
+                                    "description": "농특세율",
+                                    "legal_basis": "농특세-3",
+                                    "content": "0.2%"
+                                  },
+                                  {
+                                    "id": 4,
+                                    "title": "합계",
+                                    "description": "전체 세금 합계",
+                                    "legal_basis": "",
+                                    "content": "0.56%"
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "id": 1,
+                    "title": "이혼에 따른 재산분할",
+                    "description": "「민법」 제834조, 제839조의2 및 제840조에 따른 재산분할로 인한 취득",
+                    "content": [
+                      {
+                        "id": 1,
+                        "title": "지역 구분 없음",
+                        "description": "",
+                        "content": [
+                          {
+                            "id": 1,
+                            "title": "가격 구분 없음",
+                            "description": "",
+                            "content": [
+                              {
+                                "id": 1,
+                                "title": "면적 구분 없음",
+                                "description": "",
+                                "content": [
+                                  {
+                                    "id": 1,
+                                    "title": "취득세",
+                                    "description": "취득세율",
+                                    "legal_basis": "",
+                                    "content": "0.3%"
+                                  },
+                                  {
+                                    "id": 2,
+                                    "title": "지방교육세",
+                                    "description": "지방교육세율",
+                                    "legal_basis": "지방교육세-3",
+                                    "content": "0.06%"
+                                  },
+                                  {
+                                    "id": 3,
+                                    "title": "농특세",
+                                    "description": "농특세율",
+                                    "legal_basis": "농특세-3",
+                                    "content": "0.2%"
+                                  },
+                                  {
+                                    "id": 4,
+                                    "title": "합계",
+                                    "description": "전체 세금 합계",
+                                    "legal_basis": "",
+                                    "content": "0.56%"
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "id": 1,
+            "title": "원시",
+            "description": "원시적으로 취득하는 경우의 취득세율",
+            "content": [
+              {
+                "id": 1,
+                "title": "신축",
+                "description": "",
+                "content": [
+                  {
+                    "id": 1,
+                    "title": "건축물 신축",
+                    "description": "건축물 신축 취득",
+                    "content": [
+                      {
+                        "id": 1,
+                        "title": "지역 구분 없음",
+                        "description": "지역 구분 없이 적용되는 신축 세율",
+                        "content": [
+                          {
+                            "id": 1,
+                            "title": "가격 구분 없음",
+                            "description": "",
+                            "content": [
+                              {
+                                "id": 1,
+                                "title": "면적 구분 없음",
+                                "description": "",
+                                "content": [
+                                  {
+                                    "id": 1,
+                                    "title": "취득세",
+                                    "description": "취득세율",
+                                    "legal_basis": "",
+                                    "content": "2.8%"
+                                  },
+                                  {
+                                    "id": 2,
+                                    "title": "지방교육세",
+                                    "description": "지방교육세율",
+                                    "legal_basis": "지방교육세-3",
+                                    "content": "0.16%"
+                                  },
+                                  {
+                                    "id": 3,
+                                    "title": "농특세",
+                                    "description": "농특세율",
+                                    "legal_basis": "농특세-3",
+                                    "content": "0.2%"
+                                  },
+                                  {
+                                    "id": 4,
+                                    "title": "합계",
+                                    "description": "전체 세금 합계",
+                                    "legal_basis": "",
+                                    "content": "3.16%"
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": 2,
+        "title": "비영리사업자",
+        "description": "비영리사업자 취득세율",
+        "content": [
+          {
+            "id": 2,
+            "title": "무상",
+            "description": "무상으로 취득하는 경우의 취득세율",
+            "content": [
+              {
+                "id": 1,
+                "title": "증여",
+                "description": "증여로 취득하는 경우의 취득세율",
+                "content": [
+                  {
+                    "id": 1,
+                    "title": "물건 구분 없음",
+                    "description": "",
+                    "content": [
+                      {
+                        "id": 1,
+                        "title": "지역 구분 없음",
+                        "description": "",
+                        "content": [
+                          {
+                            "id": 1,
+                            "title": "가격 구분 없음",
+                            "description": "",
+                            "content": [
+                              {
+                                "id": 1,
+                                "title": "면적 구분 없음",
+                                "description": "",
+                                "content": [
+                                  {
+                                    "id": 1,
+                                    "title": "취득세",
+                                    "description": "취득세율",
+                                    "legal_basis": "",
+                                    "content": "2.8%"
+                                  },
+                                  {
+                                    "id": 2,
+                                    "title": "지방교육세",
+                                    "description": "지방교육세율",
+                                    "legal_basis": "지방교육세-2",
+                                    "content": "0.16%"
+                                  },
+                                  {
+                                    "id": 3,
+                                    "title": "농특세",
+                                    "description": "농특세율",
+                                    "legal_basis": "농특세-3",
+                                    "content": "0.2%"
+                                  },
+                                  {
+                                    "id": 4,
+                                    "title": "합계",
+                                    "description": "전체 세금 합계",
+                                    "legal_basis": "",
+                                    "content": "3.16%"
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+]
