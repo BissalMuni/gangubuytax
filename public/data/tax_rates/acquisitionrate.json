@@ -1822,7 +1822,7 @@
                                     "title": "지방교육세",
                                     "description": "지방교육세율",
                                     "legal_basis": "지방교육세-3",
-                                    "content": "0.03%"
+                                    "content": "0.3%"
                                   },
                                   {
                                     "id": 3,
@@ -1836,7 +1836,7 @@
                                     "title": "합계",
                                     "description": "전체 세금 합계",
                                     "legal_basis": "",
-                                    "content": "0.56%"
+                                    "content": "1.8%"
                                   }
                                 ]
                               }
@@ -1898,7 +1898,7 @@
                                     "id": 3,
                                     "title": "농특세",
                                     "description": "농특세율",
-                                    "legal_basis": "농특세-3",
+                                    "legal_basis": "농특세-4",
                                     "content": "0.2%"
                                   },
                                   {
