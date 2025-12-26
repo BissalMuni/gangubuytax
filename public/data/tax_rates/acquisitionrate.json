@@ -1815,14 +1815,14 @@
                                     "title": "취득세",
                                     "description": "취득세율",
                                     "legal_basis": "",
-                                    "content": "0.3%"
+                                    "content": "1.5%"
                                   },
                                   {
                                     "id": 2,
                                     "title": "지방교육세",
                                     "description": "지방교육세율",
                                     "legal_basis": "지방교육세-3",
-                                    "content": "0.06%"
+                                    "content": "0.03%"
                                   },
                                   {
                                     "id": 3,
