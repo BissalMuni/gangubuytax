@@ -1,5 +1,7 @@
 import React, { useEffect, useMemo } from 'react';
 import { useParams } from 'react-router-dom';
+import { Card, Typography, Space, Button, Segmented, Empty, message } from 'antd';
+import { UnorderedListOutlined, AppstoreOutlined, TableOutlined, ReloadOutlined } from '@ant-design/icons';
 import { useTaxData, useMarketRecognitionPrice } from '@/hooks/useTaxData';
 import { useTaxStore } from '@/store/useTaxStore';
 import { TaxItem, FilterOptions, ViewMode, TaxType, ProcessedTaxSection } from '@/types/tax.types';
@@ -8,17 +10,17 @@ import TaxList from '@/components/tax/TaxList';
 import TaxCard from '@/components/tax/TaxCard';
 import TaxTable from '@/components/tax/TaxTable';
 import MarketRecognitionPrice from '@/components/tax/MarketRecognitionPrice';
-import { FiList, FiGrid, FiTable } from 'react-icons/fi';
-import toast from 'react-hot-toast';
+
+const { Title, Text } = Typography;
 
 const TaxInfo: React.FC = () => {
   const { category } = useParams<{ category?: string }>();
   const { data: taxData, isLoading, error } = useTaxData();
   const { data: marketRecognitionData, isLoading: isMarketLoading, error: marketError } = useMarketRecognitionPrice();
-  
+
   // 시가인정액 페이지인지 확인
   const isMarketRecognitionPage = category === 'market-recognition-price';
-  
+
   const {
     viewMode,
     filters,
@@ -39,7 +41,7 @@ const TaxInfo: React.FC = () => {
   useEffect(() => {
     if (category) {
       let newFilters: FilterOptions = { ...filters };
-      
+
       switch (category) {
         case 'paid':
           newFilters = { category: 'acquisition', type: '유상취득' };
@@ -77,7 +79,7 @@ const TaxInfo: React.FC = () => {
         default:
           newFilters = { category: 'acquisition', type: 'all' };
       }
-      
+
       setFilters(newFilters);
     }
   }, [category, setFilters]);
@@ -85,10 +87,10 @@ const TaxInfo: React.FC = () => {
   // 에러 처리
   useEffect(() => {
     if (error) {
-      toast.error('세금 데이터를 불러오는 중 오류가 발생했습니다.');
+      message.error('세금 데이터를 불러오는 중 오류가 발생했습니다.');
     }
     if (marketError) {
-      toast.error('시가인정액 데이터를 불러오는 중 오류가 발생했습니다.');
+      message.error('시가인정액 데이터를 불러오는 중 오류가 발생했습니다.');
     }
   }, [error, marketError]);
 
@@ -98,7 +100,7 @@ const TaxInfo: React.FC = () => {
 
     const extractTaxRatesFromContent = (content: any[]): any => {
       const rates: any = {};
-      
+
       content.forEach((item: any) => {
         if (item.title === '취득세') rates.취득세 = item.content;
         else if (item.title === '지방교육세') rates.지방교육세 = item.content;
@@ -111,8 +113,7 @@ const TaxInfo: React.FC = () => {
     const processContent = (content: any[], path: string[], originalCase: string) => {
       content.forEach((item: any) => {
         if (Array.isArray(item.content)) {
-          // 세율 데이터인지 확인 (취득세, 지방교육세, 농특세가 모두 있는 배열)
-          const hasTaxRates = item.content.some((subItem: any) => 
+          const hasTaxRates = item.content.some((subItem: any) =>
             ['취득세', '지방교육세', '농특세'].includes(subItem.title)
           );
 
@@ -128,7 +129,6 @@ const TaxInfo: React.FC = () => {
             };
             items.push(taxItem);
           } else {
-            // 더 깊은 레벨 탐색
             processContent(item.content, [...path, item.title || item.description || 'unnamed'], originalCase);
           }
         }
@@ -151,19 +151,17 @@ const TaxInfo: React.FC = () => {
     return items.filter((item: TaxItem) => {
       let shouldInclude = true;
 
-      // 카테고리별 필터링
       if (filters.category === 'acquisition' && filters.type !== 'all') {
-        shouldInclude = item.category.includes(filters.type.replace('취득', '')) || 
-                      item.category.includes(filters.type);
+        shouldInclude = item.category.includes(filters.type.replace('취득', '')) ||
+          item.category.includes(filters.type);
       } else if (filters.category === 'rate') {
         shouldInclude = item.data[filters.type as keyof typeof item.data] !== undefined;
       } else if (filters.category === 'standard') {
-        shouldInclude = item.category.includes(filters.type) || 
-                      item.name.includes(filters.type) ||
-                      Boolean(item.subcategory && item.subcategory.includes(filters.type));
+        shouldInclude = item.category.includes(filters.type) ||
+          item.name.includes(filters.type) ||
+          Boolean(item.subcategory && item.subcategory.includes(filters.type));
       }
 
-      // 검색어 필터
       if (searchTerm && shouldInclude) {
         const searchString = JSON.stringify(item).toLowerCase();
         shouldInclude = searchString.includes(searchTerm.toLowerCase());
@@ -173,14 +171,14 @@ const TaxInfo: React.FC = () => {
     });
   }, [taxData, filters, searchTerm]);
 
-  const handleViewModeChange = (mode: ViewMode) => {
-    setViewMode(mode);
+  const handleViewModeChange = (mode: string) => {
+    setViewMode(mode as ViewMode);
   };
 
   // 로딩 상태
   if (isMarketRecognitionPage ? isMarketLoading : isLoading) {
     return (
-      <div className="flex justify-center items-center h-64">
+      <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: 300 }}>
         <LoadingSpinner />
       </div>
     );
@@ -189,15 +187,14 @@ const TaxInfo: React.FC = () => {
   // 에러 상태
   if (isMarketRecognitionPage ? marketError : error) {
     return (
-      <div className="text-center py-12">
-        <div className="text-red-500 text-lg mb-4">데이터를 불러올 수 없습니다</div>
-        <button
-          onClick={() => window.location.reload()}
-          className="btn-primary"
-        >
-          다시 시도
-        </button>
-      </div>
+      <Card style={{ textAlign: 'center', padding: 48 }}>
+        <Space direction="vertical" size="large">
+          <Text type="danger" style={{ fontSize: 18 }}>데이터를 불러올 수 없습니다</Text>
+          <Button type="primary" icon={<ReloadOutlined />} onClick={() => window.location.reload()}>
+            다시 시도
+          </Button>
+        </Space>
+      </Card>
     );
   }
 
@@ -209,107 +206,65 @@ const TaxInfo: React.FC = () => {
   // 사용 가능한 카테고리 추출
   const availableCategories = useMemo(() => {
     if (!taxData || !Array.isArray(taxData)) return [];
-    
+
     const categories = new Set<string>();
     taxData.forEach((section: ProcessedTaxSection) => {
       categories.add(section.originalCase);
     });
-    
+
     return Array.from(categories);
   }, [taxData]);
 
   return (
-    <div className="space-y-6">
+    <Space direction="vertical" size="middle" style={{ width: '100%' }}>
       {/* 헤더 */}
-      <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
-        <div className="flex justify-between items-center mb-4">
+      <Card>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 16 }}>
           <div>
-            <h1 className="text-2xl font-bold text-gray-900">
-              {(filters.type === 'all' ? '전체 세금 정보' : filters.type)}
-            </h1>
-            <p className="text-gray-600 mt-1">
-              총 {filteredItems.length}개의 항목
-            </p>
+            <Title level={3} style={{ margin: 0 }}>
+              {filters.type === 'all' ? '전체 세금 정보' : filters.type}
+            </Title>
+            <Text type="secondary">총 {filteredItems.length}개의 항목</Text>
           </div>
-          
-          <div className="flex space-x-2">
-            <button
-              onClick={() => handleViewModeChange('list')}
-              className={`p-2 rounded-md ${
-                viewMode === 'list'
-                  ? 'bg-blue-100 text-blue-600'
-                  : 'text-gray-400 hover:text-gray-600'
-              }`}
-              title="목록형"
-            >
-              <FiList className="h-5 w-5" />
-            </button>
-            <button
-              onClick={() => handleViewModeChange('card')}
-              className={`p-2 rounded-md ${
-                viewMode === 'card'
-                  ? 'bg-blue-100 text-blue-600'
-                  : 'text-gray-400 hover:text-gray-600'
-              }`}
-              title="카드형"
-            >
-              <FiGrid className="h-5 w-5" />
-            </button>
-            <button
-              onClick={() => handleViewModeChange('table')}
-              className={`p-2 rounded-md ${
-                viewMode === 'table'
-                  ? 'bg-blue-100 text-blue-600'
-                  : 'text-gray-400 hover:text-gray-600'
-              }`}
-              title="테이블형"
-            >
-              <FiTable className="h-5 w-5" />
-            </button>
-          </div>
+
+          <Segmented
+            value={viewMode}
+            onChange={handleViewModeChange}
+            options={[
+              { value: 'list', icon: <UnorderedListOutlined />, label: '목록' },
+              { value: 'card', icon: <AppstoreOutlined />, label: '카드' },
+              { value: 'table', icon: <TableOutlined />, label: '테이블' },
+            ]}
+          />
         </div>
 
         {/* 카테고리 필터 버튼 */}
-        <div className="mt-6">
-          <div className="flex items-start space-x-3">
-            <span className="text-sm font-medium text-gray-700 min-w-[80px] mt-2">카테고리</span>
-            <div className="flex flex-wrap gap-2">
-              <button
-                onClick={() => setFilters({ category: 'acquisition', type: 'all' })}
-                className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
-                  filters.type === 'all'
-                    ? 'bg-blue-600 text-white'
-                    : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-                }`}
+        <div style={{ marginTop: 24 }}>
+          <Space size={[8, 8]} wrap>
+            <Text type="secondary" style={{ marginRight: 8 }}>카테고리:</Text>
+            <Button
+              type={filters.type === 'all' ? 'primary' : 'default'}
+              onClick={() => setFilters({ category: 'acquisition', type: 'all' })}
+            >
+              전체
+            </Button>
+            {availableCategories.map(cat => (
+              <Button
+                key={cat}
+                type={filters.type === cat ? 'primary' : 'default'}
+                onClick={() => setFilters({ category: 'acquisition', type: cat as TaxType })}
               >
-                전체
-              </button>
-              {availableCategories.map(category => (
-                <button
-                  key={category}
-                  onClick={() => {
-                    setFilters({ category: 'acquisition', type: category as TaxType });
-                  }}
-                  className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
-                    filters.type === category
-                      ? 'bg-blue-600 text-white'
-                      : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-                  }`}
-                >
-                  {category}
-                </button>
-              ))}
-            </div>
-          </div>
+                {cat}
+              </Button>
+            ))}
+          </Space>
         </div>
-      </div>
+      </Card>
 
       {/* 컨텐츠 */}
-      <div className="bg-white rounded-lg shadow-sm border border-gray-200">
+      <Card bodyStyle={{ padding: 0 }}>
         {filteredItems.length === 0 ? (
-          <div className="text-center py-12 text-gray-500">
-            표시할 데이터가 없습니다.
-          </div>
+          <Empty description="표시할 데이터가 없습니다." style={{ padding: 48 }} />
         ) : (
           <>
             {viewMode === 'list' && <TaxList items={filteredItems} />}
@@ -317,8 +272,8 @@ const TaxInfo: React.FC = () => {
             {viewMode === 'table' && <TaxTable items={filteredItems} />}
           </>
         )}
-      </div>
-    </div>
+      </Card>
+    </Space>
   );
 };
 

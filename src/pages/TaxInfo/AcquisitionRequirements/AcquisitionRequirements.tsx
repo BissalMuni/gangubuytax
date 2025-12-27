@@ -1,7 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { FiBookOpen, FiChevronDown, FiChevronRight, FiFileText, FiArrowLeft } from 'react-icons/fi';
-import toast from 'react-hot-toast';
+import { Card, Row, Col, Typography, Space, Alert, Button, Collapse, message } from 'antd';
+import { BookOutlined, FileTextOutlined, ArrowLeftOutlined, ReloadOutlined, DownOutlined, RightOutlined } from '@ant-design/icons';
 import LoadingSpinner from '@/components/common/LoadingSpinner';
+
+const { Title, Text, Paragraph } = Typography;
+const { Panel } = Collapse;
 
 interface ContentText {
   text: string;
@@ -27,7 +30,6 @@ const AcquisitionRequirements: React.FC = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [expandedSections, setExpandedSections] = useState<string[]>([]);
-  const [expandedSubSections, setExpandedSubSections] = useState<string[]>([]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -38,27 +40,17 @@ const AcquisitionRequirements: React.FC = () => {
           throw new Error('Failed to fetch data');
         }
         const jsonData = await response.json();
-        
-        // 배열 데이터 처리
+
         if (Array.isArray(jsonData)) {
-          // 빈 객체 제거
           const validData = jsonData.filter(item => item && item.title);
           setDataList(validData);
-          
-          // 첫 번째 항목은 자동 선택하지 않음 (카드 목록 표시)
-          // if (validData.length > 0) {
-          //   setSelectedItem(validData[0]);
-          //   if (validData[0].content && validData[0].content.length > 0) {
-          //     setExpandedSections([validData[0].content[0].title]);
-          //   }
-          // }
         } else {
           throw new Error('Invalid data format');
         }
       } catch (error) {
         console.error('Error loading acquisition requirements data:', error);
         setError('과세요건 데이터를 불러오는 중 오류가 발생했습니다.');
-        toast.error('과세요건 데이터를 불러오는 중 오류가 발생했습니다.');
+        message.error('과세요건 데이터를 불러오는 중 오류가 발생했습니다.');
       } finally {
         setIsLoading(false);
       }
@@ -70,9 +62,7 @@ const AcquisitionRequirements: React.FC = () => {
   const handleItemSelect = (item: AcquisitionRequirementsData) => {
     setSelectedItem(item);
     setExpandedSections([]);
-    setExpandedSubSections([]);
-    
-    // 선택한 항목의 첫 번째 섹션 자동 확장
+
     if (item.content && item.content.length > 0) {
       setExpandedSections([item.content[0].title]);
     }
@@ -81,88 +71,56 @@ const AcquisitionRequirements: React.FC = () => {
   const handleBackToList = () => {
     setSelectedItem(null);
     setExpandedSections([]);
-    setExpandedSubSections([]);
-  };
-
-  const toggleSection = (sectionTitle: string) => {
-    setExpandedSections(prev => 
-      prev.includes(sectionTitle) 
-        ? prev.filter(title => title !== sectionTitle)
-        : [...prev, sectionTitle]
-    );
-  };
-
-  const toggleSubSection = (subSectionTitle: string) => {
-    setExpandedSubSections(prev => 
-      prev.includes(subSectionTitle) 
-        ? prev.filter(title => title !== subSectionTitle)
-        : [...prev, subSectionTitle]
-    );
   };
 
   const isContentTextArray = (content: any): content is ContentText[] => {
     return Array.isArray(content) && content.length > 0 && 'text' in content[0];
   };
 
-  const renderContent = (items: ContentText[] | ContentItem[], level: number = 0) => {
+  const renderContent = (items: ContentText[] | ContentItem[]) => {
     if (isContentTextArray(items)) {
-      // ContentText 배열 렌더링
       return (
-        <div className="space-y-4">
+        <Space direction="vertical" size="middle" style={{ width: '100%' }}>
           {items.map((item, index) => (
-            <div key={index} className="bg-white p-4 rounded-lg">
-              <div 
-                className="text-m text-gray-700 leading-relaxed"
-                dangerouslySetInnerHTML={{ __html: item.text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>') }}
-              />
+            <Card key={index} size="small">
+              <Paragraph style={{ marginBottom: item.basis && item.basis.length > 0 ? 8 : 0 }}>
+                <span dangerouslySetInnerHTML={{ __html: item.text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>') }} />
+              </Paragraph>
               {item.basis && item.basis.length > 0 && (
-                <div className="mt-2 pt-2 border-t border-gray-200">
-                  <div className="text-xs text-gray-500">
-                    <span className="font-medium">관련 규정: </span>
-                    {item.basis.join(', ')}
-                  </div>
-                </div>
+                <Text type="secondary" style={{ fontSize: 12 }}>
+                  <strong>관련 규정:</strong> {item.basis.join(', ')}
+                </Text>
               )}
-            </div>
+            </Card>
           ))}
-        </div>
+        </Space>
       );
     } else {
-      // ContentItem 배열 렌더링 (중첩된 구조)
       return (
-        <div className="space-y-3">
+        <Collapse
+          ghost
+          expandIcon={({ isActive }) => isActive ? <DownOutlined /> : <RightOutlined />}
+        >
           {(items as ContentItem[]).map((item, index) => (
-            <div key={index} className="bg-gray-50 rounded-lg">
-              <button
-                onClick={() => toggleSubSection(item.title)}
-                className="w-full flex items-center justify-between p-4 text-left hover:bg-gray-100 rounded-lg transition-colors"
-              >
-                <div className="flex-1">
-                  <h4 className="text-base font-medium text-gray-900">{item.title}</h4>
+            <Panel
+              key={index}
+              header={
+                <div>
+                  <Text strong>{item.title}</Text>
                   {item.description && (
-                    <div 
-                      className="text-sm text-gray-600 mt-1"
-                      dangerouslySetInnerHTML={{ __html: item.description.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>') }}
-                    />
+                    <div>
+                      <Text type="secondary" style={{ fontSize: 13 }}>
+                        <span dangerouslySetInnerHTML={{ __html: item.description.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>') }} />
+                      </Text>
+                    </div>
                   )}
                 </div>
-                <div className="flex-shrink-0 ml-4">
-                  {expandedSubSections.includes(item.title) ? (
-                    <FiChevronDown className="h-4 w-4 text-gray-500" />
-                  ) : (
-                    <FiChevronRight className="h-4 w-4 text-gray-500" />
-                  )}
-                </div>
-              </button>
-              
-              {expandedSubSections.includes(item.title) && item.content && (
-                <div className="px-4 pb-4">
-                  {renderContent(item.content, level + 1)}
-                </div>
-              )}
-            </div>
+              }
+            >
+              {item.content && renderContent(item.content)}
+            </Panel>
           ))}
-        </div>
+        </Collapse>
       );
     }
   };
@@ -171,154 +129,127 @@ const AcquisitionRequirements: React.FC = () => {
 
   if (error || dataList.length === 0) {
     return (
-      <div className="flex flex-col items-center justify-center min-h-96 text-center">
-        <div className="text-red-500 mb-4">
-          <svg className="w-16 h-16 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-          </svg>
-        </div>
-        <h2 className="text-xl font-semibold text-gray-900 mb-2">데이터 로드 실패</h2>
-        <p className="text-gray-600 mb-4">{error || '데이터가 없습니다.'}</p>
-        <button
-          onClick={() => window.location.reload()}
-          className="btn-primary"
-        >
-          다시 시도
-        </button>
-      </div>
+      <Card style={{ textAlign: 'center', padding: 48 }}>
+        <Space direction="vertical" size="large">
+          <Text type="danger" style={{ fontSize: 18 }}>데이터 로드 실패</Text>
+          <Text type="secondary">{error || '데이터가 없습니다.'}</Text>
+          <Button type="primary" icon={<ReloadOutlined />} onClick={() => window.location.reload()}>
+            다시 시도
+          </Button>
+        </Space>
+      </Card>
     );
   }
 
   return (
-    <div className="space-y-4">
+    <Space direction="vertical" size="middle" style={{ width: '100%' }}>
       {!selectedItem ? (
-        // 카드 목록 표시
         <>
           {/* 헤더 */}
-          <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
-            <div className="flex items-center">
-              <FiBookOpen className="h-8 w-8 text-blue-600 mr-3" />
-              <div className="flex-1">
-                <h1 className="text-2xl font-bold text-gray-900">취득세 과세요건</h1>
-                <p className="text-gray-600 mt-1">취득세 과세요건에 대한 상세 정보를 확인하실 수 있습니다.</p>
+          <Card>
+            <Space align="center">
+              <BookOutlined style={{ fontSize: 32, color: '#1890ff' }} />
+              <div>
+                <Title level={3} style={{ margin: 0 }}>취득세 과세요건</Title>
+                <Text type="secondary">취득세 과세요건에 대한 상세 정보를 확인하실 수 있습니다.</Text>
               </div>
-            </div>
-          </div>
+            </Space>
+          </Card>
 
           {/* 항목 선택 카드 */}
-          <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
-            <h2 className="text-lg font-semibold text-gray-900 mb-4">항목 선택</h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          <Card title="항목 선택">
+            <Row gutter={[16, 16]}>
               {dataList.map((item, index) => (
-                <button
-                  key={index}
-                  onClick={() => handleItemSelect(item)}
-                  className="p-4 rounded-lg border-2 transition-all hover:shadow-md border-gray-200 hover:border-gray-300 bg-white hover:bg-gray-50"
-                >
-                  <div className="flex items-start">
-                    <FiFileText className="h-6 w-6 mr-3 flex-shrink-0 text-gray-400" />
-                    <div className="text-left">
-                      <h3 className="font-medium text-gray-900">
-                        {item.title}
-                      </h3>
-                      <p className="text-sm mt-1 line-clamp-2 text-gray-600">
-                        {item.description?.replace(/\*\*/g, '')}
-                      </p>
-                    </div>
-                  </div>
-                </button>
+                <Col key={index} xs={24} sm={12} lg={8}>
+                  <Card
+                    hoverable
+                    onClick={() => handleItemSelect(item)}
+                    style={{ cursor: 'pointer' }}
+                  >
+                    <Space align="start">
+                      <FileTextOutlined style={{ fontSize: 24, color: '#8c8c8c' }} />
+                      <div>
+                        <Text strong>{item.title}</Text>
+                        <br />
+                        <Text type="secondary" style={{ fontSize: 13 }}>
+                          {item.description?.replace(/\*\*/g, '')}
+                        </Text>
+                      </div>
+                    </Space>
+                  </Card>
+                </Col>
               ))}
-            </div>
-          </div>
+            </Row>
+          </Card>
 
           {/* 주의사항 */}
-          <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
-            <div className="p-4 bg-yellow-50 rounded-lg">
-              <p className="text-sm text-yellow-800">
-                <strong>주의:</strong> 실제 과세요건 판단 시에는 관련 법령과 지역별 조례를 반드시 확인하시기 바랍니다.
-                개별 사안의 특수성에 따라 과세요건의 적용이 달라질 수 있으므로, 전문가의 상담을 받으시기 바랍니다.
-              </p>
-            </div>
-          </div>
+          <Card>
+            <Alert
+              type="warning"
+              message="주의"
+              description="실제 과세요건 판단 시에는 관련 법령과 지역별 조례를 반드시 확인하시기 바랍니다. 개별 사안의 특수성에 따라 과세요건의 적용이 달라질 수 있으므로, 전문가의 상담을 받으시기 바랍니다."
+              showIcon
+            />
+          </Card>
         </>
       ) : (
-        // 선택된 항목의 상세 내용 표시
         <>
-          {/* Back 버튼과 헤더 */}
-          <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
-            <div className="flex items-center justify-between">
-              <button
-                onClick={handleBackToList}
-                className="flex items-center px-4 py-2 text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-lg transition-colors"
-              >
-                <FiArrowLeft className="h-4 w-4 mr-2" />
-                목록으로 돌아가기
-              </button>
-            </div>
-          </div>
+          {/* Back 버튼 */}
+          <Card size="small">
+            <Button icon={<ArrowLeftOutlined />} onClick={handleBackToList}>
+              목록으로 돌아가기
+            </Button>
+          </Card>
 
           {/* 선택된 항목 헤더 */}
-          <div className="bg-blue-50 rounded-lg shadow-sm border border-blue-200 p-6">
-            <div className="flex items-center">
-              <FiBookOpen className="h-8 w-8 text-blue-600 mr-3" />
-              <div className="flex-1">
-                <h1 className="text-2xl font-bold text-blue-900">{selectedItem.title}</h1>
-                <div 
-                  className="text-gray-700 mt-2"
-                  dangerouslySetInnerHTML={{ 
-                    __html: selectedItem.description.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>') 
-                  }}
-                />
+          <Card style={{ background: '#e6f7ff', borderColor: '#91d5ff' }}>
+            <Space align="center">
+              <BookOutlined style={{ fontSize: 32, color: '#1890ff' }} />
+              <div>
+                <Title level={3} style={{ margin: 0, color: '#003a8c' }}>{selectedItem.title}</Title>
+                <Text>
+                  <span dangerouslySetInnerHTML={{
+                    __html: selectedItem.description.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+                  }} />
+                </Text>
               </div>
-            </div>
-          </div>
+            </Space>
+          </Card>
 
           {/* 메인 콘텐츠 */}
-          <div className="space-y-4">
+          <Collapse
+            defaultActiveKey={expandedSections}
+            expandIcon={({ isActive }) => isActive ? <DownOutlined /> : <RightOutlined />}
+          >
             {selectedItem.content.map((section, index) => (
-              <div key={index} className="bg-white rounded-lg shadow-sm border border-gray-200">
-                {/* 섹션 헤더 */}
-                <button
-                  onClick={() => toggleSection(section.title)}
-                  className="w-full flex items-center justify-between p-6 text-left hover:bg-gray-50 transition-colors"
-                >
-                  <div className="flex-1">
-                    <h2 className="text-xl font-semibold text-gray-900">{section.title}</h2>
+              <Panel
+                key={index}
+                header={
+                  <div>
+                    <Title level={5} style={{ margin: 0 }}>{section.title}</Title>
                     {section.description && (
-                      <p className="text-gray-600 mt-1">{section.description}</p>
+                      <Text type="secondary">{section.description}</Text>
                     )}
                   </div>
-                  <div className="flex-shrink-0 ml-4">
-                    {expandedSections.includes(section.title) ? (
-                      <FiChevronDown className="h-5 w-5 text-gray-500" />
-                    ) : (
-                      <FiChevronRight className="h-5 w-5 text-gray-500" />
-                    )}
-                  </div>
-                </button>
-
-                {/* 섹션 내용 */}
-                {expandedSections.includes(section.title) && section.content && (
-                  <div className="border-t border-gray-200 p-6">
-                    {renderContent(section.content)}
-                  </div>
-                )}
-              </div>
+                }
+              >
+                {section.content && renderContent(section.content)}
+              </Panel>
             ))}
-          </div>
+          </Collapse>
 
           {/* 주의사항 */}
-          <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
-            <div className="p-4 bg-yellow-50 rounded-lg">
-              <p className="text-sm text-yellow-800">
-                <strong>주의:</strong> 실제 과세요건 판단 시에는 관련 법령과 지역별 조례를 반드시 확인하시기 바랍니다.
-                개별 사안의 특수성에 따라 과세요건의 적용이 달라질 수 있으므로, 전문가의 상담을 받으시기 바랍니다.
-              </p>
-            </div>
-          </div>
+          <Card>
+            <Alert
+              type="warning"
+              message="주의"
+              description="실제 과세요건 판단 시에는 관련 법령과 지역별 조례를 반드시 확인하시기 바랍니다. 개별 사안의 특수성에 따라 과세요건의 적용이 달라질 수 있으므로, 전문가의 상담을 받으시기 바랍니다."
+              showIcon
+            />
+          </Card>
         </>
       )}
-    </div>
+    </Space>
   );
 };
 

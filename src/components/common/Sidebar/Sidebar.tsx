@@ -1,249 +1,150 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
+import { Layout, Menu, Card, Input, Statistic } from 'antd';
 import {
-  FiPercent,
-  FiKey,
-  FiBookOpen,
-  FiHome,
-  FiLayers
-} from 'react-icons/fi';
+  PercentageOutlined,
+  KeyOutlined,
+  BookOutlined,
+  HomeOutlined,
+  AppstoreOutlined,
+  SearchOutlined,
+  FileTextOutlined,
+} from '@ant-design/icons';
+import type { MenuProps } from 'antd';
 
-interface MenuItem {
-  label: string;
-  icon?: React.ElementType;
-  path?: string;
-  category?: string;
-  type?: string;
-  children?: MenuItem[];
-}
+const { Sider } = Layout;
 
 interface SidebarProps {
-  isOpen: boolean;
-  onToggle: () => void;
+  collapsed: boolean;
+  onCollapse: (collapsed: boolean) => void;
 }
 
-const Sidebar: React.FC<SidebarProps> = ({ isOpen, onToggle }) => {
+type MenuItem = Required<MenuProps>['items'][number];
+
+const Sidebar: React.FC<SidebarProps> = ({ collapsed, onCollapse }) => {
   const location = useLocation();
-  const [expandedMenus, setExpandedMenus] = useState<string[]>(['취득세', '재산세']);
 
   const menuItems: MenuItem[] = [
     {
+      key: 'acquisition',
+      icon: <KeyOutlined />,
       label: '취득세',
-      icon: FiKey,
       children: [
         {
-          label: '세율',
-          icon: FiPercent,
-          path: '/tax-info/acquisition/rates',
-          category: 'acquisition',
-          type: 'rates'
+          key: '/local-tax/acquisition/rates',
+          icon: <PercentageOutlined />,
+          label: <Link to="/local-tax/acquisition/rates">세율</Link>,
         },
         {
-          label: '과세표준',
-          icon: FiLayers,
-          path: '/tax-info/acquisition/standard',
-          category: 'acquisition',
-          type: 'standard'
+          key: '/local-tax/acquisition/standard',
+          icon: <AppstoreOutlined />,
+          label: <Link to="/local-tax/acquisition/standard">과세표준</Link>,
         },
         {
-          label: '과세요건',
-          icon: FiBookOpen,
-          path: '/tax-info/acquisition/requirements',
-          category: 'acquisition',
-          type: 'requirements'
+          key: '/local-tax/acquisition/requirements',
+          icon: <BookOutlined />,
+          label: <Link to="/local-tax/acquisition/requirements">과세요건</Link>,
         },
         {
-          label: '특례',
-          icon: FiBookOpen,
-          path: '/tax-info/acquisition/special',
-          category: 'acquisition',
-          type: 'special'
-        }
+          key: '/local-tax/acquisition/special',
+          icon: <FileTextOutlined />,
+          label: <Link to="/local-tax/acquisition/special">특례</Link>,
+        },
       ],
     },
     {
+      key: 'property',
+      icon: <HomeOutlined />,
       label: '재산세',
-      icon: FiHome,
       children: [
         {
-          label: '세율',
-          icon: FiPercent,
-          path: '/tax-info/property/rates',
-          category: 'property',
-          type: 'rates'
+          key: '/local-tax/property/rates',
+          icon: <PercentageOutlined />,
+          label: <Link to="/local-tax/property/rates">세율</Link>,
         },
         {
-          label: '과세표준',
-          icon: FiLayers,
-          path: '/tax-info/property/standard',
-          category: 'property',
-          type: 'standard'
+          key: '/local-tax/property/standard',
+          icon: <AppstoreOutlined />,
+          label: <Link to="/local-tax/property/standard">과세표준</Link>,
         },
         {
-          label: '특례',
-          icon: FiBookOpen,
-          path: '/tax-info/property/special',
-          category: 'property',
-          type: 'special'
-        }
+          key: '/local-tax/property/special',
+          icon: <FileTextOutlined />,
+          label: <Link to="/local-tax/property/special">특례</Link>,
+        },
       ],
     },
   ];
 
-  const toggleMenu = (label: string) => {
-    setExpandedMenus(prev => {
-      const isExpanded = prev.includes(label);
-      if (isExpanded) {
-        // 현재 확장된 메뉴를 축소
-        return prev.filter(item => item !== label);
-      } else {
-        // 새로운 메뉴를 확장
-        return [...prev, label];
-      }
-    });
+  const getSelectedKeys = () => {
+    // 기존 tax-info 경로도 지원
+    const path = location.pathname.replace('/tax-info/', '/local-tax/');
+    return [path];
   };
 
-  const isActive = (path?: string) => {
-    if (!path) return false;
-    return location.pathname === path;
-  };
-
-  const renderMenuItem = (item: MenuItem, depth = 0) => {
-    const hasChildren = item.children && item.children.length > 0;
-    const isExpanded = expandedMenus.includes(item.label);
-    const Icon = item.icon;
-
-    if (hasChildren) {
-      return (
-        <div key={item.label} className="menu-group">
-          {item.path ? (
-            <div className="flex">
-              <Link
-                to={item.path}
-                className={`menu-link ${isActive(item.path) ? 'active' : ''}`}
-                style={{ flex: 1, marginLeft: depth > 0 ? `${depth * 16}px` : '0' }}
-              >
-                {Icon && <Icon className="icon" />}
-                <span>{item.label}</span>
-              </Link>
-              <button
-                onClick={() => toggleMenu(item.label)}
-                className="menu-group-header"
-                style={{ width: 'auto', padding: '8px' }}
-              >
-                <span className="arrow">
-                  {isExpanded ? '▼' : '▶'}
-                </span>
-              </button>
-            </div>
-          ) : (
-            <button
-              onClick={() => toggleMenu(item.label)}
-              className={`menu-group-header ${isExpanded ? 'active' : ''}`}
-            >
-              <div className="flex items-center">
-                {Icon && <Icon className="icon" />}
-                <span>{item.label}</span>
-              </div>
-              <span className="arrow">
-                {isExpanded ? '▼' : '▶'}
-              </span>
-            </button>
-          )}
-          {isExpanded && (
-            <ul className="menu-list" style={{ display: 'block' }}>
-              {item.children?.map(child => (
-                <li key={child.label} className="menu-item" data-category={child.category} data-type={child.type}>
-                  {renderMenuItem(child, depth + 1)}
-                </li>
-              ))}
-            </ul>
-          )}
-        </div>
-      );
-    }
-
-    return (
-      <Link
-        key={item.label}
-        to={item.path || '#'}
-        className={`menu-link ${isActive(item.path) ? 'active' : ''}`}
-        style={{ marginLeft: depth > 0 ? `${depth * 16}px` : '0' }}
-      >
-        {Icon && <Icon className="icon" />}
-        <span>{item.label}</span>
-      </Link>
-    );
+  const getOpenKeys = () => {
+    if (location.pathname.includes('/acquisition')) return ['acquisition'];
+    if (location.pathname.includes('/property')) return ['property'];
+    return ['acquisition', 'property'];
   };
 
   return (
-    <div className={`sidebar-section bg-white border-r border-gray-200 h-full transition-all duration-300 ${isOpen ? 'w-64' : 'w-0'
-      } overflow-hidden`}>
-        {/* Toggle Button */}
-        <div className="p-4 border-b border-gray-200">
-          <button
-            onClick={onToggle}
-            className="w-full flex items-center justify-between p-2 rounded-lg hover:bg-gray-50 transition-colors"
+    <Sider
+      collapsible
+      collapsed={collapsed}
+      onCollapse={onCollapse}
+      width={256}
+      collapsedWidth={80}
+      trigger={null}
+      style={{
+        overflow: 'auto',
+        height: '100vh',
+        position: 'fixed',
+        left: 0,
+        top: 64,
+        bottom: 0,
+        background: '#fff',
+        borderRight: '1px solid #f0f0f0',
+      }}
+    >
+      {!collapsed && (
+        <>
+          {/* 정보 카드 */}
+          <Card
+            size="small"
+            style={{ margin: 16, background: '#e6f7ff', border: 'none' }}
           >
-            <span className="font-semibold text-gray-700">메뉴</span>
-            <svg
-              className={`w-5 h-5 text-gray-500 transition-transform ${isOpen ? 'rotate-180' : ''
-                }`}
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d={isOpen ? "M15 19l-7-7 7-7" : "M9 5l7 7-7 7"}
-              />
-            </svg>
-          </button>
-        </div>
+            <Statistic
+              title="지방세 정보 시스템"
+              value={157}
+              suffix="개 항목"
+              valueStyle={{ fontSize: 16, color: '#1890ff' }}
+            />
+            <div style={{ fontSize: 12, color: '#666', marginTop: 4 }}>
+              최종 업데이트: 2025.08.15
+            </div>
+          </Card>
 
-      {/* 정보 박스 */}
-      <div className="p-4 bg-blue-50 border-b border-gray-200">
-        <h3 className="font-bold text-blue-900 mb-2">세금 정보 시스템</h3>
-        <div className="text-sm text-blue-700">최종 업데이트: 2025.08.15</div>
-        <div className="text-sm text-blue-700 mt-1">
-          📊 총 항목: <strong>157</strong>개
-        </div>
-      </div>
-
-      {/* 검색 박스 */}
-      <div className="p-4 border-b border-gray-200">
-        <div className="relative">
-          <input
-            type="text"
-            placeholder="세금 정보 검색"
-            className="w-full px-3 py-2 pr-10 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-          />
-          <button
-            className="absolute right-2 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600"
-            aria-label="검색"
-            title="검색"
-          >
-            <svg className="w-5 h-5" fill="none" stroke="currentColor"
-              viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round"
-                strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-              />
-            </svg>
-          </button>
-        </div>
-      </div>
+          {/* 검색 */}
+          <div style={{ padding: '0 16px 16px' }}>
+            <Input
+              placeholder="세금 정보 검색"
+              prefix={<SearchOutlined style={{ color: '#bfbfbf' }} />}
+              allowClear
+            />
+          </div>
+        </>
+      )}
 
       {/* 메뉴 */}
-      <div className="p-4 overflow-y-auto" style={{ maxHeight: 'calc(100vh - 300px)' }}>
-        <nav className="space-y-2">
-          {menuItems.map(item => (
-            <div key={item.label}>{renderMenuItem(item)}</div>
-          ))}
-        </nav>
-      </div>
-    </div>
+      <Menu
+        mode="inline"
+        selectedKeys={getSelectedKeys()}
+        defaultOpenKeys={getOpenKeys()}
+        items={menuItems}
+        style={{ borderRight: 0 }}
+      />
+    </Sider>
   );
 };
 
