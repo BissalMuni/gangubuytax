@@ -192,16 +192,19 @@ export const AlertRenderer: React.FC<{ section: AlertSection } & CommonProps> = 
     type={section.variant}
     message={<Text strong style={{ fontSize: isMobile ? 14 : 16 }}>{section.title}</Text>}
     description={
-      <Space direction="vertical" size="small">
-        <Text style={{ fontSize: isMobile ? 13 : 14 }}>{section.content.text}</Text>
+      <div style={{ width: '100%' }}>
+        <div style={{ fontSize: isMobile ? 13 : 14, wordBreak: 'keep-all', lineHeight: 1.6 }}>
+          {section.content.text}
+        </div>
         {section.content.emphasis && (
-          <Tag color={section.variant === 'warning' ? 'orange' : 'green'}>
+          <Tag color={section.variant === 'warning' ? 'orange' : 'green'} style={{ marginTop: 8 }}>
             {section.content.emphasis}
           </Tag>
         )}
-      </Space>
+      </div>
     }
     showIcon
+    style={{ width: '100%' }}
   />
 );
 
@@ -300,11 +303,12 @@ export const ListRenderer: React.FC<{ section: ListSection } & CommonProps> = ({
             {item.note && (
               <Alert
                 type="info"
-                message={item.note}
+                message={<div style={{ wordBreak: 'keep-all', lineHeight: 1.5 }}>{item.note}</div>}
                 showIcon
                 style={{
                   marginLeft: section.content.variant === 'numbered' ? (isMobile ? 24 : 32) : 0,
                   fontSize: isMobile ? 12 : 14,
+                  width: '100%',
                 }}
               />
             )}
@@ -363,7 +367,12 @@ export const CriteriaRenderer: React.FC<{ section: CriteriaSection } & CommonPro
         ))}
       </Row>
       {section.content.note && (
-        <Alert type="info" message={section.content.note} showIcon style={{ fontSize: isMobile ? 12 : 14 }} />
+        <Alert
+          type="info"
+          message={<div style={{ wordBreak: 'keep-all', lineHeight: 1.5 }}>{section.content.note}</div>}
+          showIcon
+          style={{ fontSize: isMobile ? 12 : 14, width: '100%' }}
+        />
       )}
     </Space>
   </Card>
@@ -438,9 +447,10 @@ export const CasesRenderer: React.FC<{ section: CasesSection } & CommonProps> = 
           <Space direction="vertical" size="small" style={{ width: '100%' }}>
             <Alert
               type="info"
-              message={<span style={{ fontSize: isMobile ? 12 : 14 }}>{item.scenario}</span>}
+              message={<div style={{ fontSize: isMobile ? 12 : 14, wordBreak: 'keep-all', lineHeight: 1.5 }}>{item.scenario}</div>}
               icon={<InfoCircleOutlined />}
               showIcon
+              style={{ width: '100%' }}
             />
             <Row gutter={[isMobile ? 4 : 8, isMobile ? 4 : 8]}>
               {item.analysis.map((a, idx) => (
