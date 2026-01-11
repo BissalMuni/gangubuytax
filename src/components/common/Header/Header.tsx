@@ -2,14 +2,13 @@ import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Layout, Menu, Button, Space, Badge } from 'antd';
 import {
-  HomeOutlined,
-  BankOutlined,
   BellOutlined,
   SettingOutlined,
   MenuFoldOutlined,
   MenuUnfoldOutlined,
 } from '@ant-design/icons';
-import type { MenuProps } from 'antd';
+import { headerMenuItems, getHeaderSelectedKey } from '@/config/menu.config';
+import { ROUTES } from '@/constants/routes';
 
 const { Header: AntHeader } = Layout;
 
@@ -20,25 +19,6 @@ interface HeaderProps {
 
 const Header: React.FC<HeaderProps> = ({ collapsed, onToggle }) => {
   const location = useLocation();
-
-  const menuItems: MenuProps['items'] = [
-    {
-      key: '/',
-      icon: <HomeOutlined />,
-      label: <Link to="/">홈</Link>,
-    },
-    {
-      key: '/local-tax',
-      icon: <BankOutlined />,
-      label: <Link to="/local-tax/acquisition/rates">지방세정보</Link>,
-    },
-  ];
-
-  const getSelectedKey = () => {
-    if (location.pathname === '/') return ['/'];
-    if (location.pathname.startsWith('/local-tax') || location.pathname.startsWith('/tax-info')) return ['/local-tax'];
-    return [location.pathname];
-  };
 
   return (
     <AntHeader
@@ -68,7 +48,7 @@ const Header: React.FC<HeaderProps> = ({ collapsed, onToggle }) => {
             }}
           />
         )}
-        <Link to="/" style={{ display: 'flex', alignItems: 'center', marginRight: 24 }}>
+        <Link to={ROUTES.HOME} style={{ display: 'flex', alignItems: 'center', marginRight: 24 }}>
           <span style={{ color: '#52c41a', fontWeight: 'bold', fontSize: '18px' }}>G</span>
           <span style={{ color: '#1890ff', fontWeight: 'bold', fontSize: '18px' }}>B</span>
           <span style={{ color: '#ff4d4f', fontWeight: 'bold', fontSize: '18px', marginRight: '8px' }}>T</span>
@@ -79,8 +59,8 @@ const Header: React.FC<HeaderProps> = ({ collapsed, onToggle }) => {
       <Menu
         theme="dark"
         mode="horizontal"
-        selectedKeys={getSelectedKey()}
-        items={menuItems}
+        selectedKeys={getHeaderSelectedKey(location.pathname)}
+        items={headerMenuItems}
         style={{
           flex: 1,
           minWidth: 0,

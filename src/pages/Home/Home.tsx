@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Card, Row, Col, Typography, Space, Tag, List } from 'antd';
+import { Card, Row, Col, Typography, Flex, Tag } from 'antd';
 import {
   BookOutlined,
   CalculatorOutlined,
@@ -49,14 +49,14 @@ const Home: React.FC = () => {
   ];
 
   return (
-    <Space direction="vertical" size="large" style={{ width: '100%' }}>
+    <Flex vertical gap="large" style={{ width: '100%' }}>
       {/* Hero Section */}
       <Card
         style={{
           background: 'linear-gradient(135deg, #1890ff 0%, #52c41a 100%)',
           border: 'none',
         }}
-        bodyStyle={{ padding: '48px 32px' }}
+        styles={{ body: { padding: '48px 32px' } }}
       >
         <Title level={1} style={{ color: '#fff', marginBottom: 16 }}>
           지방세 정보 포털
@@ -74,7 +74,7 @@ const Home: React.FC = () => {
           <Col key={feature.title} xs={24} md={8}>
             <Link to={feature.link}>
               <Card hoverable style={{ height: '100%' }}>
-                <Space direction="vertical" size="middle" style={{ width: '100%' }}>
+                <Flex vertical gap="middle" style={{ width: '100%' }}>
                   <div
                     style={{
                       width: 48,
@@ -93,7 +93,7 @@ const Home: React.FC = () => {
                   <Text style={{ color: '#1890ff' }}>
                     자세히 보기 <ArrowRightOutlined />
                   </Text>
-                </Space>
+                </Flex>
               </Card>
             </Link>
           </Col>
@@ -104,30 +104,29 @@ const Home: React.FC = () => {
       <Row gutter={[24, 24]}>
         <Col xs={24} md={12}>
           <Card title="최근 업데이트" extra={<Link to="/guide">전체 보기 <ArrowRightOutlined /></Link>}>
-            <List
-              dataSource={recentUpdates}
-              renderItem={(item) => (
-                <List.Item
-                  extra={<Tag color="blue">{item.category}</Tag>}
-                >
-                  <List.Item.Meta
-                    title={item.title}
-                    description={
-                      <Space>
-                        <ClockCircleOutlined />
-                        <Text type="secondary">{item.date}</Text>
-                      </Space>
-                    }
-                  />
-                </List.Item>
-              )}
-            />
+            <Flex vertical gap="small">
+              {recentUpdates.map((item) => (
+                <Card key={item.title} size="small" style={{ background: '#fafafa' }}>
+                  <Flex justify="space-between" align="center">
+                    <div>
+                      <Text strong>{item.title}</Text>
+                      <br />
+                      <Text type="secondary" style={{ fontSize: 12 }}>
+                        <ClockCircleOutlined style={{ marginRight: 4 }} />
+                        {item.date}
+                      </Text>
+                    </div>
+                    <Tag color="blue">{item.category}</Tag>
+                  </Flex>
+                </Card>
+              ))}
+            </Flex>
           </Card>
         </Col>
 
         <Col xs={24} md={12}>
           <Card title="자주 찾는 정보">
-            <Space direction="vertical" style={{ width: '100%' }} size="middle">
+            <Flex vertical gap="middle" style={{ width: '100%' }}>
               {quickLinks.map((item) => (
                 <Link key={item.title} to={item.link}>
                   <Card
@@ -141,11 +140,11 @@ const Home: React.FC = () => {
                   </Card>
                 </Link>
               ))}
-            </Space>
+            </Flex>
           </Card>
         </Col>
       </Row>
-    </Space>
+    </Flex>
   );
 };
 

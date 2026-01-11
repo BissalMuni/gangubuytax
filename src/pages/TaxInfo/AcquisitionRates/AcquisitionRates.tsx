@@ -1,10 +1,11 @@
 import LoadingSpinner from '@/components/common/LoadingSpinner';
-import React, { useMemo, useState } from 'react';
+import React, { useMemo, useState, useCallback, memo } from 'react';
 import { useTaxData } from '@/hooks/useTaxData';
 import { TaxService } from '@/services/taxService';
 import { Card, Button, Tag, Space, Table, Row, Col, Typography, Alert, message, Tabs } from 'antd';
 import { ReloadOutlined, BookOutlined } from '@ant-design/icons';
 import Tooltip from './Tooltip';
+import type { ColumnsType } from 'antd/es/table';
 
 const { Title, Text } = Typography;
 
@@ -59,6 +60,29 @@ const FILTER_OPTIONS = {
   주택수: ['1주택', '2주택', '3주택', '4주택 이상']
 };
 
+// 필터 버튼 컴포넌트 - 메모이제이션으로 불필요한 리렌더링 방지
+interface FilterButtonProps {
+  option: string;
+  isSelected: boolean;
+  onClick: () => void;
+  selectedStyle?: React.CSSProperties;
+  danger?: boolean;
+}
+
+const FilterButton = memo(({ option, isSelected, onClick, selectedStyle, danger }: FilterButtonProps) => (
+  <Button
+    size="small"
+    type={isSelected ? 'primary' : 'default'}
+    danger={danger && isSelected}
+    onClick={onClick}
+    style={isSelected ? selectedStyle : undefined}
+  >
+    {option}
+  </Button>
+));
+
+FilterButton.displayName = 'FilterButton';
+
 const AcquisitionRates: React.FC = () => {
   const { data: taxData, isLoading, error } = useTaxData();
   const [activeTab, setActiveTab] = useState<string>('general');
@@ -110,7 +134,7 @@ const AcquisitionRates: React.FC = () => {
     return { generalCases: general, luxuryCases: luxury };
   }, [taxData]);
 
-  const resetFilters = () => {
+  const resetFilters = useCallback(() => {
     setFilters({
       납세자: '',
       취득원인: '',
@@ -119,9 +143,9 @@ const AcquisitionRates: React.FC = () => {
       지역구분: '',
       주택수: ''
     });
-  };
+  }, []);
 
-  const updateFilter = (key: keyof FilterState, value: string) => {
+  const updateFilter = useCallback((key: keyof FilterState, value: string) => {
     setFilters(prev => {
       const newFilters = {
         ...prev,
@@ -140,7 +164,7 @@ const AcquisitionRates: React.FC = () => {
 
       return newFilters;
     });
-  };
+  }, []);
 
   // 선택된 탭에 따라 모든 케이스의 데이터를 합침
   const tableData = useMemo(() => {
@@ -527,17 +551,8 @@ const AcquisitionRates: React.FC = () => {
     return result;
   }, [filteredData]);
 
-  const columns = [
-    {
-      title: '분류',
-      dataIndex: '케이스',
-      key: '케이스',
-      width: 120,
-      onCell: (record: any) => ({
-        rowSpan: record.isFirstInGroup ? record.groupRowSpan : 0,
-      }),
-      render: (text: string) => <Tag color="blue">{text}</Tag>,
-    },
+  // columns를 useMemo로 메모이제이션하여 매 렌더링마다 새로 생성하지 않음
+  const columns: ColumnsType<any> = useMemo(() => [
     {
       title: '납세자',
       dataIndex: '납세자',
@@ -647,7 +662,43 @@ const AcquisitionRates: React.FC = () => {
         </Tooltip>
       ),
     },
-  ];
+  ], []);
+
+  // 필터 핸들러 메모이제이션 - 각 버튼별로 안정적인 참조 유지
+  const handleFilterClick = useMemo(() => ({
+    납세자: FILTER_OPTIONS.납세자.reduce((acc, option) => {
+      acc[option] = () => updateFilter('납세자', option);
+      return acc;
+    }, {} as Record<string, () => void>),
+    취득원인: FILTER_OPTIONS.취득원인.reduce((acc, option) => {
+      acc[option] = () => updateFilter('취득원인', option);
+      return acc;
+    }, {} as Record<string, () => void>),
+    거래유형: FILTER_OPTIONS.거래유형.reduce((acc, option) => {
+      acc[option] = () => updateFilter('거래유형', option);
+      return acc;
+    }, {} as Record<string, () => void>),
+    물건: FILTER_OPTIONS.물건.reduce((acc, option) => {
+      acc[option] = () => updateFilter('물건', option);
+      return acc;
+    }, {} as Record<string, () => void>),
+    주택수: FILTER_OPTIONS.주택수.reduce((acc, option) => {
+      acc[option] = () => updateFilter('주택수', option);
+      return acc;
+    }, {} as Record<string, () => void>),
+    지역구분: FILTER_OPTIONS.지역구분.reduce((acc, option) => {
+      acc[option.value] = () => updateFilter('지역구분', option.value);
+      return acc;
+    }, {} as Record<string, () => void>),
+  }), [updateFilter]);
+
+  // 스타일 상수 - 매 렌더링마다 새로 생성하지 않음
+  const BUTTON_STYLES = useMemo(() => ({
+    거래유형: { background: '#722ed1', borderColor: '#722ed1' },
+    물건: { background: '#52c41a', borderColor: '#52c41a' },
+    주택수: { background: '#fa8c16', borderColor: '#fa8c16' },
+    지역구분: { background: '#faad14', borderColor: '#faad14' },
+  }), []);
 
   // 필터 및 테이블 렌더링
   const renderFilterAndTable = () => (
@@ -659,14 +710,12 @@ const AcquisitionRates: React.FC = () => {
           <Space wrap size="small">
             <Text type="secondary" style={{ width: 60 }}>납세자:</Text>
             {FILTER_OPTIONS.납세자.map((option) => (
-              <Button
+              <FilterButton
                 key={option}
-                size="small"
-                type={filters.납세자 === option ? 'primary' : 'default'}
-                onClick={() => updateFilter('납세자', option)}
-              >
-                {option}
-              </Button>
+                option={option}
+                isSelected={filters.납세자 === option}
+                onClick={handleFilterClick.납세자[option]}
+              />
             ))}
           </Space>
 
@@ -674,15 +723,13 @@ const AcquisitionRates: React.FC = () => {
           <Space wrap size="small">
             <Text type="secondary" style={{ width: 60 }}>취득원인:</Text>
             {FILTER_OPTIONS.취득원인.map((option) => (
-              <Button
+              <FilterButton
                 key={option}
-                size="small"
-                type={filters.취득원인 === option ? 'primary' : 'default'}
-                danger={filters.취득원인 === option}
-                onClick={() => updateFilter('취득원인', option)}
-              >
-                {option}
-              </Button>
+                option={option}
+                isSelected={filters.취득원인 === option}
+                onClick={handleFilterClick.취득원인[option]}
+                danger
+              />
             ))}
           </Space>
 
@@ -690,15 +737,13 @@ const AcquisitionRates: React.FC = () => {
           <Space wrap size="small">
             <Text type="secondary" style={{ width: 60 }}>거래유형:</Text>
             {FILTER_OPTIONS.거래유형.map((option) => (
-              <Button
+              <FilterButton
                 key={option}
-                size="small"
-                type={filters.거래유형 === option ? 'primary' : 'default'}
-                onClick={() => updateFilter('거래유형', option)}
-                style={filters.거래유형 === option ? { background: '#722ed1', borderColor: '#722ed1' } : {}}
-              >
-                {option}
-              </Button>
+                option={option}
+                isSelected={filters.거래유형 === option}
+                onClick={handleFilterClick.거래유형[option]}
+                selectedStyle={BUTTON_STYLES.거래유형}
+              />
             ))}
           </Space>
 
@@ -706,15 +751,13 @@ const AcquisitionRates: React.FC = () => {
           <Space wrap size="small">
             <Text type="secondary" style={{ width: 60 }}>물건:</Text>
             {FILTER_OPTIONS.물건.map((option) => (
-              <Button
+              <FilterButton
                 key={option}
-                size="small"
-                type={filters.물건 === option ? 'primary' : 'default'}
-                onClick={() => updateFilter('물건', option)}
-                style={filters.물건 === option ? { background: '#52c41a', borderColor: '#52c41a' } : {}}
-              >
-                {option}
-              </Button>
+                option={option}
+                isSelected={filters.물건 === option}
+                onClick={handleFilterClick.물건[option]}
+                selectedStyle={BUTTON_STYLES.물건}
+              />
             ))}
           </Space>
 
@@ -724,27 +767,23 @@ const AcquisitionRates: React.FC = () => {
               <Space wrap size="small">
                 <Text type="secondary">주택수:</Text>
                 {FILTER_OPTIONS.주택수.map((option) => (
-                  <Button
+                  <FilterButton
                     key={option}
-                    size="small"
-                    type={filters.주택수 === option ? 'primary' : 'default'}
-                    onClick={() => updateFilter('주택수', option)}
-                    style={filters.주택수 === option ? { background: '#fa8c16', borderColor: '#fa8c16' } : {}}
-                  >
-                    {option}
-                  </Button>
+                    option={option}
+                    isSelected={filters.주택수 === option}
+                    onClick={handleFilterClick.주택수[option]}
+                    selectedStyle={BUTTON_STYLES.주택수}
+                  />
                 ))}
                 <Text type="secondary" style={{ marginLeft: 16 }}>지역:</Text>
                 {FILTER_OPTIONS.지역구분.map((option) => (
-                  <Button
+                  <FilterButton
                     key={option.value}
-                    size="small"
-                    type={filters.지역구분 === option.value ? 'primary' : 'default'}
-                    onClick={() => updateFilter('지역구분', option.value)}
-                    style={filters.지역구분 === option.value ? { background: '#faad14', borderColor: '#faad14' } : {}}
-                  >
-                    {option.label}
-                  </Button>
+                    option={option.label}
+                    isSelected={filters.지역구분 === option.value}
+                    onClick={handleFilterClick.지역구분[option.value]}
+                    selectedStyle={BUTTON_STYLES.지역구분}
+                  />
                 ))}
               </Space>
             </div>
@@ -766,14 +805,15 @@ const AcquisitionRates: React.FC = () => {
         </Space>
       </Card>
 
-      {/* 세율 표 */}
+      {/* 세율 표 - virtual 스크롤로 대용량 데이터 최적화 */}
       <Table
         columns={columns}
         dataSource={flatTableData}
         pagination={{ pageSize: 50, showSizeChanger: true, showTotal: (total) => `총 ${total}건` }}
-        scroll={{ x: 'max-content' }}
+        scroll={{ x: 'max-content', y: 600 }}
         size="small"
         bordered
+        virtual
       />
     </>
   );

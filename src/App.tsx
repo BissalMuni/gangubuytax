@@ -3,6 +3,9 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ConfigProvider, App as AntApp } from 'antd';
 import koKR from 'antd/locale/ko_KR';
 
+// Constants
+import { ROUTES } from '@/constants/routes';
+
 // Layout
 import MainLayout from '@/components/layout/MainLayout';
 
@@ -18,6 +21,9 @@ import AcquisitionSpecial from '@/pages/TaxInfo/AcquisitionSpecial';
 import PropertyRates from '@/pages/TaxInfo/PropertyRates';
 import PropertyStandard from '@/pages/TaxInfo/PropertyStandard';
 import PropertySpecial from '@/pages/TaxInfo/PropertySpecial';
+
+// Tax Theme Pages
+import { FamilyTrade } from '@/pages/TaxTheme';
 
 // Create a client
 const queryClient = new QueryClient({
@@ -58,7 +64,7 @@ function App() {
         <QueryClientProvider client={queryClient}>
           <Router>
             <Routes>
-              <Route path="/" element={<MainLayout />}>
+              <Route path={ROUTES.HOME} element={<MainLayout />}>
                 <Route index element={<Home />} />
 
                 {/* 지방세정보 - 취득세 */}
@@ -73,19 +79,22 @@ function App() {
                 <Route path="local-tax/property/special" element={<PropertySpecial />} />
 
                 {/* 기존 tax-info 경로 리다이렉트 (호환성) */}
-                <Route path="tax-info/acquisition/rates" element={<Navigate to="/local-tax/acquisition/rates" replace />} />
-                <Route path="tax-info/acquisition/standard" element={<Navigate to="/local-tax/acquisition/standard" replace />} />
-                <Route path="tax-info/acquisition/requirements" element={<Navigate to="/local-tax/acquisition/requirements" replace />} />
-                <Route path="tax-info/acquisition/special" element={<Navigate to="/local-tax/acquisition/special" replace />} />
-                <Route path="tax-info/property/rates" element={<Navigate to="/local-tax/property/rates" replace />} />
-                <Route path="tax-info/property/standard" element={<Navigate to="/local-tax/property/standard" replace />} />
-                <Route path="tax-info/property/special" element={<Navigate to="/local-tax/property/special" replace />} />
-                <Route path="tax-info" element={<Navigate to="/local-tax/acquisition/rates" replace />} />
+                <Route path="tax-info/acquisition/rates" element={<Navigate to={ROUTES.LOCAL_TAX.ACQUISITION.RATES} replace />} />
+                <Route path="tax-info/acquisition/standard" element={<Navigate to={ROUTES.LOCAL_TAX.ACQUISITION.STANDARD} replace />} />
+                <Route path="tax-info/acquisition/requirements" element={<Navigate to={ROUTES.LOCAL_TAX.ACQUISITION.REQUIREMENTS} replace />} />
+                <Route path="tax-info/acquisition/special" element={<Navigate to={ROUTES.LOCAL_TAX.ACQUISITION.SPECIAL} replace />} />
+                <Route path="tax-info/property/rates" element={<Navigate to={ROUTES.LOCAL_TAX.PROPERTY.RATES} replace />} />
+                <Route path="tax-info/property/standard" element={<Navigate to={ROUTES.LOCAL_TAX.PROPERTY.STANDARD} replace />} />
+                <Route path="tax-info/property/special" element={<Navigate to={ROUTES.LOCAL_TAX.PROPERTY.SPECIAL} replace />} />
+                <Route path="tax-info" element={<Navigate to={ROUTES.LOCAL_TAX.ACQUISITION.RATES} replace />} />
+
+                {/* 테마별 지방세 - 취득세 */}
+                <Route path="local-tax-theme/acquisition/family-trade" element={<FamilyTrade />} />
 
                 {/* 지방세정보 기본 경로 */}
-                <Route path="local-tax" element={<Navigate to="/local-tax/acquisition/rates" replace />} />
+                <Route path="local-tax" element={<Navigate to={ROUTES.LOCAL_TAX.ACQUISITION.RATES} replace />} />
 
-                <Route path="*" element={<NotFound />} />
+                <Route path={ROUTES.NOT_FOUND} element={<NotFound />} />
               </Route>
             </Routes>
           </Router>

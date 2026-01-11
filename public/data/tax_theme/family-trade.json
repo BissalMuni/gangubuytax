@@ -1,0 +1,323 @@
+{
+  "meta": {
+    "id": "family-trade",
+    "title": "가족간 유상거래",
+    "description": "배우자 또는 직계존비속 간 부동산 유상거래 시 취득세 과세 기준",
+    "category": "acquisition",
+    "lastUpdated": "2025-12-31",
+    "version": "1.1"
+  },
+  "sections": [
+    {
+      "id": "principle",
+      "type": "alert",
+      "title": "원칙",
+      "variant": "warning",
+      "content": {
+        "text": "배우자 또는 직계존비속의 부동산등을 취득하는 경우 원칙적으로 증여로 취득한 것으로 본다.",
+        "emphasis": "증여 취득세율 3.5% 적용"
+      }
+    },
+    {
+      "id": "exception",
+      "type": "alert",
+      "title": "예외",
+      "variant": "success",
+      "content": {
+        "text": "일정 요건 충족 시 유상취득으로 인정되어 일반 취득세율(1~3%) 적용"
+      }
+    },
+    {
+      "id": "family-scope",
+      "type": "table",
+      "title": "가족 범위",
+      "icon": "TeamOutlined",
+      "content": {
+        "columns": [
+          { "key": "relation", "title": "관계", "width": "30%" },
+          { "key": "included", "title": "포함 여부", "width": "20%" },
+          { "key": "description", "title": "설명", "width": "50%" }
+        ],
+        "rows": [
+          { "relation": "배우자", "included": "O", "description": "법률상 혼인관계에 있는 자" },
+          { "relation": "직계존속", "included": "O", "description": "부모, 조부모, 외조부모 등" },
+          { "relation": "직계비속", "included": "O", "description": "자녀, 손자녀 등" },
+          { "relation": "형제자매", "included": "X", "description": "가족간 거래 규정 미적용" },
+          { "relation": "사위/며느리", "included": "X", "description": "직계존비속이 아님" }
+        ]
+      }
+    },
+    {
+      "id": "paid-acquisition-cases",
+      "type": "list",
+      "title": "유상취득 인정 사유",
+      "icon": "CheckCircleOutlined",
+      "content": {
+        "variant": "numbered",
+        "items": [
+          {
+            "id": "case-1",
+            "title": "공매(경매 포함)를 통한 취득",
+            "description": "공매 또는 경매를 통하여 부동산등을 취득한 경우",
+            "legalBasis": "지방세법 제7조 제11항 제1호"
+          },
+          {
+            "id": "case-2",
+            "title": "파산선고로 인한 취득",
+            "description": "파산선고로 인하여 처분되는 부동산등을 취득한 경우",
+            "legalBasis": "지방세법 제7조 제11항 제2호"
+          },
+          {
+            "id": "case-3",
+            "title": "부동산 교환",
+            "description": "권리의 이전이나 행사에 등기 또는 등록이 필요한 부동산등을 서로 교환한 경우",
+            "legalBasis": "지방세법 제7조 제11항 제3호"
+          },
+          {
+            "id": "case-4",
+            "title": "대가 지급 사실 증명",
+            "description": "해당 부동산등의 취득을 위하여 그 대가를 지급한 사실이 증명되는 경우",
+            "legalBasis": "지방세법 제7조 제11항 제4호",
+            "subItems": [
+              { "id": "case-4-1", "text": "그 대가를 지급하기 위한 취득자의 소득이 증명되는 경우" },
+              { "id": "case-4-2", "text": "소유재산을 처분 또는 담보한 금액으로 해당 부동산을 취득한 경우" },
+              { "id": "case-4-3", "text": "이미 상속세 또는 증여세를 과세받았거나 신고한 재산의 가액으로 대가를 지급한 경우" },
+              { "id": "case-4-4", "text": "취득자의 재산으로 그 대가를 지급한 사실이 입증되는 경우" }
+            ]
+          },
+          {
+            "id": "case-5",
+            "title": "30세 미만 미혼 자녀의 세대분리 소득요건",
+            "description": "30세 미만 미혼 자녀가 세대분리를 통해 독립세대로 인정받기 위해서는 소득요건을 충족해야 함",
+            "legalBasis": "지방세법 시행령 제28조의5 제1항",
+            "subItems": [
+              { "id": "case-5-1", "text": "30세 미만 미혼 자녀는 원칙적으로 부모와 동일세대로 간주" },
+              { "id": "case-5-2", "text": "중위소득 40% 이상 소득이 있는 경우 독립세대로 인정" },
+              { "id": "case-5-3", "text": "2024년 기준 중위소득 40%: 월 약 93만원 (1인 가구 기준)" },
+              { "id": "case-5-4", "text": "소득이 없거나 미달 시 부모 세대에 포함되어 다주택 중과 판정에 영향" }
+            ],
+            "note": "세대분리가 인정되지 않으면 부모와 합산하여 주택 수 계산"
+          }
+        ]
+      }
+    },
+    {
+      "id": "under30-comparison",
+      "type": "table",
+      "title": "30세 미만 미혼 자녀 세대분리 요건 비교",
+      "icon": "UsergroupDeleteOutlined",
+      "content": {
+        "columns": [
+          { "key": "category", "title": "구분", "width": "25%" },
+          { "key": "withIncome", "title": "소득요건 충족", "width": "37.5%" },
+          { "key": "withoutIncome", "title": "소득요건 미충족", "width": "37.5%" }
+        ],
+        "rows": [
+          { "category": "세대 판정", "withIncome": "독립세대로 인정", "withoutIncome": "부모 세대에 포함", "highlight": true },
+          { "category": "소득 기준", "withIncome": "중위소득 40% 이상 (월 약 93만원)", "withoutIncome": "소득 없음 또는 미달" },
+          { "category": "주택 수 계산", "withIncome": "본인 주택만 계산", "withoutIncome": "부모 주택과 합산" },
+          { "category": "취득세 중과", "withIncome": "본인 기준 적용", "withoutIncome": "부모 다주택 시 중과 가능" },
+          { "category": "증빙 서류", "withIncome": "소득금액증명원, 근로소득원천징수영수증 등", "withoutIncome": "세대분리 불인정" }
+        ]
+      }
+    },
+    {
+      "id": "price-gap-criteria",
+      "type": "criteria",
+      "title": "대가와 시가인정액 차액 기준",
+      "icon": "CalculatorOutlined",
+      "content": {
+        "description": "대가 지급 사실이 증명되더라도 아래 기준에 해당하면 증여로 간주",
+        "legalBasis": "지방세법 제7조 제11항 제4호 단서, 시행령 제11조의3",
+        "conditions": [
+          {
+            "id": "cond-1",
+            "condition": "차액 ≥ 3억원",
+            "result": "증여로 간주",
+            "resultType": "negative"
+          },
+          {
+            "id": "cond-2",
+            "condition": "차액 ≥ 시가인정액의 30%",
+            "result": "증여로 간주",
+            "resultType": "negative"
+          }
+        ],
+        "note": "시가인정액을 산정하기 어려운 경우에는 시가표준액 적용"
+      }
+    },
+    {
+      "id": "tax-rates",
+      "type": "table",
+      "title": "취득세율 비교",
+      "icon": "PercentageOutlined",
+      "content": {
+        "columns": [
+          { "key": "type", "title": "취득 유형", "width": "35%" },
+          { "key": "rate", "title": "세율", "width": "25%" },
+          { "key": "note", "title": "비고", "width": "40%" }
+        ],
+        "rows": [
+          { "type": "유상승계취득 (주택)", "rate": "1~3%", "note": "주택가액 6억 이하 1%, 6~9억 1~3%, 9억 초과 3%", "highlight": true },
+          { "type": "유상승계취득 (일반)", "rate": "4%", "note": "주택 외 부동산" },
+          { "type": "증여취득", "rate": "3.5%", "note": "무상취득 세율 적용" }
+        ]
+      }
+    },
+    {
+      "id": "tax-standard",
+      "type": "comparison",
+      "title": "과세표준 비교",
+      "icon": "DiffOutlined",
+      "content": {
+        "items": [
+          {
+            "id": "paid",
+            "title": "유상승계취득",
+            "value": "사실상취득가격",
+            "description": "실제 거래가격 기준",
+            "legalBasis": "지방세법 제10조의3",
+            "variant": "primary"
+          },
+          {
+            "id": "gift",
+            "title": "증여취득",
+            "value": "시가인정액",
+            "description": "시가인정액 (산정 어려운 경우 시가표준액)",
+            "legalBasis": "지방세법 제10조의2",
+            "variant": "secondary"
+          }
+        ]
+      }
+    },
+    {
+      "id": "examples",
+      "type": "cases",
+      "title": "사례",
+      "icon": "FileSearchOutlined",
+      "content": {
+        "items": [
+          {
+            "id": "ex-1",
+            "title": "아버지로부터 아파트 매수",
+            "scenario": "아들이 아버지 소유 아파트(시가 5억원)를 4억5천만원에 매수",
+            "analysis": [
+              { "label": "시가와의 차액", "value": "5천만원" },
+              { "label": "차액 비율", "value": "10%" },
+              { "label": "3억원 이상?", "value": "아니오" },
+              { "label": "30% 이상?", "value": "아니오" }
+            ],
+            "result": "유상취득 인정 가능",
+            "resultType": "success",
+            "note": "소득증명 또는 재산처분 증빙 필요"
+          },
+          {
+            "id": "ex-2",
+            "title": "어머니로부터 상가 매수 (저가양도)",
+            "scenario": "자녀가 어머니 소유 상가(시가 10억원)를 5억원에 매수",
+            "analysis": [
+              { "label": "시가와의 차액", "value": "5억원" },
+              { "label": "차액 비율", "value": "50%" },
+              { "label": "3억원 이상?", "value": "예" },
+              { "label": "30% 이상?", "value": "예" }
+            ],
+            "result": "증여로 간주",
+            "resultType": "error",
+            "note": "증여취득 세율 3.5% 적용"
+          },
+          {
+            "id": "ex-3",
+            "title": "배우자 간 주택 매매",
+            "scenario": "남편이 아내 소유 주택(시가 8억원)을 7억5천만원에 매수, 본인 예금으로 대금 지급",
+            "analysis": [
+              { "label": "시가와의 차액", "value": "5천만원" },
+              { "label": "차액 비율", "value": "6.25%" },
+              { "label": "3억원 이상?", "value": "아니오" },
+              { "label": "30% 이상?", "value": "아니오" }
+            ],
+            "result": "유상취득 인정 가능",
+            "resultType": "success",
+            "note": "예금잔액증명서, 계좌이체내역 필요"
+          },
+          {
+            "id": "ex-4",
+            "title": "29세 미혼 자녀 소득요건 충족",
+            "scenario": "29세 미혼 자녀(월 소득 150만원)가 부모로부터 아파트 매수, 별도 세대로 거주 중",
+            "analysis": [
+              { "label": "나이", "value": "29세 (30세 미만)" },
+              { "label": "혼인 여부", "value": "미혼" },
+              { "label": "월 소득", "value": "150만원" },
+              { "label": "중위소득 40% 충족", "value": "예 (93만원 이상)" }
+            ],
+            "result": "독립세대 인정, 본인 기준 취득세 적용",
+            "resultType": "success",
+            "note": "소득금액증명원 필수 제출"
+          },
+          {
+            "id": "ex-5",
+            "title": "28세 미혼 자녀 소득요건 미충족",
+            "scenario": "28세 미혼 무직 자녀가 부모로부터 주택 매수, 부모는 이미 2주택 보유",
+            "analysis": [
+              { "label": "나이", "value": "28세 (30세 미만)" },
+              { "label": "혼인 여부", "value": "미혼" },
+              { "label": "월 소득", "value": "없음" },
+              { "label": "중위소득 40% 충족", "value": "아니오" }
+            ],
+            "result": "부모 세대에 포함, 3주택자로 중과세율 적용 가능",
+            "resultType": "error",
+            "note": "세대분리 불인정으로 부모 주택 수에 합산"
+          }
+        ]
+      }
+    },
+    {
+      "id": "checklist",
+      "type": "steps",
+      "title": "실무 체크리스트",
+      "icon": "OrderedListOutlined",
+      "content": {
+        "items": [
+          { "step": 1, "title": "거래 당사자 확인", "description": "배우자 또는 직계존비속 간 거래인지 확인" },
+          { "step": 2, "title": "30세 미만 미혼 자녀 여부 확인", "description": "30세 미만 미혼인 경우 중위소득 40% 이상 소득 여부 확인 (세대분리 인정 요건)" },
+          { "step": 3, "title": "유상취득 예외 해당 여부", "description": "공매, 파산선고, 교환, 대가지급 증명 중 해당사항 확인" },
+          { "step": 4, "title": "대가 지급 증빙 준비", "description": "소득증명, 재산처분 내역, 대출내역 등 증빙서류 준비" },
+          { "step": 5, "title": "시가 대비 거래가액 확인", "description": "거래가액과 시가인정액 차액이 3억원 미만이고 30% 미만인지 확인" },
+          { "step": 6, "title": "취득세 신고", "description": "증빙서류와 함께 취득세 신고 진행" }
+        ]
+      }
+    },
+    {
+      "id": "documents",
+      "type": "list",
+      "title": "필요 서류",
+      "icon": "FolderOutlined",
+      "content": {
+        "variant": "bullet",
+        "items": [
+          { "id": "doc-1", "text": "매매계약서" },
+          { "id": "doc-2", "text": "대금지급 증빙 (계좌이체 내역 등)" },
+          { "id": "doc-3", "text": "소득금액증명원 또는 원천징수영수증" },
+          { "id": "doc-4", "text": "재산처분 증빙 (매매계약서, 대출약정서 등)" },
+          { "id": "doc-5", "text": "시가인정액 산정 자료 (감정평가서, 매매사례가액 등)" },
+          { "id": "doc-6", "text": "30세 미만 미혼 자녀: 중위소득 40% 충족 증빙 (근로소득원천징수영수증, 사업소득증명 등)" }
+        ]
+      }
+    },
+    {
+      "id": "related-laws",
+      "type": "references",
+      "title": "관련 법조문",
+      "icon": "BookOutlined",
+      "content": {
+        "items": [
+          { "law": "지방세법", "article": "제7조 제11항", "title": "가족간 유상거래 증여 간주 규정", "description": "배우자 또는 직계존비속 간 부동산 취득 시 증여로 보는 원칙 및 예외 사유" },
+          { "law": "지방세법 시행령", "article": "제11조의3", "title": "대가와 시가인정액의 차액 기준", "description": "3억원 또는 시가인정액의 30% 기준 규정" },
+          { "law": "지방세법 시행령", "article": "제28조의5 제1항", "title": "30세 미만 미혼 자녀 세대분리 요건", "description": "중위소득 40% 이상 소득 시 독립세대 인정" },
+          { "law": "지방세법", "article": "제10조의2", "title": "무상취득의 경우 과세표준", "description": "시가인정액 기준 과세표준 산정" },
+          { "law": "지방세법", "article": "제10조의3", "title": "유상승계취득의 경우 과세표준", "description": "사실상취득가격 기준 과세표준 산정" },
+          { "law": "지방세법", "article": "제11조", "title": "부동산 취득의 세율", "description": "유상취득 1~4%, 무상취득 3.5% 등" }
+        ]
+      }
+    }
+  ]
+}
