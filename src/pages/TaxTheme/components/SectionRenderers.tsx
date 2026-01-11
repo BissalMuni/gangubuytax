@@ -1,5 +1,5 @@
 import React from 'react';
-import { Card, Table, Tag, Alert, Typography, Steps, Space, Row, Col } from 'antd';
+import { Card, Table, Tag, Alert, Typography, Steps, Row, Col, Flex } from 'antd';
 import {
   FileTextOutlined,
   TeamOutlined,
@@ -169,20 +169,20 @@ export const InfoRenderer: React.FC<{ section: InfoSection } & CommonProps> = ({
   <Card
     size="small"
     title={
-      <Space>
+      <Flex align="center" gap={8}>
         {section.icon && iconMap[section.icon]}
         <span style={{ fontSize: isMobile ? 14 : 16 }}>{section.title}</span>
-      </Space>
+      </Flex>
     }
   >
-    <Space direction="vertical" size="small">
+    <Flex vertical gap={4}>
       {section.content.items.map((item, idx) => (
-        <div key={idx}>
+        <div key={idx} style={{ wordBreak: 'keep-all' }}>
           <Text type="secondary" style={{ fontSize: isMobile ? 12 : 14 }}>{item.label}: </Text>
           <Text strong style={{ fontSize: isMobile ? 12 : 14 }}>{item.value}</Text>
         </div>
       ))}
-    </Space>
+    </Flex>
   </Card>
 );
 
@@ -226,7 +226,7 @@ export const TableRenderer: React.FC<{ section: TableSection } & CommonProps> = 
       if (record.highlight) {
         return <Text strong style={{ color: '#1890ff', fontSize: isMobile ? 12 : 14 }}>{text}</Text>;
       }
-      return <span style={{ fontSize: isMobile ? 12 : 14 }}>{text}</span>;
+      return <span style={{ fontSize: isMobile ? 12 : 14, wordBreak: 'keep-all' }}>{text}</span>;
     },
   }));
 
@@ -239,10 +239,10 @@ export const TableRenderer: React.FC<{ section: TableSection } & CommonProps> = 
     <Card
       size="small"
       title={
-        <Space>
+        <Flex align="center" gap={8}>
           {section.icon && iconMap[section.icon]}
           <span style={{ fontSize: isMobile ? 14 : 16 }}>{section.title}</span>
-        </Space>
+        </Flex>
       }
     >
       <Table
@@ -262,43 +262,47 @@ export const ListRenderer: React.FC<{ section: ListSection } & CommonProps> = ({
   <Card
     size="small"
     title={
-      <Space>
+      <Flex align="center" gap={8}>
         {section.icon && iconMap[section.icon]}
         <span style={{ fontSize: isMobile ? 14 : 16 }}>{section.title}</span>
-      </Space>
+      </Flex>
     }
   >
-    <Space direction="vertical" size={isMobile ? 'small' : 'middle'} style={{ width: '100%' }}>
+    <Flex vertical gap={isMobile ? 8 : 12} style={{ width: '100%' }}>
       {section.content.items.map((item, idx) => (
-        <div key={item.id}>
-          <Space direction="vertical" size="small" style={{ width: '100%' }}>
-            <Space wrap>
+        <div key={item.id} style={{ width: '100%' }}>
+          <Flex vertical gap={4} style={{ width: '100%' }}>
+            <Flex align="center" gap={8} wrap="wrap">
               {section.content.variant === 'numbered' && (
                 <Tag color="blue">{idx + 1}</Tag>
               )}
-              <Text strong style={{ fontSize: isMobile ? 13 : 14 }}>{item.title || item.text}</Text>
-            </Space>
+              <Text strong style={{ fontSize: isMobile ? 13 : 14, wordBreak: 'keep-all' }}>
+                {item.title || item.text}
+              </Text>
+            </Flex>
             {item.description && (
-              <Text
-                type="secondary"
+              <div
                 style={{
                   marginLeft: section.content.variant === 'numbered' ? (isMobile ? 24 : 32) : 0,
                   fontSize: isMobile ? 12 : 14,
+                  color: '#666',
+                  wordBreak: 'keep-all',
+                  lineHeight: 1.5,
                 }}
               >
                 {item.description}
-              </Text>
+              </div>
             )}
             {item.legalBasis && (
-              <Text
-                type="secondary"
+              <div
                 style={{
                   fontSize: isMobile ? 11 : 12,
                   marginLeft: section.content.variant === 'numbered' ? (isMobile ? 24 : 32) : 0,
+                  color: '#999',
                 }}
               >
                 ({item.legalBasis})
-              </Text>
+              </div>
             )}
             {item.note && (
               <Alert
@@ -308,23 +312,23 @@ export const ListRenderer: React.FC<{ section: ListSection } & CommonProps> = ({
                 style={{
                   marginLeft: section.content.variant === 'numbered' ? (isMobile ? 24 : 32) : 0,
                   fontSize: isMobile ? 12 : 14,
-                  width: '100%',
+                  width: 'auto',
                 }}
               />
             )}
             {item.subItems && (
-              <ul style={{ marginLeft: isMobile ? 32 : 48, marginTop: 8, paddingLeft: 0 }}>
+              <ul style={{ marginLeft: isMobile ? 32 : 48, marginTop: 4, paddingLeft: 16, marginBottom: 0 }}>
                 {item.subItems.map((sub) => (
-                  <li key={sub.id} style={{ fontSize: isMobile ? 12 : 14 }}>
-                    <Text>{sub.text}</Text>
+                  <li key={sub.id} style={{ fontSize: isMobile ? 12 : 14, wordBreak: 'keep-all', lineHeight: 1.6 }}>
+                    {sub.text}
                   </li>
                 ))}
               </ul>
             )}
-          </Space>
+          </Flex>
         </div>
       ))}
-    </Space>
+    </Flex>
   </Card>
 );
 
@@ -333,14 +337,16 @@ export const CriteriaRenderer: React.FC<{ section: CriteriaSection } & CommonPro
   <Card
     size="small"
     title={
-      <Space>
+      <Flex align="center" gap={8}>
         {section.icon && iconMap[section.icon]}
         <span style={{ fontSize: isMobile ? 14 : 16 }}>{section.title}</span>
-      </Space>
+      </Flex>
     }
   >
-    <Space direction="vertical" size={isMobile ? 'small' : 'middle'} style={{ width: '100%' }}>
-      <Paragraph style={{ fontSize: isMobile ? 13 : 14, margin: 0 }}>{section.content.description}</Paragraph>
+    <Flex vertical gap={isMobile ? 8 : 12} style={{ width: '100%' }}>
+      <Paragraph style={{ fontSize: isMobile ? 13 : 14, margin: 0, wordBreak: 'keep-all' }}>
+        {section.content.description}
+      </Paragraph>
       {section.content.legalBasis && (
         <Text type="secondary" style={{ fontSize: isMobile ? 11 : 12 }}>
           ({section.content.legalBasis})
@@ -356,12 +362,12 @@ export const CriteriaRenderer: React.FC<{ section: CriteriaSection } & CommonPro
                 backgroundColor: cond.resultType === 'negative' ? '#fff2f0' : '#f6ffed',
               }}
             >
-              <Space direction="vertical" size="small">
-                <Text strong style={{ fontSize: isMobile ? 13 : 14 }}>{cond.condition}</Text>
+              <Flex vertical gap={4}>
+                <Text strong style={{ fontSize: isMobile ? 13 : 14, wordBreak: 'keep-all' }}>{cond.condition}</Text>
                 <Tag color={cond.resultType === 'negative' ? 'red' : 'green'}>
                   {cond.result}
                 </Tag>
-              </Space>
+              </Flex>
             </Card>
           </Col>
         ))}
@@ -374,7 +380,7 @@ export const CriteriaRenderer: React.FC<{ section: CriteriaSection } & CommonPro
           style={{ fontSize: isMobile ? 12 : 14, width: '100%' }}
         />
       )}
-    </Space>
+    </Flex>
   </Card>
 );
 
@@ -383,10 +389,10 @@ export const ComparisonRenderer: React.FC<{ section: ComparisonSection } & Commo
   <Card
     size="small"
     title={
-      <Space>
+      <Flex align="center" gap={8}>
         {section.icon && iconMap[section.icon]}
         <span style={{ fontSize: isMobile ? 14 : 16 }}>{section.title}</span>
-      </Space>
+      </Flex>
     }
   >
     <Row gutter={[isMobile ? 8 : 16, isMobile ? 8 : 16]}>
@@ -399,18 +405,18 @@ export const ComparisonRenderer: React.FC<{ section: ComparisonSection } & Commo
               borderWidth: 2,
             }}
           >
-            <Space direction="vertical" size="small">
+            <Flex vertical gap={4}>
               <Text strong style={{ color: item.variant === 'primary' ? '#1890ff' : '#722ed1', fontSize: isMobile ? 13 : 14 }}>
                 {item.title}
               </Text>
               <Title level={isMobile ? 5 : 4} style={{ margin: 0 }}>{item.value}</Title>
-              <Text type="secondary" style={{ fontSize: isMobile ? 12 : 14 }}>{item.description}</Text>
+              <Text type="secondary" style={{ fontSize: isMobile ? 12 : 14, wordBreak: 'keep-all' }}>{item.description}</Text>
               {item.legalBasis && (
                 <Text type="secondary" style={{ fontSize: isMobile ? 11 : 12 }}>
                   ({item.legalBasis})
                 </Text>
               )}
-            </Space>
+            </Flex>
           </Card>
         </Col>
       ))}
@@ -423,18 +429,18 @@ export const CasesRenderer: React.FC<{ section: CasesSection } & CommonProps> = 
   <Card
     size="small"
     title={
-      <Space>
+      <Flex align="center" gap={8}>
         {section.icon && iconMap[section.icon]}
         <span style={{ fontSize: isMobile ? 14 : 16 }}>{section.title}</span>
-      </Space>
+      </Flex>
     }
   >
-    <Space direction="vertical" size={isMobile ? 'small' : 'middle'} style={{ width: '100%' }}>
+    <Flex vertical gap={isMobile ? 8 : 12} style={{ width: '100%' }}>
       {section.content.items.map((item) => (
         <Card
           key={item.id}
           size="small"
-          title={<span style={{ fontSize: isMobile ? 13 : 14 }}>{item.title}</span>}
+          title={<span style={{ fontSize: isMobile ? 13 : 14, wordBreak: 'keep-all' }}>{item.title}</span>}
           extra={
             <Tag color={item.resultType === 'success' ? 'green' : 'red'} style={{ fontSize: isMobile ? 11 : 12 }}>
               {item.result}
@@ -444,7 +450,7 @@ export const CasesRenderer: React.FC<{ section: CasesSection } & CommonProps> = 
             borderColor: item.resultType === 'success' ? '#52c41a' : '#ff4d4f',
           }}
         >
-          <Space direction="vertical" size="small" style={{ width: '100%' }}>
+          <Flex vertical gap={8} style={{ width: '100%' }}>
             <Alert
               type="info"
               message={<div style={{ fontSize: isMobile ? 12 : 14, wordBreak: 'keep-all', lineHeight: 1.5 }}>{item.scenario}</div>}
@@ -455,8 +461,8 @@ export const CasesRenderer: React.FC<{ section: CasesSection } & CommonProps> = 
             <Row gutter={[isMobile ? 4 : 8, isMobile ? 4 : 8]}>
               {item.analysis.map((a, idx) => (
                 <Col key={idx} xs={12} sm={6}>
-                  <Card size="small" style={{ textAlign: 'center', padding: isMobile ? 4 : 8 }}>
-                    <Text type="secondary" style={{ fontSize: isMobile ? 10 : 12 }}>{a.label}</Text>
+                  <Card size="small" styles={{ body: { padding: isMobile ? 8 : 12, textAlign: 'center' } }}>
+                    <Text type="secondary" style={{ fontSize: isMobile ? 10 : 12, wordBreak: 'keep-all' }}>{a.label}</Text>
                     <br />
                     <Text strong style={{ fontSize: isMobile ? 11 : 14 }}>{a.value}</Text>
                   </Card>
@@ -464,15 +470,15 @@ export const CasesRenderer: React.FC<{ section: CasesSection } & CommonProps> = 
               ))}
             </Row>
             {item.note && (
-              <Text type="secondary" style={{ fontSize: isMobile ? 11 : 14 }}>
-                {item.resultType === 'success' ? <CheckCircleOutlined style={{ color: '#52c41a' }} /> : <CloseCircleOutlined style={{ color: '#ff4d4f' }} />}
-                {' '}{item.note}
-              </Text>
+              <div style={{ fontSize: isMobile ? 11 : 14, color: '#666', wordBreak: 'keep-all' }}>
+                {item.resultType === 'success' ? <CheckCircleOutlined style={{ color: '#52c41a', marginRight: 4 }} /> : <CloseCircleOutlined style={{ color: '#ff4d4f', marginRight: 4 }} />}
+                {item.note}
+              </div>
             )}
-          </Space>
+          </Flex>
         </Card>
       ))}
-    </Space>
+    </Flex>
   </Card>
 );
 
@@ -481,10 +487,10 @@ export const StepsRenderer: React.FC<{ section: StepsSection } & CommonProps> = 
   <Card
     size="small"
     title={
-      <Space>
+      <Flex align="center" gap={8}>
         {section.icon && iconMap[section.icon]}
         <span style={{ fontSize: isMobile ? 14 : 16 }}>{section.title}</span>
-      </Space>
+      </Flex>
     }
   >
     <Steps
@@ -492,8 +498,8 @@ export const StepsRenderer: React.FC<{ section: StepsSection } & CommonProps> = 
       size="small"
       current={-1}
       items={section.content.items.map((item) => ({
-        title: <span style={{ fontSize: isMobile ? 13 : 14 }}>{item.title}</span>,
-        description: <span style={{ fontSize: isMobile ? 12 : 14 }}>{item.description}</span>,
+        title: <span style={{ fontSize: isMobile ? 13 : 14, wordBreak: 'keep-all' }}>{item.title}</span>,
+        description: <span style={{ fontSize: isMobile ? 12 : 14, wordBreak: 'keep-all' }}>{item.description}</span>,
       }))}
     />
   </Card>
@@ -504,28 +510,28 @@ export const ReferencesRenderer: React.FC<{ section: ReferencesSection } & Commo
   <Card
     size="small"
     title={
-      <Space>
+      <Flex align="center" gap={8}>
         {section.icon && iconMap[section.icon]}
         <span style={{ fontSize: isMobile ? 14 : 16 }}>{section.title}</span>
-      </Space>
+      </Flex>
     }
   >
-    <Space direction="vertical" size="small" style={{ width: '100%' }}>
+    <Flex vertical gap={8} style={{ width: '100%' }}>
       {section.content.items.map((item, idx) => (
         <Card key={idx} size="small" style={{ background: '#fafafa' }}>
-          <Space direction="vertical" size={2} style={{ width: '100%' }}>
-            <Space wrap size={isMobile ? 'small' : 'middle'}>
+          <Flex vertical gap={2} style={{ width: '100%' }}>
+            <Flex align="center" gap={8} wrap="wrap">
               <Tag color="blue" style={{ fontSize: isMobile ? 11 : 12 }}>{item.law}</Tag>
               <Text strong style={{ fontSize: isMobile ? 12 : 14 }}>{item.article}</Text>
-            </Space>
-            <Text style={{ fontSize: isMobile ? 12 : 14 }}>{item.title}</Text>
+            </Flex>
+            <div style={{ fontSize: isMobile ? 12 : 14, wordBreak: 'keep-all' }}>{item.title}</div>
             {item.description && (
-              <Text type="secondary" style={{ fontSize: isMobile ? 11 : 12 }}>{item.description}</Text>
+              <div style={{ fontSize: isMobile ? 11 : 12, color: '#666', wordBreak: 'keep-all' }}>{item.description}</div>
             )}
-          </Space>
+          </Flex>
         </Card>
       ))}
-    </Space>
+    </Flex>
   </Card>
 );
 
