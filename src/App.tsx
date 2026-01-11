@@ -8,22 +8,12 @@ import { ROUTES } from '@/constants/routes';
 
 // Layout
 import MainLayout from '@/components/layout/MainLayout';
+import { TaxInfoLayout } from '@/components/layout/TaxInfoLayout';
+import { TaxThemeLayout } from '@/components/layout/TaxThemeLayout';
 
 // Pages
 import Home from '@/pages/Home';
 import NotFound from '@/pages/NotFound';
-
-// Tax Info Specific Pages
-import AcquisitionRates from '@/pages/TaxInfo/AcquisitionRates';
-import AcquisitionStandard from '@/pages/TaxInfo/AcquisitionStandard';
-import AcquisitionRequirements from '@/pages/TaxInfo/AcquisitionRequirements';
-import AcquisitionSpecial from '@/pages/TaxInfo/AcquisitionSpecial';
-import PropertyRates from '@/pages/TaxInfo/PropertyRates';
-import PropertyStandard from '@/pages/TaxInfo/PropertyStandard';
-import PropertySpecial from '@/pages/TaxInfo/PropertySpecial';
-
-// Tax Theme Pages
-import { FamilyTrade } from '@/pages/TaxTheme';
 
 // Create a client
 const queryClient = new QueryClient({
@@ -67,16 +57,14 @@ function App() {
               <Route path={ROUTES.HOME} element={<MainLayout />}>
                 <Route index element={<Home />} />
 
-                {/* 지방세정보 - 취득세 */}
-                <Route path="local-tax/acquisition/rates" element={<AcquisitionRates />} />
-                <Route path="local-tax/acquisition/standard" element={<AcquisitionStandard />} />
-                <Route path="local-tax/acquisition/requirements" element={<AcquisitionRequirements />} />
-                <Route path="local-tax/acquisition/special" element={<AcquisitionSpecial />} />
+                {/* 지방세정보 - 취득세 (무한 스크롤 레이아웃) */}
+                <Route path="local-tax/acquisition/*" element={<TaxInfoLayout />} />
 
-                {/* 지방세정보 - 재산세 */}
-                <Route path="local-tax/property/rates" element={<PropertyRates />} />
-                <Route path="local-tax/property/standard" element={<PropertyStandard />} />
-                <Route path="local-tax/property/special" element={<PropertySpecial />} />
+                {/* 지방세정보 - 재산세 (무한 스크롤 레이아웃) */}
+                <Route path="local-tax/property/*" element={<TaxInfoLayout />} />
+
+                {/* 테마별 지방세 - 취득세 (무한 스크롤 레이아웃) */}
+                <Route path="local-tax-theme/acquisition/*" element={<TaxThemeLayout />} />
 
                 {/* 기존 tax-info 경로 리다이렉트 (호환성) */}
                 <Route path="tax-info/acquisition/rates" element={<Navigate to={ROUTES.LOCAL_TAX.ACQUISITION.RATES} replace />} />
@@ -87,9 +75,6 @@ function App() {
                 <Route path="tax-info/property/standard" element={<Navigate to={ROUTES.LOCAL_TAX.PROPERTY.STANDARD} replace />} />
                 <Route path="tax-info/property/special" element={<Navigate to={ROUTES.LOCAL_TAX.PROPERTY.SPECIAL} replace />} />
                 <Route path="tax-info" element={<Navigate to={ROUTES.LOCAL_TAX.ACQUISITION.RATES} replace />} />
-
-                {/* 테마별 지방세 - 취득세 */}
-                <Route path="local-tax-theme/acquisition/family-trade" element={<FamilyTrade />} />
 
                 {/* 지방세정보 기본 경로 */}
                 <Route path="local-tax" element={<Navigate to={ROUTES.LOCAL_TAX.ACQUISITION.RATES} replace />} />

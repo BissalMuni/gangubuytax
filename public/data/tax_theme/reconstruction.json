@@ -1,0 +1,109 @@
+{
+  "meta": {
+    "id": "reconstruction",
+    "title": "재건축 취득세",
+    "description": "재건축·재개발 사업으로 부동산을 취득할 때 적용되는 취득세 관련 정보입니다.",
+    "category": "acquisition",
+    "lastUpdated": "2025-01-11",
+    "version": "1.0"
+  },
+  "sections": [
+    {
+      "id": "overview",
+      "type": "info",
+      "title": "개요",
+      "icon": "FileTextOutlined",
+      "content": {
+        "items": [
+          { "label": "적용대상", "value": "재건축·재개발 조합원 및 일반분양자" },
+          { "label": "취득유형", "value": "조합원: 원시취득, 일반분양: 유상취득" },
+          { "label": "과세표준", "value": "취득 당시 시가표준액" }
+        ]
+      }
+    },
+    {
+      "id": "member-acquisition",
+      "type": "alert",
+      "title": "조합원 취득 안내",
+      "variant": "info",
+      "content": {
+        "text": "재건축·재개발 조합원이 새 아파트를 취득하는 경우 원시취득으로 분류됩니다. 기존 주택 가액은 승계취득으로 이미 과세되었으므로 신축분에 대해서만 과세됩니다.",
+        "emphasis": "원시취득 적용"
+      }
+    },
+    {
+      "id": "tax-rate",
+      "type": "table",
+      "title": "재건축 취득세율",
+      "icon": "PercentageOutlined",
+      "content": {
+        "columns": [
+          { "key": "category", "title": "구분", "width": "30%" },
+          { "key": "acquisitionTax", "title": "취득세", "width": "15%" },
+          { "key": "educationTax", "title": "지방교육세", "width": "15%" },
+          { "key": "ruralTax", "title": "농어촌특별세", "width": "15%" },
+          { "key": "total", "title": "합계", "width": "15%" }
+        ],
+        "rows": [
+          { "category": "조합원 원시취득", "acquisitionTax": "2.8%", "educationTax": "0.16%", "ruralTax": "0.2%", "total": "3.16%", "highlight": false },
+          { "category": "일반분양 (85㎡ 이하)", "acquisitionTax": "1.1%", "educationTax": "0.1%", "ruralTax": "-", "total": "1.2%", "highlight": false },
+          { "category": "일반분양 (85㎡ 초과)", "acquisitionTax": "1.1%", "educationTax": "0.1%", "ruralTax": "0.2%", "total": "1.4%", "highlight": false }
+        ]
+      }
+    },
+    {
+      "id": "calculation",
+      "type": "cases",
+      "title": "과세표준 계산 사례",
+      "icon": "CalculatorOutlined",
+      "content": {
+        "items": [
+          {
+            "id": "case-1",
+            "title": "조합원 권리가액 초과 취득",
+            "scenario": "권리가액보다 높은 가격의 주택을 배정받은 경우",
+            "analysis": [
+              { "label": "계산식", "value": "과세표준 = 신축주택 시가표준액 - 권리가액" },
+              { "label": "과세범위", "value": "추가 분담금에 대해서만 취득세 과세" }
+            ],
+            "result": "분담금 기준 과세",
+            "resultType": "success"
+          },
+          {
+            "id": "case-2",
+            "title": "조합원 권리가액 이하 취득",
+            "scenario": "권리가액보다 낮은 가격의 주택을 배정받은 경우",
+            "analysis": [
+              { "label": "과세표준", "value": "0원 (취득세 없음)" },
+              { "label": "비고", "value": "환급금 발생 시에도 취득세 비과세" }
+            ],
+            "result": "취득세 비과세",
+            "resultType": "success"
+          }
+        ]
+      }
+    },
+    {
+      "id": "related-laws",
+      "type": "references",
+      "title": "관련 법조문",
+      "icon": "BookOutlined",
+      "content": {
+        "items": [
+          {
+            "law": "지방세법",
+            "article": "제10조",
+            "title": "과세표준",
+            "description": "재건축 취득 시 과세표준 산정 방법"
+          },
+          {
+            "law": "지방세법 시행령",
+            "article": "제20조",
+            "title": "재건축 과세표준 특례",
+            "description": "조합원 분담금 과세표준 계산"
+          }
+        ]
+      }
+    }
+  ]
+}

@@ -1,16 +1,39 @@
 import React, { useState } from 'react';
 import { Outlet } from 'react-router-dom';
-import { Layout, Button } from 'antd';
-import { MenuUnfoldOutlined, MenuFoldOutlined } from '@ant-design/icons';
+import { Layout, Grid } from 'antd';
 import Header from '@components/common/Header';
 import Sidebar from '@/components/common/Sidebar';
 import Footer from '@/components/common/Footer';
+import MobileNav from '@/components/common/MobileNav';
 
 const { Content } = Layout;
+const { useBreakpoint } = Grid;
 
 const MainLayout: React.FC = () => {
   const [collapsed, setCollapsed] = useState(false);
+  const screens = useBreakpoint();
+  const isMobile = !screens.md;
 
+  // 모바일 레이아웃
+  if (isMobile) {
+    return (
+      <Layout style={{ minHeight: '100vh' }}>
+        <MobileNav />
+        <Content
+          style={{
+            marginTop: 140, // MobileNav 높이에 맞춤
+            padding: '12px',
+            minHeight: 'calc(100vh - 140px)',
+            background: '#f5f5f5',
+          }}
+        >
+          <Outlet />
+        </Content>
+      </Layout>
+    );
+  }
+
+  // 데스크탑 레이아웃
   return (
     <Layout style={{ minHeight: '100vh' }}>
       <Header collapsed={collapsed} onToggle={() => setCollapsed(!collapsed)} />
@@ -19,26 +42,12 @@ const MainLayout: React.FC = () => {
         <Layout style={{ marginLeft: collapsed ? 80 : 256, transition: 'margin-left 0.2s' }}>
           <Content
             style={{
-              margin: '24px',
+              margin: '88px 24px 24px',
               padding: '24px',
               minHeight: 280,
               background: '#f5f5f5',
             }}
           >
-            {/* 사이드바가 완전히 닫혔을 때 토글 버튼 (모바일용) */}
-            <Button
-              type="text"
-              icon={collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
-              onClick={() => setCollapsed(!collapsed)}
-              className="lg:hidden"
-              style={{
-                position: 'fixed',
-                top: 80,
-                left: 16,
-                zIndex: 1000,
-                display: 'none',
-              }}
-            />
             <Outlet />
           </Content>
           <Footer />
