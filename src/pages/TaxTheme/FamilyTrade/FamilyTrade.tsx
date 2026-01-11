@@ -1,9 +1,10 @@
 import React, { useEffect, useState, useCallback } from 'react';
-import { Card, Typography, Space, Spin, Alert, Tag, Anchor, Row, Col, Modal } from 'antd';
+import { Card, Typography, Space, Spin, Alert, Tag, Anchor, Row, Col, Modal, Grid, Drawer } from 'antd';
 import { TeamOutlined, CalendarOutlined, CloseOutlined } from '@ant-design/icons';
 import { SectionRenderer } from '../components/SectionRenderers';
 
 const { Title, Text } = Typography;
+const { useBreakpoint } = Grid;
 
 interface ThemeMeta {
   id: string;
@@ -25,6 +26,10 @@ const FamilyTrade: React.FC = () => {
   const [error, setError] = useState<string | null>(null);
   const [selectedSection, setSelectedSection] = useState<any | null>(null);
   const [modalOpen, setModalOpen] = useState(false);
+  const screens = useBreakpoint();
+
+  // 모바일 여부 (md 미만)
+  const isMobile = !screens.md;
 
   useEffect(() => {
     const fetchData = async () => {
@@ -57,7 +62,7 @@ const FamilyTrade: React.FC = () => {
 
   if (loading) {
     return (
-      <Card style={{ textAlign: 'center', padding: 48 }}>
+      <Card style={{ textAlign: 'center', padding: isMobile ? 24 : 48 }}>
         <Spin size="large" />
         <div style={{ marginTop: 16 }}>
           <Text type="secondary">데이터를 불러오는 중...</Text>
@@ -86,33 +91,61 @@ const FamilyTrade: React.FC = () => {
     title: section.title,
   }));
 
+  // 모바일용 Drawer / 데스크탑용 Modal 공통 컨텐츠
+  const popupContent = selectedSection && (
+    <div onClick={(e) => e.stopPropagation()}>
+      <SectionRenderer section={selectedSection} />
+    </div>
+  );
+
   return (
     <>
-      <Space direction="vertical" size="middle" style={{ width: '100%' }}>
+      <Space direction="vertical" size={isMobile ? 'small' : 'middle'} style={{ width: '100%' }}>
         {/* 헤더 */}
-        <Card>
-          <Space align="start" size="large">
-            <TeamOutlined style={{ fontSize: 48, color: '#1890ff' }} />
-            <div>
+        <Card styles={{ body: { padding: isMobile ? 16 : 24 } }}>
+          {isMobile ? (
+            // 모바일 헤더 레이아웃
+            <Space direction="vertical" size="small" style={{ width: '100%' }}>
               <Space>
-                <Title level={2} style={{ margin: 0 }}>{meta.title}</Title>
-                <Tag color="blue">{meta.category === 'acquisition' ? '취득세' : meta.category}</Tag>
+                <TeamOutlined style={{ fontSize: 32, color: '#1890ff' }} />
+                <Title level={3} style={{ margin: 0 }}>{meta.title}</Title>
               </Space>
-              <Text type="secondary" style={{ display: 'block', marginTop: 8 }}>
+              <Tag color="blue">{meta.category === 'acquisition' ? '취득세' : meta.category}</Tag>
+              <Text type="secondary" style={{ fontSize: 13 }}>
                 {meta.description}
               </Text>
-              <Space style={{ marginTop: 8 }}>
-                <CalendarOutlined />
-                <Text type="secondary">최종 업데이트: {meta.lastUpdated}</Text>
-                <Tag>v{meta.version}</Tag>
+              <Space size="small">
+                <CalendarOutlined style={{ fontSize: 12 }} />
+                <Text type="secondary" style={{ fontSize: 12 }}>
+                  {meta.lastUpdated} | v{meta.version}
+                </Text>
               </Space>
-            </div>
-          </Space>
+            </Space>
+          ) : (
+            // 데스크탑 헤더 레이아웃
+            <Space align="start" size="large">
+              <TeamOutlined style={{ fontSize: 48, color: '#1890ff' }} />
+              <div>
+                <Space>
+                  <Title level={2} style={{ margin: 0 }}>{meta.title}</Title>
+                  <Tag color="blue">{meta.category === 'acquisition' ? '취득세' : meta.category}</Tag>
+                </Space>
+                <Text type="secondary" style={{ display: 'block', marginTop: 8 }}>
+                  {meta.description}
+                </Text>
+                <Space style={{ marginTop: 8 }}>
+                  <CalendarOutlined />
+                  <Text type="secondary">최종 업데이트: {meta.lastUpdated}</Text>
+                  <Tag>v{meta.version}</Tag>
+                </Space>
+              </div>
+            </Space>
+          )}
         </Card>
 
         {/* 메인 컨텐츠 */}
-        <Row gutter={24}>
-          {/* 사이드 네비게이션 */}
+        <Row gutter={isMobile ? 0 : 24}>
+          {/* 사이드 네비게이션 - 모바일에서 숨김 */}
           <Col xs={0} sm={0} md={6} lg={5} xl={4}>
             <Anchor
               offsetTop={80}
@@ -123,7 +156,7 @@ const FamilyTrade: React.FC = () => {
 
           {/* 섹션 컨텐츠 */}
           <Col xs={24} sm={24} md={18} lg={19} xl={20}>
-            <Space direction="vertical" size="middle" style={{ width: '100%' }}>
+            <Space direction="vertical" size={isMobile ? 'small' : 'middle'} style={{ width: '100%' }}>
               {sections.map((section) => (
                 <div
                   key={section.id}
@@ -131,7 +164,7 @@ const FamilyTrade: React.FC = () => {
                   onClick={() => handleSectionClick(section)}
                   style={{ cursor: 'pointer' }}
                 >
-                  <SectionRenderer section={section} />
+                  <SectionRenderer section={section} isMobile={isMobile} />
                 </div>
               ))}
             </Space>
@@ -139,40 +172,65 @@ const FamilyTrade: React.FC = () => {
         </Row>
       </Space>
 
-      {/* 전체화면 모달 */}
-      <Modal
-        open={modalOpen}
-        onCancel={handleModalClose}
-        footer={null}
-        width="90vw"
-        style={{ top: 20, maxWidth: 1200 }}
-        styles={{
-          body: {
-            maxHeight: 'calc(100vh - 120px)',
-            overflow: 'auto',
-            padding: 24,
-          },
-        }}
-        closeIcon={
-          <CloseOutlined
-            style={{
-              fontSize: 20,
-              color: '#666',
-              padding: 8,
-              borderRadius: '50%',
-              background: '#f5f5f5',
-            }}
-          />
-        }
-        maskClosable={true}
-        destroyOnClose
-      >
-        {selectedSection && (
-          <div onClick={(e) => e.stopPropagation()}>
-            <SectionRenderer section={selectedSection} />
-          </div>
-        )}
-      </Modal>
+      {/* 모바일: Drawer (하단에서 올라옴) / 데스크탑: Modal */}
+      {isMobile ? (
+        <Drawer
+          open={modalOpen}
+          onClose={handleModalClose}
+          placement="bottom"
+          height="90vh"
+          title={selectedSection?.title}
+          closeIcon={
+            <CloseOutlined
+              style={{
+                fontSize: 18,
+                color: '#666',
+                padding: 6,
+                borderRadius: '50%',
+                background: '#f5f5f5',
+              }}
+            />
+          }
+          styles={{
+            body: {
+              padding: 16,
+              overflow: 'auto',
+            },
+          }}
+        >
+          {popupContent}
+        </Drawer>
+      ) : (
+        <Modal
+          open={modalOpen}
+          onCancel={handleModalClose}
+          footer={null}
+          width="90vw"
+          style={{ top: 20, maxWidth: 1200 }}
+          styles={{
+            body: {
+              maxHeight: 'calc(100vh - 120px)',
+              overflow: 'auto',
+              padding: 24,
+            },
+          }}
+          closeIcon={
+            <CloseOutlined
+              style={{
+                fontSize: 20,
+                color: '#666',
+                padding: 8,
+                borderRadius: '50%',
+                background: '#f5f5f5',
+              }}
+            />
+          }
+          maskClosable={true}
+          destroyOnClose
+        >
+          {popupContent}
+        </Modal>
+      )}
     </>
   );
 };

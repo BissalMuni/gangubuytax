@@ -13,6 +13,7 @@ import {
   BookOutlined,
   InfoCircleOutlined,
   CloseCircleOutlined,
+  UsergroupDeleteOutlined,
 } from '@ant-design/icons';
 
 const { Title, Text, Paragraph } = Typography;
@@ -29,7 +30,13 @@ const iconMap: Record<string, React.ReactNode> = {
   OrderedListOutlined: <OrderedListOutlined />,
   FolderOutlined: <FolderOutlined />,
   BookOutlined: <BookOutlined />,
+  UsergroupDeleteOutlined: <UsergroupDeleteOutlined />,
 };
+
+// 공통 props
+interface CommonProps {
+  isMobile?: boolean;
+}
 
 // 섹션 타입 정의
 interface BaseSection {
@@ -73,6 +80,7 @@ interface ListSection extends BaseSection {
       text?: string;
       description?: string;
       legalBasis?: string;
+      note?: string;
       subItems?: Array<{ id: string; text: string }>;
     }>;
   };
@@ -140,6 +148,7 @@ interface ReferencesSection extends BaseSection {
       law: string;
       article: string;
       title: string;
+      description?: string;
     }>;
   };
 }
@@ -156,21 +165,21 @@ type Section =
   | ReferencesSection;
 
 // Info 섹션 렌더러
-export const InfoRenderer: React.FC<{ section: InfoSection }> = ({ section }) => (
+export const InfoRenderer: React.FC<{ section: InfoSection } & CommonProps> = ({ section, isMobile }) => (
   <Card
     size="small"
     title={
       <Space>
         {section.icon && iconMap[section.icon]}
-        <span>{section.title}</span>
+        <span style={{ fontSize: isMobile ? 14 : 16 }}>{section.title}</span>
       </Space>
     }
   >
     <Space direction="vertical" size="small">
       {section.content.items.map((item, idx) => (
         <div key={idx}>
-          <Text type="secondary">{item.label}: </Text>
-          <Text strong>{item.value}</Text>
+          <Text type="secondary" style={{ fontSize: isMobile ? 12 : 14 }}>{item.label}: </Text>
+          <Text strong style={{ fontSize: isMobile ? 12 : 14 }}>{item.value}</Text>
         </div>
       ))}
     </Space>
@@ -178,13 +187,13 @@ export const InfoRenderer: React.FC<{ section: InfoSection }> = ({ section }) =>
 );
 
 // Alert 섹션 렌더러
-export const AlertRenderer: React.FC<{ section: AlertSection }> = ({ section }) => (
+export const AlertRenderer: React.FC<{ section: AlertSection } & CommonProps> = ({ section, isMobile }) => (
   <Alert
     type={section.variant}
-    message={<Text strong>{section.title}</Text>}
+    message={<Text strong style={{ fontSize: isMobile ? 14 : 16 }}>{section.title}</Text>}
     description={
       <Space direction="vertical" size="small">
-        <Text>{section.content.text}</Text>
+        <Text style={{ fontSize: isMobile ? 13 : 14 }}>{section.content.text}</Text>
         {section.content.emphasis && (
           <Tag color={section.variant === 'warning' ? 'orange' : 'green'}>
             {section.content.emphasis}
@@ -197,12 +206,12 @@ export const AlertRenderer: React.FC<{ section: AlertSection }> = ({ section }) 
 );
 
 // Table 섹션 렌더러
-export const TableRenderer: React.FC<{ section: TableSection }> = ({ section }) => {
+export const TableRenderer: React.FC<{ section: TableSection } & CommonProps> = ({ section, isMobile }) => {
   const columns = section.content.columns.map((col) => ({
     title: col.title,
     dataIndex: col.key,
     key: col.key,
-    width: col.width,
+    width: isMobile ? undefined : col.width,
     render: (text: string, record: any) => {
       if (col.key === 'included') {
         return text === 'O' ? (
@@ -212,9 +221,9 @@ export const TableRenderer: React.FC<{ section: TableSection }> = ({ section }) 
         );
       }
       if (record.highlight) {
-        return <Text strong style={{ color: '#1890ff' }}>{text}</Text>;
+        return <Text strong style={{ color: '#1890ff', fontSize: isMobile ? 12 : 14 }}>{text}</Text>;
       }
-      return text;
+      return <span style={{ fontSize: isMobile ? 12 : 14 }}>{text}</span>;
     },
   }));
 
@@ -229,7 +238,7 @@ export const TableRenderer: React.FC<{ section: TableSection }> = ({ section }) 
       title={
         <Space>
           {section.icon && iconMap[section.icon]}
-          <span>{section.title}</span>
+          <span style={{ fontSize: isMobile ? 14 : 16 }}>{section.title}</span>
         </Space>
       }
     >
@@ -239,46 +248,70 @@ export const TableRenderer: React.FC<{ section: TableSection }> = ({ section }) 
         pagination={false}
         size="small"
         bordered
+        scroll={isMobile ? { x: 'max-content' } : undefined}
       />
     </Card>
   );
 };
 
 // List 섹션 렌더러
-export const ListRenderer: React.FC<{ section: ListSection }> = ({ section }) => (
+export const ListRenderer: React.FC<{ section: ListSection } & CommonProps> = ({ section, isMobile }) => (
   <Card
     size="small"
     title={
       <Space>
         {section.icon && iconMap[section.icon]}
-        <span>{section.title}</span>
+        <span style={{ fontSize: isMobile ? 14 : 16 }}>{section.title}</span>
       </Space>
     }
   >
-    <Space direction="vertical" size="middle" style={{ width: '100%' }}>
+    <Space direction="vertical" size={isMobile ? 'small' : 'middle'} style={{ width: '100%' }}>
       {section.content.items.map((item, idx) => (
         <div key={item.id}>
           <Space direction="vertical" size="small" style={{ width: '100%' }}>
-            <Space>
+            <Space wrap>
               {section.content.variant === 'numbered' && (
                 <Tag color="blue">{idx + 1}</Tag>
               )}
-              <Text strong>{item.title || item.text}</Text>
+              <Text strong style={{ fontSize: isMobile ? 13 : 14 }}>{item.title || item.text}</Text>
             </Space>
             {item.description && (
-              <Text type="secondary" style={{ marginLeft: section.content.variant === 'numbered' ? 32 : 0 }}>
+              <Text
+                type="secondary"
+                style={{
+                  marginLeft: section.content.variant === 'numbered' ? (isMobile ? 24 : 32) : 0,
+                  fontSize: isMobile ? 12 : 14,
+                }}
+              >
                 {item.description}
               </Text>
             )}
             {item.legalBasis && (
-              <Text type="secondary" style={{ fontSize: 12, marginLeft: section.content.variant === 'numbered' ? 32 : 0 }}>
+              <Text
+                type="secondary"
+                style={{
+                  fontSize: isMobile ? 11 : 12,
+                  marginLeft: section.content.variant === 'numbered' ? (isMobile ? 24 : 32) : 0,
+                }}
+              >
                 ({item.legalBasis})
               </Text>
             )}
+            {item.note && (
+              <Alert
+                type="info"
+                message={item.note}
+                showIcon
+                style={{
+                  marginLeft: section.content.variant === 'numbered' ? (isMobile ? 24 : 32) : 0,
+                  fontSize: isMobile ? 12 : 14,
+                }}
+              />
+            )}
             {item.subItems && (
-              <ul style={{ marginLeft: 48, marginTop: 8 }}>
+              <ul style={{ marginLeft: isMobile ? 32 : 48, marginTop: 8, paddingLeft: 0 }}>
                 {item.subItems.map((sub) => (
-                  <li key={sub.id}>
+                  <li key={sub.id} style={{ fontSize: isMobile ? 12 : 14 }}>
                     <Text>{sub.text}</Text>
                   </li>
                 ))}
@@ -292,24 +325,24 @@ export const ListRenderer: React.FC<{ section: ListSection }> = ({ section }) =>
 );
 
 // Criteria 섹션 렌더러
-export const CriteriaRenderer: React.FC<{ section: CriteriaSection }> = ({ section }) => (
+export const CriteriaRenderer: React.FC<{ section: CriteriaSection } & CommonProps> = ({ section, isMobile }) => (
   <Card
     size="small"
     title={
       <Space>
         {section.icon && iconMap[section.icon]}
-        <span>{section.title}</span>
+        <span style={{ fontSize: isMobile ? 14 : 16 }}>{section.title}</span>
       </Space>
     }
   >
-    <Space direction="vertical" size="middle" style={{ width: '100%' }}>
-      <Paragraph>{section.content.description}</Paragraph>
+    <Space direction="vertical" size={isMobile ? 'small' : 'middle'} style={{ width: '100%' }}>
+      <Paragraph style={{ fontSize: isMobile ? 13 : 14, margin: 0 }}>{section.content.description}</Paragraph>
       {section.content.legalBasis && (
-        <Text type="secondary" style={{ fontSize: 12 }}>
+        <Text type="secondary" style={{ fontSize: isMobile ? 11 : 12 }}>
           ({section.content.legalBasis})
         </Text>
       )}
-      <Row gutter={16}>
+      <Row gutter={[isMobile ? 8 : 16, isMobile ? 8 : 16]}>
         {section.content.conditions.map((cond) => (
           <Col key={cond.id} xs={24} sm={12}>
             <Card
@@ -320,7 +353,7 @@ export const CriteriaRenderer: React.FC<{ section: CriteriaSection }> = ({ secti
               }}
             >
               <Space direction="vertical" size="small">
-                <Text strong>{cond.condition}</Text>
+                <Text strong style={{ fontSize: isMobile ? 13 : 14 }}>{cond.condition}</Text>
                 <Tag color={cond.resultType === 'negative' ? 'red' : 'green'}>
                   {cond.result}
                 </Tag>
@@ -330,24 +363,24 @@ export const CriteriaRenderer: React.FC<{ section: CriteriaSection }> = ({ secti
         ))}
       </Row>
       {section.content.note && (
-        <Alert type="info" message={section.content.note} showIcon />
+        <Alert type="info" message={section.content.note} showIcon style={{ fontSize: isMobile ? 12 : 14 }} />
       )}
     </Space>
   </Card>
 );
 
 // Comparison 섹션 렌더러
-export const ComparisonRenderer: React.FC<{ section: ComparisonSection }> = ({ section }) => (
+export const ComparisonRenderer: React.FC<{ section: ComparisonSection } & CommonProps> = ({ section, isMobile }) => (
   <Card
     size="small"
     title={
       <Space>
         {section.icon && iconMap[section.icon]}
-        <span>{section.title}</span>
+        <span style={{ fontSize: isMobile ? 14 : 16 }}>{section.title}</span>
       </Space>
     }
   >
-    <Row gutter={16}>
+    <Row gutter={[isMobile ? 8 : 16, isMobile ? 8 : 16]}>
       {section.content.items.map((item) => (
         <Col key={item.id} xs={24} sm={12}>
           <Card
@@ -358,13 +391,13 @@ export const ComparisonRenderer: React.FC<{ section: ComparisonSection }> = ({ s
             }}
           >
             <Space direction="vertical" size="small">
-              <Text strong style={{ color: item.variant === 'primary' ? '#1890ff' : '#722ed1' }}>
+              <Text strong style={{ color: item.variant === 'primary' ? '#1890ff' : '#722ed1', fontSize: isMobile ? 13 : 14 }}>
                 {item.title}
               </Text>
-              <Title level={4} style={{ margin: 0 }}>{item.value}</Title>
-              <Text type="secondary">{item.description}</Text>
+              <Title level={isMobile ? 5 : 4} style={{ margin: 0 }}>{item.value}</Title>
+              <Text type="secondary" style={{ fontSize: isMobile ? 12 : 14 }}>{item.description}</Text>
               {item.legalBasis && (
-                <Text type="secondary" style={{ fontSize: 12 }}>
+                <Text type="secondary" style={{ fontSize: isMobile ? 11 : 12 }}>
                   ({item.legalBasis})
                 </Text>
               )}
@@ -377,24 +410,24 @@ export const ComparisonRenderer: React.FC<{ section: ComparisonSection }> = ({ s
 );
 
 // Cases 섹션 렌더러
-export const CasesRenderer: React.FC<{ section: CasesSection }> = ({ section }) => (
+export const CasesRenderer: React.FC<{ section: CasesSection } & CommonProps> = ({ section, isMobile }) => (
   <Card
     size="small"
     title={
       <Space>
         {section.icon && iconMap[section.icon]}
-        <span>{section.title}</span>
+        <span style={{ fontSize: isMobile ? 14 : 16 }}>{section.title}</span>
       </Space>
     }
   >
-    <Space direction="vertical" size="middle" style={{ width: '100%' }}>
+    <Space direction="vertical" size={isMobile ? 'small' : 'middle'} style={{ width: '100%' }}>
       {section.content.items.map((item) => (
         <Card
           key={item.id}
           size="small"
-          title={item.title}
+          title={<span style={{ fontSize: isMobile ? 13 : 14 }}>{item.title}</span>}
           extra={
-            <Tag color={item.resultType === 'success' ? 'green' : 'red'}>
+            <Tag color={item.resultType === 'success' ? 'green' : 'red'} style={{ fontSize: isMobile ? 11 : 12 }}>
               {item.result}
             </Tag>
           }
@@ -405,23 +438,23 @@ export const CasesRenderer: React.FC<{ section: CasesSection }> = ({ section }) 
           <Space direction="vertical" size="small" style={{ width: '100%' }}>
             <Alert
               type="info"
-              message={item.scenario}
+              message={<span style={{ fontSize: isMobile ? 12 : 14 }}>{item.scenario}</span>}
               icon={<InfoCircleOutlined />}
               showIcon
             />
-            <Row gutter={[8, 8]}>
+            <Row gutter={[isMobile ? 4 : 8, isMobile ? 4 : 8]}>
               {item.analysis.map((a, idx) => (
                 <Col key={idx} xs={12} sm={6}>
-                  <Card size="small" style={{ textAlign: 'center' }}>
-                    <Text type="secondary" style={{ fontSize: 12 }}>{a.label}</Text>
+                  <Card size="small" style={{ textAlign: 'center', padding: isMobile ? 4 : 8 }}>
+                    <Text type="secondary" style={{ fontSize: isMobile ? 10 : 12 }}>{a.label}</Text>
                     <br />
-                    <Text strong>{a.value}</Text>
+                    <Text strong style={{ fontSize: isMobile ? 11 : 14 }}>{a.value}</Text>
                   </Card>
                 </Col>
               ))}
             </Row>
             {item.note && (
-              <Text type="secondary">
+              <Text type="secondary" style={{ fontSize: isMobile ? 11 : 14 }}>
                 {item.resultType === 'success' ? <CheckCircleOutlined style={{ color: '#52c41a' }} /> : <CloseCircleOutlined style={{ color: '#ff4d4f' }} />}
                 {' '}{item.note}
               </Text>
@@ -434,13 +467,13 @@ export const CasesRenderer: React.FC<{ section: CasesSection }> = ({ section }) 
 );
 
 // Steps 섹션 렌더러
-export const StepsRenderer: React.FC<{ section: StepsSection }> = ({ section }) => (
+export const StepsRenderer: React.FC<{ section: StepsSection } & CommonProps> = ({ section, isMobile }) => (
   <Card
     size="small"
     title={
       <Space>
         {section.icon && iconMap[section.icon]}
-        <span>{section.title}</span>
+        <span style={{ fontSize: isMobile ? 14 : 16 }}>{section.title}</span>
       </Space>
     }
   >
@@ -449,57 +482,64 @@ export const StepsRenderer: React.FC<{ section: StepsSection }> = ({ section }) 
       size="small"
       current={-1}
       items={section.content.items.map((item) => ({
-        title: item.title,
-        description: item.description,
+        title: <span style={{ fontSize: isMobile ? 13 : 14 }}>{item.title}</span>,
+        description: <span style={{ fontSize: isMobile ? 12 : 14 }}>{item.description}</span>,
       }))}
     />
   </Card>
 );
 
 // References 섹션 렌더러
-export const ReferencesRenderer: React.FC<{ section: ReferencesSection }> = ({ section }) => (
+export const ReferencesRenderer: React.FC<{ section: ReferencesSection } & CommonProps> = ({ section, isMobile }) => (
   <Card
     size="small"
     title={
       <Space>
         {section.icon && iconMap[section.icon]}
-        <span>{section.title}</span>
+        <span style={{ fontSize: isMobile ? 14 : 16 }}>{section.title}</span>
       </Space>
     }
   >
-    <Space direction="vertical" size="small">
+    <Space direction="vertical" size="small" style={{ width: '100%' }}>
       {section.content.items.map((item, idx) => (
-        <div key={idx}>
-          <Tag color="blue">{item.law}</Tag>
-          <Text strong>{item.article}</Text>
-          <Text type="secondary"> - {item.title}</Text>
-        </div>
+        <Card key={idx} size="small" style={{ background: '#fafafa' }}>
+          <Space direction="vertical" size={2} style={{ width: '100%' }}>
+            <Space wrap size={isMobile ? 'small' : 'middle'}>
+              <Tag color="blue" style={{ fontSize: isMobile ? 11 : 12 }}>{item.law}</Tag>
+              <Text strong style={{ fontSize: isMobile ? 12 : 14 }}>{item.article}</Text>
+            </Space>
+            <Text style={{ fontSize: isMobile ? 12 : 14 }}>{item.title}</Text>
+            {item.description && (
+              <Text type="secondary" style={{ fontSize: isMobile ? 11 : 12 }}>{item.description}</Text>
+            )}
+          </Space>
+        </Card>
       ))}
     </Space>
   </Card>
 );
 
 // 메인 섹션 렌더러
-export const SectionRenderer: React.FC<{ section: Section }> = ({ section }) => {
+export const SectionRenderer: React.FC<{ section: Section } & CommonProps> = ({ section, isMobile = false }) => {
   switch (section.type) {
     case 'info':
-      return <InfoRenderer section={section as InfoSection} />;
+      return <InfoRenderer section={section as InfoSection} isMobile={isMobile} />;
     case 'alert':
-      return <AlertRenderer section={section as AlertSection} />;
+      return <AlertRenderer section={section as AlertSection} isMobile={isMobile} />;
     case 'table':
-      return <TableRenderer section={section as TableSection} />;
+      return <TableRenderer section={section as TableSection} isMobile={isMobile} />;
     case 'list':
-      return <ListRenderer section={section as ListSection} />;
+      return <ListRenderer section={section as ListSection} isMobile={isMobile} />;
     case 'criteria':
-      return <CriteriaRenderer section={section as CriteriaSection} />;
+      return <CriteriaRenderer section={section as CriteriaSection} isMobile={isMobile} />;
     case 'comparison':
-      return <ComparisonRenderer section={section as ComparisonSection} />;
+      return <ComparisonRenderer section={section as ComparisonSection} isMobile={isMobile} />;
     case 'cases':
-      return <CasesRenderer section={section as CasesSection} />;
+      return <CasesRenderer section={section as CasesSection} isMobile={isMobile} />;
     case 'steps':
-      return <StepsRenderer section={section as StepsSection} />;
+      return <StepsRenderer section={section as StepsSection} isMobile={isMobile} />;
     case 'references':
-      return <ReferencesRenderer section={section as ReferencesSection} />;
+      return <ReferencesRenderer section={section as ReferencesSection} isMobile={isMobile} />;
     default:
       return null;
   }
